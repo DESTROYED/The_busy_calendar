@@ -4,4 +4,5 @@
     <string name="Login_Vk">Login in Vk</string>
     <string name="Login_Facebook">Login in Facebook</string>
     <string name="Login_Error">Login Error</string>
+    <string name="Authorisation_sucsessful">Authorisation sucsessful</string>
 </resources>
