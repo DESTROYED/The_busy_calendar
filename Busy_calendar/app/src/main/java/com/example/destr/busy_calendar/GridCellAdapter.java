@@ -9,14 +9,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
-class GridCellAdapter extends BaseAdapter
+class GridCellAdapter extends BaseAdapter implements View.OnClickListener
 {
     private static final String tag = "GridCellAdapter";
     private final Context _context;
@@ -191,8 +194,8 @@ class GridCellAdapter extends BaseAdapter
             row = inflater.inflate(R.layout.grid_cell, parent, false);
         }
 
-//        gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
-//        gridcell.setOnClickListener(this);
+        gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
+        gridcell.setOnClickListener(this);
         selectedDayMonthYear=(TextView) row.findViewById(R.id.selectedDayMonthYear);
 
         Log.d(tag, "Current Day: " + getCurrentDayOfMonth());
@@ -227,21 +230,21 @@ class GridCellAdapter extends BaseAdapter
         }
         return row;
     }
-//    @Override
-//    public void onClick(View view)
-//    {
-//        String date_month_year = (String) view.getTag();
-//        try
-//        {
-//            Date parsedDate = dateFormatter.parse(date_month_year);
-//            Log.d(tag, "Parsed Date: " + parsedDate.toString());
-//            selectedDayMonthYear.setText("Selected:" + parsedDate.toString());
-//        }
-//        catch (ParseException e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
+    @Override
+    public void onClick(View view)
+    {
+        String date_month_year = (String) view.getTag();
+        try
+        {
+            Date parsedDate = dateFormatter.parse(date_month_year);
+            Log.d(tag, "Parsed Date: " + parsedDate.toString());
+            selectedDayMonthYear.setText("Selected:" + parsedDate.toString());
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     public int getCurrentDayOfMonth()
     {
