@@ -13,8 +13,8 @@
 
 
     <TextView
+        android:text="Lol"
         android:id="@+id/selectedDayMonthYear"
-        android:textColor="#FFFFFF"
         android:layout_gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
@@ -30,10 +30,10 @@
             android:id="@+id/prevMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <Button
+        <TextView
             android:id="@+id/currentMonth"
             android:layout_weight="0.6"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
