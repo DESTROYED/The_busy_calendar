@@ -35,14 +35,13 @@ class GridCellAdapter extends BaseAdapter implements View.OnClickListener
     private Button gridcell;
     private TextView num_events_per_day;
     private TextView selectedDayMonthYear;
-    private final HashMap eventsPerMonthMap;
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
 
     public GridCellAdapter(Context context, int textViewResourceId, int month, int year)
     {
         super();
         this._context = context;
-        this.list = new ArrayList<String>();
+        this.list = new ArrayList<>();
         this.month = month;
         this.year = year;
 
@@ -56,7 +55,6 @@ class GridCellAdapter extends BaseAdapter implements View.OnClickListener
 
         printMonth(month, year);
 
-        eventsPerMonthMap = findNumberOfEventsPerMonth(year, month);
 
     }
     private String getMonthAsString(int i)
@@ -90,7 +88,6 @@ class GridCellAdapter extends BaseAdapter implements View.OnClickListener
     {
         Log.d(tag, "==> printMonth: mm: " + mm + " " + "yy: " + yy);
         int trailingSpaces = 0;
-        int leadSpaces = 0;
         int daysInPrevMonth = 0;
         int prevMonth = 0;
         int prevYear = 0;
@@ -172,11 +169,6 @@ class GridCellAdapter extends BaseAdapter implements View.OnClickListener
         }
     }
 
-    private HashMap findNumberOfEventsPerMonth(int year, int month)
-    {
-        HashMap map = new HashMap<String, Integer>();
-        return map;
-    }
 
     @Override
     public long getItemId(int position)
@@ -203,15 +195,7 @@ class GridCellAdapter extends BaseAdapter implements View.OnClickListener
         String theday = day_color[0];
         String themonth = day_color[2];
         String theyear = day_color[3];
-        if ((!eventsPerMonthMap.isEmpty()) && (eventsPerMonthMap != null))
-        {
-            if (eventsPerMonthMap.containsKey(theday))
-            {
-                num_events_per_day = (TextView) row.findViewById(R.id.num_events_per_day);
-                Integer numEvents = (Integer) eventsPerMonthMap.get(theday);
-                num_events_per_day.setText(numEvents.toString());
-            }
-        }
+        
 
         gridcell.setText(theday);
         gridcell.setTag(theday + "-" + themonth + "-" + theyear);

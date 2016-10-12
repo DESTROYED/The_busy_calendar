@@ -15,7 +15,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     private static final String tag = "SimpleCalendarViewActivity";
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
-    private ImageView calendarToJournalButton;
     private Button currentMonth;
     private ImageView prevMonth;
     private ImageView nextMonth;
