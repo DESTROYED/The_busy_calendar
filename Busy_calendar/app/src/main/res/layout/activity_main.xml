@@ -1,65 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar"/>
 
-    <ImageView
-        android:gravity="left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dip"/>
-
-
-    <TextView
-        android:text="Lol"
-        android:id="@+id/selectedDayMonthYear"
-        android:layout_gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
+    <FrameLayout
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
+        <ImageButton
+            android:background="?attr/selectableItemBackground"
+            app:srcCompat="@drawable/ic_left_24dp"
+            android:layout_gravity="center_vertical"
             android:id="@+id/prevMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
         <TextView
+            android:textColor="@color/white"
+            android:layout_gravity="center"
             android:id="@+id/currentMonth"
-            android:layout_weight="0.6"
-            android:textColor="#000000"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <ImageView
+        <ImageButton
+            android:background="?attr/selectableItemBackground"
+            app:srcCompat="@drawable/ic_right_24dp"
+            android:layout_gravity="end|center_vertical"
             android:id="@+id/nextMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_gravity="center"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+    </FrameLayout>
+        <LinearLayout
             android:layout_gravity="center"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </ImageView>
-    </LinearLayout>
-
-
-    <GridView
-        android:id="@+id/calendar"
-        android:numColumns="7"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-    </GridView>
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ImageView>
+        </LinearLayout>
+        <GridView
+            android:id="@+id/calendar"
+            android:numColumns="7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </GridView>
 
 </LinearLayout>

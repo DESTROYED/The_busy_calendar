@@ -70,8 +70,7 @@ abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListen
     }
 
 
-    private void printMonth(int mm, int yy)
-    {
+    private void printMonth(int mm, int yy) {
         int trailingSpaces = 0;
         int daysInPrevMonth = 0;
         int prevMonth = 0;
@@ -86,6 +85,13 @@ abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListen
 
         GregorianCalendar cal = new GregorianCalendar(yy, currentMonth, 1);
 
+        if (currentMonth == 1)
+        {
+            if(yy%4==0&&yy%100!=0){
+                daysInMonth=29;
+            }
+            else daysInMonth=28;
+        }
         if (currentMonth == 11)
         {
             prevMonth = currentMonth - 1;
@@ -111,13 +117,18 @@ abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListen
             daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
         }
 
-        int currentWeekDay = cal.get(Calendar.DAY_OF_WEEK) - 2;
+        int currentWeekDay = cal.get(Calendar.DAY_OF_WEEK)+5;
+        if(currentWeekDay>=7)
+        {
+            currentWeekDay-=7;
+        }
         trailingSpaces = currentWeekDay;
 
 
         if (cal.isLeapYear(cal.get(Calendar.YEAR)) && mm == 1)
         {
-            ++daysInMonth;
+            daysInMonth=32;
+            --daysInMonth;
         }
 
         for (int i = 0; i < trailingSpaces; i++)
@@ -142,8 +153,6 @@ abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListen
             list.add(String.valueOf(i + 1) + "-GREY" + "-" + getMonthAsString(nextMonth) + "-" + nextYear);
         }
     }
-
-
     @Override
     public long getItemId(int position)
     {

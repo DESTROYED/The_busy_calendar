@@ -8,7 +8,6 @@
     <Button
         android:id="@+id/calendar_day_gridcell"
         android:layout_gravity="center"
-        android:textColor="#000000"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
