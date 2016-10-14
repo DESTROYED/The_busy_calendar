@@ -5,12 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimaryDark"
     android:layout_width="match_parent"
-    android:layout_height="54dp" tools:showIn="@layout/activity_main">
+    android:layout_height="54dp" tools:showIn="@layout/event">
 
     <ImageButton
+        android:id="@+id/close_event"
         android:layout_gravity="center_vertical"
         android:background="?attr/selectableItemBackground"
-        app:srcCompat="@drawable/ic_menu_24dp"
+        app:srcCompat="@drawable/ic_close_24dp"
         android:layout_width="48dp"
         android:layout_height="48dp"/>
     <TextView
@@ -21,10 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <ImageButton
-        android:id="@+id/newevent"
+        android:id="@+id/save_event"
         android:layout_gravity="end|center_vertical"
         android:background="?attr/selectableItemBackground"
-        app:srcCompat="@drawable/ic_add_24dp"
+        app:srcCompat="@drawable/ic_save_24dp"
         android:layout_width="wrap_content"
         android:padding="10dp"
         android:layout_height="wrap_content"/>

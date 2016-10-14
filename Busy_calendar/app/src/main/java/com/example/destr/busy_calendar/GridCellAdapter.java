@@ -182,16 +182,13 @@ abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListen
         gridcell.setTag(theday + "-" + themonth + "-" + theyear);
         if (day_color[1].equals("GREY"))
         {
-            gridcell.setTextColor(Color.LTGRAY);
+            gridcell.setTextColor(Color.GRAY);
         }
         if (day_color[1].equals("WHITE"))
         {
             gridcell.setTextColor(Color.WHITE);
         }
-        if (day_color[1].equals("BLUE"))
-        {
-            gridcell.setTextColor(Color.BLUE);
-        }
+
         return row;
     }
 

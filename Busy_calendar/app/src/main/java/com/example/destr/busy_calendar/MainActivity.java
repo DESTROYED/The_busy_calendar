@@ -1,35 +1,41 @@
 package com.example.destr.busy_calendar;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String tag = "SimpleCalendarViewActivity";
     private TextView currentMonth;
     private TextView checkedDate;
     private ImageView prevMonth;
     private ImageView nextMonth;
     private GridView calendarView;
     private GridCellAdapter adapter;
+    private ImageButton addButton;
     private Calendar _calendar;
-    GregorianCalendar cal = new GregorianCalendar();
     private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+        final Intent event = new Intent(MainActivity.this, EventActivity.class);
         _calendar = Calendar.getInstance(Locale.getDefault());
+        addButton=(ImageButton) findViewById(R.id.newevent);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(event);
+            }
+        });
         final int[] month = {_calendar.get(Calendar.MONTH) + 1};
         final int[] year = {_calendar.get(Calendar.YEAR)};
         prevMonth = (ImageView) findViewById(R.id.prevMonth);
@@ -53,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month[0], year[0]) {
             @Override
             public void onClick(View v) {
-                checkedDate.setText(v.getTag().toString()+ cal.get(Calendar.DAY_OF_WEEK));
+                v.getTag();
+                checkedDate.setText(v.getTag().toString());
             }
         };
         currentMonth.setText(months[month[0] -1]+" "+year[0]);
