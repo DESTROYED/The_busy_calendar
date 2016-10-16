@@ -10,15 +10,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.PopupWindow">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".EventActivity"/>
+        <activity android:name=".Activities.EventActivity"/>
         <activity
-            android:name=".StartTimePicker"/>
+            android:name=".Fragments.StartTimePicker"/>
+        <activity
+            android:name=".Fragments.EndTimePicker"/>
     </application>
 </manifest>

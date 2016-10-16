@@ -36,6 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/choose_start_time"
+            android:text="@string/choose_from"
             android:textSize="18sp"
             android:layout_marginLeft="30dp"
             android:layout_width="60dp"
@@ -47,28 +49,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/choose_end_time"
+            android:text="@string/choose_to"
             android:textSize="18sp"
             android:layout_marginLeft="30dp"
             android:layout_width="60dp"
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/btn_start_time"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/choose_start_time"
+        <TextView
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp"
+            android:text="@string/label_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btn_end_name"
+        <CheckBox
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/choose_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textSize="18sp"
+            android:layout_marginLeft="30dp"
+            android:text="@string/label_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <CheckBox
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </FrameLayout>

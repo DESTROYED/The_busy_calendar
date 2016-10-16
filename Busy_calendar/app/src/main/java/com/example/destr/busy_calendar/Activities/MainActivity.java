@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar;
+package com.example.destr.busy_calendar.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +8,12 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.destr.busy_calendar.Adapters.GridCellAdapter;
+import com.example.destr.busy_calendar.R;
+
 import java.util.Calendar;
 import java.util.Locale;
-
 
 public class MainActivity extends AppCompatActivity {
     private TextView currentMonth;
@@ -98,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         calendarView.setAdapter(adapter);
     }
-
-
-
 
     @Override
     public void onDestroy()

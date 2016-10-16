@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar;
+package com.example.destr.busy_calendar.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 
+import com.example.destr.busy_calendar.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListener
+public abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListener
 {
     private static final String tag = "GridCellAdapter";
     private final Context _context;
@@ -45,13 +47,11 @@ abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListen
 
         printMonth(month, year);
 
-
     }
     private String getMonthAsString(int i)
     {
         return months[i];
     }
-
 
     private int getNumberOfDaysOfMonth(int i)
     {
@@ -68,7 +68,6 @@ abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListen
     {
         return list.size();
     }
-
 
     private void printMonth(int mm, int yy) {
         int trailingSpaces = 0;
@@ -171,7 +170,6 @@ abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListen
 
         gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
         gridcell.setOnClickListener(this);
-
         String[] day_color = list.get(position).split("-");
         String theday = day_color[0];
         String themonth = day_color[2];
