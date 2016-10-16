@@ -11,27 +11,27 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
     <EditText
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textSize="18sp"
         android:layout_gravity="center_vertical"
-        android:hint="Enter your event's name"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:background="@drawable/edittextshapename"
+        android:hint="@string/event_name_hint"
+        android:background="@drawable/eventedittextshape"
         android:id="@+id/event_name"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="30dp"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="110dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="115dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
             android:textSize="18sp"
-            android:layout_marginLeft="15dp"
             android:text="@string/label_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -39,12 +39,12 @@
             android:id="@+id/choose_start_time"
             android:text="@string/choose_from"
             android:textSize="18sp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="60dp"
             android:layout_height="wrap_content"/>
         <TextView
             android:textSize="18sp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:text="@string/label_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -52,36 +52,70 @@
             android:id="@+id/choose_end_time"
             android:text="@string/choose_to"
             android:textSize="18sp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="60dp"
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_gravity="center_vertical"
             android:textSize="18sp"
-            android:layout_marginLeft="15dp"
-            android:text="@string/label_from"
+            android:text="@string/alert_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <CheckBox
-            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/alert_checkbox"
+            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <TextView
+            android:layout_gravity="center_vertical"
             android:textSize="18sp"
-            android:layout_marginLeft="30dp"
-            android:text="@string/label_to"
+            android:text="@string/status_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <CheckBox
-            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/status_checkbox"
+            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
+        <EditText
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/eventedittextshape"
+            android:hint="@string/status_textview"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:padding="5dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="245dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/eventedittextshape"
+            android:hint="@string/description_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:padding="5dp"/>
     </LinearLayout>
 </FrameLayout>

@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,7 +20,8 @@ public class EventActivity extends AppCompatActivity{
     private TextView chooseStartTime;
     private ImageButton saveButton;
     private TextView chooseEndTime;
-
+    private CheckBox alarmCheckBox;
+    private CheckBox statusCheckBox;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,8 @@ public class EventActivity extends AppCompatActivity{
         getSupportActionBar().hide();
         closeButton= (ImageButton) findViewById(R.id.close_event);
         chooseStartTime =(TextView) findViewById(R.id.choose_start_time);
+        saveButton=(ImageButton) findViewById(R.id.save_event);
+        chooseEndTime=(TextView) findViewById(R.id.choose_end_time);
         chooseStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,7 +39,6 @@ public class EventActivity extends AppCompatActivity{
                 newFragment.show(fm , "timePicker");
             }
         });
-        chooseEndTime=(TextView) findViewById(R.id.choose_end_time);
         chooseEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +47,6 @@ public class EventActivity extends AppCompatActivity{
                 newFragment.show(fm , "timePicker");
             }
         });
-        saveButton=(ImageButton) findViewById(R.id.save_event);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,5 +60,19 @@ public class EventActivity extends AppCompatActivity{
                 finish();
             }
         });
+        /*alarmCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });*/
+        /*statusCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });*/
+
+
     }
 }
