@@ -12,4 +12,5 @@
     <string name="status_textview">Your status</string>
     <string name="description_edittext">Description</string>
     <string name="event_name_hint">Enter your event\'s name</string>
+    <string name="textview_allday_text">All day</string>
 </resources>
