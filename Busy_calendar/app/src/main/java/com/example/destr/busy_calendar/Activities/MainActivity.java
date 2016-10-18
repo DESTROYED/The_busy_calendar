@@ -1,9 +1,12 @@
 package com.example.destr.busy_calendar.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private GridCellAdapter adapter;
     private ImageButton addButton;
     private Calendar _calendar;
+    private CheckBox dayCheckedCheckBox;
     private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month[0], year[0]) {
             @Override
             public void onClick(View v) {
-                v.getTag();
                 checkedDate.setText(v.getTag().toString());
+                v.setBackgroundColor(Color.GRAY);
             }
         };
         currentMonth.setText(months[month[0] -1]+" "+year[0]);

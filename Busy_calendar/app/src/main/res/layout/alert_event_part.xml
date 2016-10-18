@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_marginTop="155dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="10dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" tools:showIn="@layout/event">
+    <TextView
+        android:textColor="@color/textNames"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text="@string/alert_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <CheckBox
+        android:layout_gravity="center_vertical"
+        android:id="@+id/alert_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+    <android.support.v7.widget.AppCompatAutoCompleteTextView
+        android:id="@+id/combotext_alert"
+        android:backgroundTint="@color/colorAccent"
+        android:visibility="invisible"
+        android:text="lol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
