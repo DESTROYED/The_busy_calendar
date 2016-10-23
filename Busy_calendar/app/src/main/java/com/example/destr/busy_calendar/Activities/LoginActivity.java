@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar;
+package com.example.destr.busy_calendar.Activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 
 import com.example.destr.busy_calendar.Constants.ConstantsVkAndFacebook;
 import com.example.destr.busy_calendar.Parse.TokenParse;
+import com.example.destr.busy_calendar.R;
 
 public class LoginActivity extends AppCompatActivity {
     WebView mWebView;
@@ -19,12 +21,14 @@ public class LoginActivity extends AppCompatActivity {
         final SharedPreferences logTest= PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         final SharedPreferences.Editor logTestEditor=logTest.edit();
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
         mWebView = (WebView) findViewById(R.id.lalka);
         final TokenParse mTokenParse = new TokenParse();
         final View vk_loginButton = findViewById(R.id.btn_login_vk);
         final View facebook_loginButton = findViewById(R.id.btn_login_facebook);
         final String[] urlToParseToken = new String[10];
+
         if(!logTest.getString("facebook_token","").isEmpty()){
             facebook_loginButton.setVisibility(View.GONE);
         }
@@ -45,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                Log.d("URL",url);
                 urlToParseToken[0] = view.getUrl();
                 if (mTokenParse.MatcherLinks(urlToParseToken[0])[0]) {
                     if (mTokenParse.MatcherTockens(urlToParseToken[0])) {

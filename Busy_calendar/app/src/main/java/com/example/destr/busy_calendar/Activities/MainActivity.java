@@ -1,7 +1,9 @@
 package com.example.destr.busy_calendar.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,13 +29,21 @@ public class MainActivity extends AppCompatActivity {
     private GridCellAdapter adapter;
     private ImageButton addButton;
     private Calendar _calendar;
-    private CheckBox dayCheckedCheckBox;
     private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+        final View vk_loginButton = findViewById(R.id.main_btn_vk);
+        final View facebook_loginButton = findViewById(R.id.main_btn_facebook);
+        final SharedPreferences logTest= PreferenceManager.getDefaultSharedPreferences(this);
+        if(!logTest.getString("vk_token","").isEmpty()){
+            vk_loginButton.setVisibility(View.GONE);
+        }
+        if(!logTest.getString("facebook_token","").isEmpty()){
+            facebook_loginButton.setVisibility(View.GONE);
+        }
         final Intent event = new Intent(MainActivity.this, EventActivity.class);
         _calendar = Calendar.getInstance(Locale.getDefault());
         addButton=(ImageButton) findViewById(R.id.newevent);

@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">Busy_calendar</string>
-    <string name="Login_speech">Hello, you can login by Vk or Facebook:</string>
-    <string name="btn_login_vk">Login Vk</string>
-    <string name="btn_login_facebook">Login Facebook</string>
-    <string name="password_hint">Password</string>
-    <string name="login_hint">Login</string>
-</resources>
