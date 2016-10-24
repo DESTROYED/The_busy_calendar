@@ -43,4 +43,7 @@
             android:padding="5dp"/>
     </LinearLayout>
     <include layout="@layout/social_part"/>
+    <ImageView
+        android:layout_marginTop="100dp"
+        android:visibility="visible" android:id="@+id/imagetest" android:layout_width="300dp" android:layout_height="300dp"/>
 </FrameLayout>

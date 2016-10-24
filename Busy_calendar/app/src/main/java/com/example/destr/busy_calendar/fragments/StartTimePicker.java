@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.Fragments;
+package com.example.destr.busy_calendar.fragments;
 
 import android.app.Dialog;
 import android.app.DialogFragment;

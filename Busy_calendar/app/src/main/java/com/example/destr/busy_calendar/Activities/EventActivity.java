@@ -2,6 +2,8 @@ package com.example.destr.busy_calendar.Activities;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,11 +11,15 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.destr.busy_calendar.R;
-import com.example.destr.busy_calendar.Fragments.EndTimePicker;
-import com.example.destr.busy_calendar.Fragments.StartTimePicker;
+import com.example.destr.busy_calendar.Threads.ImageLoader;
+import com.example.destr.busy_calendar.fragments.EndTimePicker;
+import com.example.destr.busy_calendar.fragments.StartTimePicker;
+
+import java.io.IOException;
 
 
 public class EventActivity extends AppCompatActivity{
@@ -30,18 +36,23 @@ public class EventActivity extends AppCompatActivity{
     private EditText editTextStatus;
     private android.support.v7.widget.AppCompatAutoCompleteTextView mCombotext;
     private CheckBox mSocials;
+    private ImageView lolka;
+    private AsyncTask<String, Void, Bitmap> bitmap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event);
         getSupportActionBar().hide();
+        lolka=(ImageView) findViewById(R.id.imagetest);
+        new ImageLoader(lolka).execute("https://pp.vk.me/c636121/v636121809/11f8a/Ou_RHLp9zb8.jpg");
         alarmCheckBox=(CheckBox) findViewById(R.id.alert_checkbox);
         allDayCheckBox = (CheckBox) findViewById(R.id.checkbox_time);
         statusCheckBox= (CheckBox) findViewById(R.id.status_checkbox);
         editTextStatus= (EditText) findViewById(R.id.checkbox_status);
         eventName=(EditText) findViewById(R.id.event_name);
-        mCombotext=(android.support.v7.widget.AppCompatAutoCompleteTextView)findViewById(R.id.combotext_alert); //TODO adapter
+        mCombotext=(android.support.v7.widget.AppCompatAutoCompleteTextView)findViewById(R.id.combotext_alert);
+
         closeButton= (ImageButton) findViewById(R.id.close_event);
         chooseStartTime =(TextView) findViewById(R.id.choose_start_time);
         saveButton=(ImageButton) findViewById(R.id.save_event);
@@ -137,4 +148,8 @@ public class EventActivity extends AppCompatActivity{
         });
 
     }
+
+
+
+
 }
