@@ -44,8 +44,6 @@ public class EventActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event);
         getSupportActionBar().hide();
-        lolka=(ImageView) findViewById(R.id.imagetest);
-        new ImageLoader(lolka).execute("https://pp.vk.me/c636121/v636121809/11f8a/Ou_RHLp9zb8.jpg");
         alarmCheckBox=(CheckBox) findViewById(R.id.alert_checkbox);
         allDayCheckBox = (CheckBox) findViewById(R.id.checkbox_time);
         statusCheckBox= (CheckBox) findViewById(R.id.status_checkbox);

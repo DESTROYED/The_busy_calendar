@@ -3,6 +3,7 @@ package com.example.destr.busy_calendar.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.hardware.camera2.params.Face;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,12 +16,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.destr.busy_calendar.Adapters.GridCellAdapter;
+import com.example.destr.busy_calendar.Constants.JsonParserHelper;
+import com.example.destr.busy_calendar.Http.HttpGetOperation;
+import com.example.destr.busy_calendar.Http.HttpRequest;
+import com.example.destr.busy_calendar.Json.FacebookJsonParseImages;
 import com.example.destr.busy_calendar.R;
+import com.example.destr.busy_calendar.Threads.ImageLoader;
+import com.example.destr.busy_calendar.Threads.OnResultCallback;
+import com.example.destr.busy_calendar.Threads.Round;
+import com.example.destr.busy_calendar.Threads.ThreadManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "TEST0110";
     private TextView currentMonth;
     private TextView checkedDate;
     private ImageView prevMonth;
@@ -29,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private GridCellAdapter adapter;
     private ImageButton addButton;
     private Calendar _calendar;
+    private ImageView facebook;
     private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +57,35 @@ public class MainActivity extends AppCompatActivity {
         }
         if(!logTest.getString("facebook_token","").isEmpty()){
             facebook_loginButton.setVisibility(View.GONE);
+            HttpRequest mRequest= new HttpRequest();
+            ThreadManager threadManager = new ThreadManager();
+            facebook=(ImageView) findViewById(R.id.imager);
+            mRequest.setUrl("https://graph.facebook.com/me?fields=picture&access_token="+logTest.getString("facebook_token",""));
+            threadManager.execute(new HttpGetOperation(), mRequest, new OnResultCallback<String, Void>() {
+                @Override
+                public void onSuccess(String s) {
+                    Log.d(TAG, "onSuccess = " + s);
+                    try {
+                        JSONObject jsonObject= new JSONObject(s);
+                        FacebookJsonParseImages imageUrl= new FacebookJsonParseImages(jsonObject);
+                        Log.d(TAG,imageUrl.getUrl());
+                        new ImageLoader(facebook,imageUrl.getUrl());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.d(TAG, "onSuccess = " + e.getMessage());
+                }
+
+                @Override
+                public void onProgressChanged(Object o) {
+                }
+            });
         }
-        final Intent event = new Intent(MainActivity.this, EventActivity.class);
+        final Intent event = new Intent(MainActivity.this, LoginActivity.class);
         _calendar = Calendar.getInstance(Locale.getDefault());
         addButton=(ImageButton) findViewById(R.id.newevent);
         addButton.setOnClickListener(new View.OnClickListener() {

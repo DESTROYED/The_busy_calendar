@@ -41,5 +41,7 @@
             android:layout_height="35dp"
             android:padding="5dp"/>
     </LinearLayout>
+    <ImageView android:id="@+id/imagetest" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
     <include layout="@layout/social_part"/>
 </FrameLayout>

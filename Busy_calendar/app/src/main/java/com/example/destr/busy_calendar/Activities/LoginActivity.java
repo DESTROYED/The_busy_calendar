@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 mWebView.loadUrl("https://www.facebook.com/v2.8/dialog/oauth?client_id="+ConstantsVkAndFacebook.CONSUMER_KEY_FACEBOOK+"&display=popup&response_type=token&redirect_uri="+ConstantsVkAndFacebook.CONSUMER_URL_FACEBOOK);
             }
         });
+        //TODO popup this window
         //TODO if windows of login ad password opens, check code to send there my login and password
     }
 }

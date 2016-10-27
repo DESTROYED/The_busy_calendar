@@ -1,12 +1,16 @@
 package com.example.destr.busy_calendar.Http;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class HttpClient {
 
@@ -76,6 +80,21 @@ public class HttpClient {
         os.write(outputInBytes);
         os.close();
     }
-
+    public InputStream justConnect(String src){
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            return input;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

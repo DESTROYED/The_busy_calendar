@@ -42,4 +42,5 @@ dependencies {
     compile 'com.google.code.findbugs:jsr305:2.0.1'
     testCompile 'junit:junit:4.12'
     compile project(path: ':backend', configuration: 'android-endpoints')
+    compile 'com.google.appengine:appengine-api-1.0-sdk:1.9.34'
 }

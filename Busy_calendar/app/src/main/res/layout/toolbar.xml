@@ -13,6 +13,11 @@
         app:srcCompat="@drawable/ic_menu_24dp"
         android:layout_width="48dp"
         android:layout_height="48dp"/>
+    <ImageView
+        android:id="@+id/imager"
+        android:layout_gravity="center"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
     <TextView
         android:textColor="@color/white"
         android:id="@+id/selectedDayMonthYear"
