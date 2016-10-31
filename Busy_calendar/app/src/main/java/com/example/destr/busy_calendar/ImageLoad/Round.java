@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.Threads;
+package com.example.destr.busy_calendar.ImageLoad;
 
 
         import android.graphics.Bitmap;

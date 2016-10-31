@@ -15,11 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.destr.busy_calendar.R;
-import com.example.destr.busy_calendar.Threads.ImageLoader;
 import com.example.destr.busy_calendar.fragments.EndTimePicker;
 import com.example.destr.busy_calendar.fragments.StartTimePicker;
-
-import java.io.IOException;
 
 
 public class EventActivity extends AppCompatActivity{

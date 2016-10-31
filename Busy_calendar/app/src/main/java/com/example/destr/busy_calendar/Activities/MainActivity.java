@@ -3,27 +3,23 @@ package com.example.destr.busy_calendar.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.hardware.camera2.params.Face;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.destr.busy_calendar.Adapters.GridCellAdapter;
-import com.example.destr.busy_calendar.Constants.JsonParserHelper;
 import com.example.destr.busy_calendar.Http.HttpGetOperation;
 import com.example.destr.busy_calendar.Http.HttpRequest;
 import com.example.destr.busy_calendar.Json.FacebookJsonParseImages;
 import com.example.destr.busy_calendar.R;
-import com.example.destr.busy_calendar.Threads.ImageLoader;
+import com.example.destr.busy_calendar.ImageLoad.ImageLoader;
 import com.example.destr.busy_calendar.Threads.OnResultCallback;
-import com.example.destr.busy_calendar.Threads.Round;
 import com.example.destr.busy_calendar.Threads.ThreadManager;
 
 import org.json.JSONException;
@@ -43,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton addButton;
     private Calendar _calendar;
     private ImageView facebook;
+    private ImageView vkimage;
     private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +51,23 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences logTest= PreferenceManager.getDefaultSharedPreferences(this);
         if(!logTest.getString("vk_token","").isEmpty()){
             vk_loginButton.setVisibility(View.GONE);
+            HttpRequest mRequest=new HttpRequest();
+            vkimage=(ImageView) findViewById(R.id.vkimage);
+            mRequest.setUrl(logTest.getString(""+"vk_token",""));
         }
         if(!logTest.getString("facebook_token","").isEmpty()){
             facebook_loginButton.setVisibility(View.GONE);
             HttpRequest mRequest= new HttpRequest();
             ThreadManager threadManager = new ThreadManager();
-            facebook=(ImageView) findViewById(R.id.imager);
-            mRequest.setUrl("https://graph.facebook.com/me?fields=picture&access_token="+logTest.getString("facebook_token",""));
+            facebook=(ImageView) findViewById(R.id.facebookimage);
+            mRequest.setUrl("https://graph.facebook.com/me?fields=picture.width(800).height(800)&access_token="+logTest.getString("facebook_token",""));
             threadManager.execute(new HttpGetOperation(), mRequest, new OnResultCallback<String, Void>() {
                 @Override
                 public void onSuccess(String s) {
-                    Log.d(TAG, "onSuccess = " + s);
                     try {
                         JSONObject jsonObject= new JSONObject(s);
                         FacebookJsonParseImages imageUrl= new FacebookJsonParseImages(jsonObject);
-                        Log.d(TAG,imageUrl.getUrl());
-                        new ImageLoader(facebook,imageUrl.getUrl());
+                        new ImageLoader(facebook.getContext()).DisplayImage(imageUrl.getUrl(),facebook,facebook.getContext());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
