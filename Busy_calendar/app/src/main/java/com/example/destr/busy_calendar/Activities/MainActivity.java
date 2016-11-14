@@ -2,8 +2,9 @@ package com.example.destr.busy_calendar.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,20 +27,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "TEST0110";
     private TextView currentMonth;
+    HashMap<String ,Boolean> checkedList = new HashMap<>();
     private TextView checkedDate;
-    private ImageView prevMonth;
-    private ImageView nextMonth;
     private GridView calendarView;
     private GridCellAdapter adapter;
-    private ImageButton addButton;
     private Calendar _calendar;
     private ImageView facebook;
-    private ImageView vkimage;
     private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +51,12 @@ public class MainActivity extends AppCompatActivity {
         if(!logTest.getString("vk_token","").isEmpty()){
             vk_loginButton.setVisibility(View.GONE);
             HttpRequest mRequest=new HttpRequest();
-            vkimage=(ImageView) findViewById(R.id.vkimage);
+            ImageView vkimage = (ImageView) findViewById(R.id.vkimage);
             mRequest.setUrl(logTest.getString(""+"vk_token",""));
         }
         if(!logTest.getString("facebook_token","").isEmpty()){
             facebook_loginButton.setVisibility(View.GONE);
-            HttpRequest mRequest= new HttpRequest();
+            final HttpRequest mRequest= new HttpRequest();
             ThreadManager threadManager = new ThreadManager();
             facebook=(ImageView) findViewById(R.id.facebookimage);
             mRequest.setUrl("https://graph.facebook.com/me?fields=picture.width(800).height(800)&access_token="+logTest.getString("facebook_token",""));
@@ -67,12 +66,11 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject= new JSONObject(s);
                         FacebookJsonParseImages imageUrl= new FacebookJsonParseImages(jsonObject);
-                        new ImageLoader(facebook.getContext()).DisplayImage(imageUrl.getUrl(),facebook,facebook.getContext());
+                        new ImageLoader(facebook).execute(imageUrl.getUrl());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-
                 @Override
                 public void onError(Exception e) {
                     Log.d(TAG, "onSuccess = " + e.getMessage());
@@ -83,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        final Intent event = new Intent(MainActivity.this, LoginActivity.class);
+        final Intent event = new Intent(MainActivity.this, EventActivity.class);
         _calendar = Calendar.getInstance(Locale.getDefault());
-        addButton=(ImageButton) findViewById(R.id.newevent);
+        ImageButton addButton = (ImageButton) findViewById(R.id.newevent);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         });
         final int[] month = {_calendar.get(Calendar.MONTH) + 1};
         final int[] year = {_calendar.get(Calendar.YEAR)};
-        prevMonth = (ImageView) findViewById(R.id.prevMonth);
+        ImageView prevMonth = (ImageView) findViewById(R.id.prevMonth);
         prevMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,14 +111,30 @@ public class MainActivity extends AppCompatActivity {
         });
         currentMonth = (TextView) findViewById(R.id.currentMonth);
         adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month[0], year[0]) {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                checkedDate.setText(v.getTag().toString());
-                v.setBackgroundColor(Color.GRAY);
+                if(checkedList.containsKey(v.getTag().toString())) {
+                    if (checkedList.get(v.getTag().toString())) {
+                        v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                        checkedList.put(v.getTag().toString(), false);
+
+                    }
+                    else {
+                        checkedList.put(v.getTag().toString(), true);
+                        checkedDate.setText(v.getTag().toString());
+                        v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBar));
+                    }
+                } else {
+                        checkedList.put(v.getTag().toString(), true);
+                        checkedDate.setText(v.getTag().toString());
+                        v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBar));
+                    }
+
             }
         };
         currentMonth.setText(months[month[0] -1]+" "+year[0]);
-        nextMonth = (ImageView) findViewById(R.id.nextMonth);
+        ImageView nextMonth = (ImageView) findViewById(R.id.nextMonth);
         nextMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -40,11 +40,9 @@ public abstract class GridCellAdapter extends BaseAdapter implements View.OnClic
         this.list = new ArrayList<>();
         this.month = month;
         this.year = year;
-
         Calendar calendar = Calendar.getInstance();
         setCurrentDayOfMonth(calendar.get(Calendar.DAY_OF_MONTH));
         setCurrentWeekDay(calendar.get(Calendar.DAY_OF_WEEK));
-
         printMonth(month, year);
 
     }
@@ -122,7 +120,7 @@ public abstract class GridCellAdapter extends BaseAdapter implements View.OnClic
             currentWeekDay-=7;
         }
         trailingSpaces = currentWeekDay;
-
+//// TODO: 04.11.2016 month names
 
         if (cal.isLeapYear(cal.get(Calendar.YEAR)) && mm == 1)
         {

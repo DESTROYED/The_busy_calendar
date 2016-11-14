@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
     <EditText
-
         android:textColorHint="@color/text"
         android:padding="5dp"
         android:textSize="18sp"

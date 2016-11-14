@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 
-public class MemoryCache {
+class MemoryCache {
 
     private static final String TAG = "MemoryCache";
     private Map<String, Bitmap> cache=Collections.synchronizedMap(
@@ -19,15 +19,15 @@ public class MemoryCache {
     private long size=0;
     private long limit=1000000;
 
-    public MemoryCache(){
+    MemoryCache(){
         setLimit(Runtime.getRuntime().maxMemory()/4);
     }
 
-    public void setLimit(long limit){
+    private void setLimit(long limit){
         this.limit=limit;
     }
 
-    public Bitmap getBitmapFromMemoryCache(String id){
+    Bitmap getBitmapFromMemoryCache(String id){
         try{
             if(!cache.containsKey(id))
                 return null;
@@ -37,7 +37,7 @@ public class MemoryCache {
             return null;
         }
     }
-    public void putBitmapToMemoryCache(String id, Bitmap bitmap){
+    void putBitmapToMemoryCache(String id, Bitmap bitmap){
         try{
             if(cache.containsKey(id))
                 size-=getSizeInBytes(cache.get(id));
@@ -64,7 +64,7 @@ public class MemoryCache {
         }
     }
 
-    public void clear() {
+    void clear() {
         try{
             cache.clear();
             size=0;
