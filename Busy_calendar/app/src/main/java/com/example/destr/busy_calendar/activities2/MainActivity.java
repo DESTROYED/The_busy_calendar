@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.Activities;
+package com.example.destr.busy_calendar.activities2;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

@@ -1,14 +1,12 @@
-package com.example.destr.busy_calendar.Activities;
+package com.example.destr.busy_calendar.activities2;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
 
 import com.example.destr.busy_calendar.Constants.ConstantsVkAndFacebook;
 import com.example.destr.busy_calendar.Parse.TokenParse;
