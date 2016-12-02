@@ -46,6 +46,15 @@ public abstract class GridCellAdapter extends BaseAdapter implements View.OnClic
         printMonth(month, year);
 
     }
+
+    public void updateView(int month, int year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.YEAR, year);
+        calendar.getMaximum(Calendar.DAY_OF_MONTH);
+        calendar.getMinimalDaysInFirstWeek();
+    }
+
     private String getMonthAsString(int i)
     {
         return months[i];
