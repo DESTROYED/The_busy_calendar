@@ -2,6 +2,7 @@ package com.example.destr.busy_calendar.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //TODO method onCreate too big.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (getSupportActionBar() != null) {
@@ -136,6 +138,31 @@ public class MainActivity extends AppCompatActivity {
                 setGridCellAdapterToDate(month[0], year[0]);
             }
         });
+
+        currentMonth = (TextView) findViewById(R.id.currentMonth);
+        adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month[0], year[0]) {
+
+            @Override
+            public void onClick(View v) {
+                if (checkedList.containsKey(v.getTag().toString())) {
+                    if (checkedList.get(v.getTag().toString())) {
+                        v.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryDark));
+                        checkedList.put(v.getTag().toString(), false);
+
+                    } else {
+                        checkedList.put(v.getTag().toString(), true);
+                        checkedDate.setText(v.getTag().toString());
+                        v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBar));
+                    }
+                } else {
+                    checkedList.put(v.getTag().toString(), true);
+                    checkedDate.setText(v.getTag().toString());
+                    v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBar));
+                }
+
+            }
+        };
+
         calendarView = (GridView) findViewById(R.id.calendar);
         checkedDate = (TextView) findViewById(R.id.selectedDayMonthYear);
         adapter.notifyDataSetChanged();
