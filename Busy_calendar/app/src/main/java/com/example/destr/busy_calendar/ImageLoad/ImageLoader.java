@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.ImageLoad;
+package com.example.destr.busy_calendar.imageLoad;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,11 +12,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
 public class ImageLoader extends AsyncTask<String, Void, Bitmap> {
 
     private ImageView image;
-    private Round mRound = new Round();
 
     public ImageLoader(ImageView image) {
         this.image = image;
@@ -36,7 +34,7 @@ public class ImageLoader extends AsyncTask<String, Void, Bitmap> {
             connection.connect();
             InputStream inputStream = connection.getInputStream();
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return mRound.transform(bitmap);
+            return bitmap;
         } catch (NullPointerException e) {
             Log.d("EXception!", String.valueOf(e));
             return null;

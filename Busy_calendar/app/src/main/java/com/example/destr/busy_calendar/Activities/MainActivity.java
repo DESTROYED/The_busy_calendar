@@ -1,109 +1,98 @@
-package com.example.destr.busy_calendar.Activities;
+package com.example.destr.busy_calendar.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
-import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.destr.busy_calendar.Adapters.GridCellAdapter;
-import com.example.destr.busy_calendar.Http.HttpGetOperation;
-import com.example.destr.busy_calendar.Http.HttpRequest;
-import com.example.destr.busy_calendar.Json.FacebookJsonParseImages;
 import com.example.destr.busy_calendar.R;
-import com.example.destr.busy_calendar.ImageLoad.ImageLoader;
-import com.example.destr.busy_calendar.Threads.OnResultCallback;
-import com.example.destr.busy_calendar.Threads.ThreadManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.destr.busy_calendar.adapters.GridCellAdapter;
+import com.example.destr.busy_calendar.socialsJob.FacebookLoginActivity;
+import com.example.destr.busy_calendar.socialsJob.TokenJob;
+import com.example.destr.busy_calendar.socialsJob.VkLoginActivity;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "TEST0110";
+
+    private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    private HashMap<String, Boolean> checkedList = new HashMap<>();
     private TextView currentMonth;
-    HashMap<String ,Boolean> checkedList = new HashMap<>();
     private TextView checkedDate;
     private GridView calendarView;
     private GridCellAdapter adapter;
-    private Calendar _calendar;
+    private Calendar mCalendar;
     private ImageView facebook;
-    private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    private ImageView vkimage;
+    private Button vk_loginButton;
+    private Button facebook_loginButton;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
-        final View vk_loginButton = findViewById(R.id.main_btn_vk);
-        final View facebook_loginButton = findViewById(R.id.main_btn_facebook);
-        final SharedPreferences logTest= PreferenceManager.getDefaultSharedPreferences(this);
-        if(!logTest.getString("vk_token","").isEmpty()){
-            vk_loginButton.setVisibility(View.GONE);
-            HttpRequest mRequest=new HttpRequest();
-            ImageView vkimage = (ImageView) findViewById(R.id.vkimage);
-            mRequest.setUrl(logTest.getString(""+"vk_token",""));
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
         }
-        if(!logTest.getString("facebook_token","").isEmpty()){
-            facebook_loginButton.setVisibility(View.GONE);
-            final HttpRequest mRequest= new HttpRequest();
-            ThreadManager threadManager = new ThreadManager();
-            facebook=(ImageView) findViewById(R.id.facebookimage);
-            mRequest.setUrl("https://graph.facebook.com/me?fields=picture.width(800).height(800)&access_token="+logTest.getString("facebook_token",""));
-            threadManager.execute(new HttpGetOperation(), mRequest, new OnResultCallback<String, Void>() {
-                @Override
-                public void onSuccess(String s) {
-                    try {
-                        JSONObject jsonObject= new JSONObject(s);
-                        FacebookJsonParseImages imageUrl= new FacebookJsonParseImages(jsonObject);
-                        new ImageLoader(facebook).execute(imageUrl.getUrl());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                @Override
-                public void onError(Exception e) {
-                    Log.d(TAG, "onSuccess = " + e.getMessage());
-                }
 
-                @Override
-                public void onProgressChanged(Object o) {
-                }
-            });
-        }
         final Intent event = new Intent(MainActivity.this, EventActivity.class);
-        _calendar = Calendar.getInstance(Locale.getDefault());
+        vk_loginButton = (Button) findViewById(R.id.main_btn_vk);
+        facebook_loginButton = (Button) findViewById(R.id.main_btn_facebook);
+        facebook = (ImageView) findViewById(R.id.facebookimage);
+        vkimage = (ImageView) findViewById(R.id.vkimage);
+        vk_loginButton.setVisibility(View.VISIBLE);
+        facebook_loginButton.setVisibility(View.VISIBLE);
+        vk_loginButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, VkLoginActivity.class));
+            }
+        });
+        facebook_loginButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, FacebookLoginActivity.class));
+            }
+        });
+
         ImageButton addButton = (ImageButton) findViewById(R.id.newevent);
         addButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 startActivity(event);
             }
         });
-        final int[] month = {_calendar.get(Calendar.MONTH) + 1};
-        final int[] year = {_calendar.get(Calendar.YEAR)};
+
+        new TokenJob(getApplicationContext(), facebook_loginButton, vk_loginButton, facebook, vkimage);
+
+        mCalendar = Calendar.getInstance(Locale.getDefault());
+        final int[] month = {mCalendar.get(Calendar.MONTH) + 1};
+        final int[] year = {mCalendar.get(Calendar.YEAR)};
         ImageView prevMonth = (ImageView) findViewById(R.id.prevMonth);
         prevMonth.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
-                if (month[0] <= 1)
-                {
+                if (month[0] <= 1) {
                     month[0] = 12;
                     year[0]--;
-                }
-                else
-                {
+                } else {
                     month[0]--;
                 }
                 setGridCellAdapterToDate(month[0], year[0]);
@@ -111,68 +100,76 @@ public class MainActivity extends AppCompatActivity {
         });
         currentMonth = (TextView) findViewById(R.id.currentMonth);
         adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month[0], year[0]) {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+
             @Override
             public void onClick(View v) {
-                if(checkedList.containsKey(v.getTag().toString())) {
+                if (checkedList.containsKey(v.getTag().toString())) {
                     if (checkedList.get(v.getTag().toString())) {
                         v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                         checkedList.put(v.getTag().toString(), false);
 
-                    }
-                    else {
+                    } else {
                         checkedList.put(v.getTag().toString(), true);
                         checkedDate.setText(v.getTag().toString());
                         v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBar));
                     }
                 } else {
-                        checkedList.put(v.getTag().toString(), true);
-                        checkedDate.setText(v.getTag().toString());
-                        v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBar));
-                    }
+                    checkedList.put(v.getTag().toString(), true);
+                    checkedDate.setText(v.getTag().toString());
+                    v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBar));
+                }
 
             }
         };
-        currentMonth.setText(months[month[0] -1]+" "+year[0]);
+        currentMonth.setText(months[month[0] - 1] + " " + year[0]);
         ImageView nextMonth = (ImageView) findViewById(R.id.nextMonth);
         nextMonth.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                if (month[0] > 11)
-                {
+                if (month[0] > 11) {
                     month[0] = 1;
                     year[0]++;
-                }
-                else
-                {
+                } else {
                     month[0]++;
                 }
                 setGridCellAdapterToDate(month[0], year[0]);
             }
         });
         calendarView = (GridView) findViewById(R.id.calendar);
-        checkedDate=(TextView)findViewById(R.id.selectedDayMonthYear);
-        adapter.notifyDataSetChanged();
-        calendarView.setAdapter(adapter);
-    }
-    private void setGridCellAdapterToDate(int month, int year)
-    {
-        adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year) {
-            @Override
-            public void onClick(View v) {
-                checkedDate.setText(v.getTag().toString());
-            }
-        };
-        _calendar.set(year, month - 1, _calendar.get(Calendar.DAY_OF_MONTH));
-        currentMonth.setText(months[month -1]+" "+year);
+        checkedDate = (TextView) findViewById(R.id.selectedDayMonthYear);
         adapter.notifyDataSetChanged();
         calendarView.setAdapter(adapter);
     }
 
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
+    private void setGridCellAdapterToDate(int month, int year) {
+        adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year) {
+
+            @Override
+            public void onClick(View v) {
+                checkedDate.setText(v.getTag().toString());
+                if (checkedList.containsKey(v.getTag().toString())) {
+                    if (checkedList.get(v.getTag().toString())) {
+                        v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                        checkedList.put(v.getTag().toString(), false);
+
+                    } else {
+                        checkedList.put(v.getTag().toString(), true);
+                        checkedDate.setText(v.getTag().toString());
+                        v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBar));
+                    }
+                } else {
+                    checkedList.put(v.getTag().toString(), true);
+                    checkedDate.setText(v.getTag().toString());
+                    v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBar));
+                }
+
+            }
+        };
+        mCalendar.set(year, month - 1, mCalendar.get(Calendar.DAY_OF_MONTH));
+        currentMonth.setText(months[month - 1] + " " + year);
+        adapter.notifyDataSetChanged();
+        calendarView.setAdapter(adapter);
     }
 
 }

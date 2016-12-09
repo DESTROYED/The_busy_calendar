@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.Json;
+package com.example.destr.busy_calendar.json;
 
 
 import org.json.JSONException;

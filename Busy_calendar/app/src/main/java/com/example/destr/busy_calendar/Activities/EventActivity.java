@@ -1,9 +1,7 @@
-package com.example.destr.busy_calendar.Activities;
+package com.example.destr.busy_calendar.activities;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,15 +9,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.fragments.EndTimePicker;
 import com.example.destr.busy_calendar.fragments.StartTimePicker;
 
-
 public class EventActivity extends AppCompatActivity {
+
     private TextView chooseStartTime;
     private TextView chooseEndTime;
     private CheckBox vkCheckBox;
@@ -31,7 +28,9 @@ public class EventActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event);
-        getSupportActionBar().hide();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         CheckBox alarmCheckBox = (CheckBox) findViewById(R.id.alert_checkbox);
         CheckBox allDayCheckBox = (CheckBox) findViewById(R.id.checkbox_time);
         CheckBox statusCheckBox = (CheckBox) findViewById(R.id.status_checkbox);
@@ -47,6 +46,7 @@ public class EventActivity extends AppCompatActivity {
         vkCheckBox = (CheckBox) findViewById(R.id.checkbox_vk);
         facebookCheckBox = (CheckBox) findViewById(R.id.checkbox_facebook);
         chooseStartTime.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
@@ -55,6 +55,7 @@ public class EventActivity extends AppCompatActivity {
             }
         });
         chooseEndTime.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
@@ -63,26 +64,32 @@ public class EventActivity extends AppCompatActivity {
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-
                 finish();
             }
         });
         closeButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
         alarmCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) mCombotext.setVisibility(View.VISIBLE);
-                else mCombotext.setVisibility(View.GONE);
+                if (isChecked) {
+                    mCombotext.setVisibility(View.VISIBLE);
+                } else {
+                    mCombotext.setVisibility(View.GONE);
+                }
             }
         });
         allDayCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -101,6 +108,7 @@ public class EventActivity extends AppCompatActivity {
             }
         });
         statusCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -112,6 +120,7 @@ public class EventActivity extends AppCompatActivity {
             }
         });
         socials.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -131,6 +140,5 @@ public class EventActivity extends AppCompatActivity {
         });
 
     }
-
 
 }

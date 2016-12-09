@@ -6,7 +6,8 @@
     android:layout_marginRight="10dp"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" tools:showIn="@layout/event">
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/event">
     <TextView
         android:textColor="@color/textNames"
         android:layout_gravity="center_vertical"
