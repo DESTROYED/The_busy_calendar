@@ -37,22 +37,8 @@ public abstract class GridCellAdapter extends BaseAdapter implements View.OnClic
 
     }
 
-<<<<<<< HEAD:Busy_calendar/app/src/main/java/com/example/destr/busy_calendar/adapters/GridCellAdapter.java
     public String getItem(int position) {
         return list.get(position - 1);
-=======
-    public void updateView(int month, int year) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.YEAR, year);
-        calendar.getMaximum(Calendar.DAY_OF_MONTH);
-        calendar.getMinimalDaysInFirstWeek();
-    }
-
-    private String getMonthAsString(int i)
-    {
-        return months[i];
->>>>>>> e41ddbd33e628d159e4863c1759ee8b8112d203a:Busy_calendar/app/src/main/java/com/example/destr/busy_calendar/Adapters/GridCellAdapter.java
     }
 
     @Override
