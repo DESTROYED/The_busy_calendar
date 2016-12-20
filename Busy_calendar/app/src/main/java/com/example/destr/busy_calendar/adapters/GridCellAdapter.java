@@ -2,39 +2,52 @@ package com.example.destr.busy_calendar.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.destr.busy_calendar.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Formatter;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class GridCellAdapter extends BaseAdapter implements View.OnClickListener {
 
-    private static final String tag = "GridCellAdapter";
     private static final int DAY_OFFSET = 1;
+    private Formatter mFormatter = new Formatter();
     private final Context _context;
+    private HashMap<String, Boolean> checkedList = new HashMap<>();
     private final List<String> list;
-    private final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-    private final int[] daysOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private int daysInMonth;
     private int currentDayOfMonth;
-    private Button gridcell;
+    private TextView checkedDate;
+    private GridCellAdapter mAdapter;
+    private Calendar calendar=Calendar.getInstance();
+    private int pMonth =calendar.get(Calendar.MONTH)+1;
+    private int pYear = calendar.get(Calendar.YEAR);
 
-    public GridCellAdapter(Context context, int textViewResourceId, int month, int year) {
-        super();
+    protected GridCellAdapter(Context context,int month ,int year) {
         this._context = context;
         this.list = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         setCurrentDayOfMonth(calendar.get(Calendar.DAY_OF_MONTH));
-        printMonth(month, year);
+        printMonth(month,year);
+    }
 
+    public int getpMonth() {
+        return pMonth;
+    }
+
+    public int getpYear() {
+        return pYear;
     }
 
     public String getItem(int position) {
@@ -59,7 +72,7 @@ public abstract class GridCellAdapter extends BaseAdapter implements View.OnClic
             row = inflater.inflate(R.layout.grid_cell, parent, false);
         }
 
-        gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
+        Button gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
         gridcell.setOnClickListener(this);
         String[] day_color = list.get(position).split("-");
         String theday = day_color[0];
@@ -78,7 +91,7 @@ public abstract class GridCellAdapter extends BaseAdapter implements View.OnClic
         return row;
     }
 
-    public int getCurrentDayOfMonth() {
+    private int getCurrentDayOfMonth() {
         return currentDayOfMonth;
     }
 
@@ -88,15 +101,16 @@ public abstract class GridCellAdapter extends BaseAdapter implements View.OnClic
 
 
     private String getMonthAsString(int i) {
-        return months[i];
+        return String.valueOf(mFormatter.format("%tB",calendar));
     }
 
     private int getNumberOfDaysOfMonth(int i) {
-        return daysOfMonth[i];
+        calendar.set(Calendar.MONTH, i);
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     private void printMonth(int mm, int yy) {
-        int trailingSpaces = 0;
+        int trailingSpaces ;
         int daysInPrevMonth = 0;
         int prevMonth = 0;
         int prevYear = 0;
@@ -104,36 +118,11 @@ public abstract class GridCellAdapter extends BaseAdapter implements View.OnClic
         int nextYear = 0;
 
         int currentMonth = mm - 1;
-        daysInMonth = getNumberOfDaysOfMonth(currentMonth);
+        int daysInMonth = getNumberOfDaysOfMonth(currentMonth);
 
         GregorianCalendar cal = new GregorianCalendar(yy, currentMonth, 1);
 
-        if (currentMonth == 1) {
-            if (yy % 4 == 0 && yy % 100 != 0) {
-                daysInMonth = 29;
-            } else {
-                daysInMonth = 28;
-            }
-        }
-        if (currentMonth == 11) {
-            prevMonth = currentMonth - 1;
-            daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
-            nextMonth = 0;
-            prevYear = yy;
-            nextYear = yy + 1;
-        } else if (currentMonth == 0) {
-            prevMonth = 11;
-            prevYear = yy - 1;
-            nextYear = yy;
-            daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
-            nextMonth = 1;
-        } else {
-            prevMonth = currentMonth - 1;
-            nextMonth = currentMonth + 1;
-            nextYear = yy;
-            prevYear = yy;
-            daysInPrevMonth = getNumberOfDaysOfMonth(prevMonth);
-        }
+
 
         int currentWeekDay = cal.get(Calendar.DAY_OF_WEEK) + 5;
         if (currentWeekDay >= 7) {
@@ -161,6 +150,60 @@ public abstract class GridCellAdapter extends BaseAdapter implements View.OnClic
         for (int i = 0; i < list.size() % 7; i++) {
             list.add(String.valueOf(i + 1) + "-GREY" + "-" + getMonthAsString(nextMonth) + "-" + nextYear);
         }
+    }
+    public void setNextMonth(Context pContext,GridView pCalendarView,TextView pCheckedDate) {
+        if (pMonth > 11) {
+            pMonth = 1;
+            pYear++;
+        } else {
+            pMonth++;
+        }
+        setGridCellAdapterToDate(pContext,pMonth, pYear,pCalendarView,pCheckedDate);
+
+    }
+    public void setPrevMonth(Context pContext,GridView pCalendarView,TextView pCheckedDate) {
+        if (pMonth<= 1) {
+            pMonth = 12;
+            pYear--;
+        } else {
+            pMonth--;
+        }
+        setGridCellAdapterToDate(pContext,pMonth, pYear,pCalendarView,pCheckedDate);
+
+    }
+    private void setGridCellAdapterToDate(final Context context, int month, int year, GridView pCalendarView, TextView pCheckedDate) {
+
+        calendar.set(year, month - 1, calendar.get(Calendar.DAY_OF_MONTH));
+        pCheckedDate.setText(month + " " + year);
+        setCurrentDayOfMonth(calendar.get(month));
+        notifyDataSetChanged();
+        setGridCellAdapter(context, month, year, pCalendarView);
+
+    }
+
+    private void setGridCellAdapter(final Context context, final int month, final int year, GridView pCalendarView) {
+        mAdapter = new GridCellAdapter(context,month,year) {
+
+            @Override
+            public void onClick(View pView) {
+                checkedDate=(TextView) pView.findViewById(R.id.selectedDayMonthYear);
+
+                if (checkedList.containsKey(pView.getTag().toString())) {
+                    if (checkedList.get(pView.getTag().toString())) {
+                        pView.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPrimaryDark));
+                        checkedList.put(pView.getTag().toString(), false);
+
+                    } else {
+                        checkedList.put(pView.getTag().toString(), true);
+                        pView.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPrimaryBar));
+                    }
+                } else {
+                    checkedList.put(pView.getTag().toString(), true);
+                    pView.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPrimaryBar));
+                }
+            }
+        };
+        pCalendarView.setAdapter(mAdapter);
     }
 
 }

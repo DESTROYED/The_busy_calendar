@@ -2,8 +2,12 @@ package com.example.destr.busy_calendar.activities;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -12,17 +16,29 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.destr.busy_calendar.R;
+import com.example.destr.busy_calendar.dbase.DBHelper;
 import com.example.destr.busy_calendar.fragments.EndTimePicker;
 import com.example.destr.busy_calendar.fragments.StartTimePicker;
 
 public class EventActivity extends AppCompatActivity {
 
+    private String dataBusyCalendar;
+    private String eventNameString;
+    private String fromTimeString;
+    private String toTimeString;
+    private String alertNameString;
+    private String changeStatusString;
+    private String eventDescriptionString;
+    private int vkVariable=0;
+    private int facebookVariable=0;
     private TextView chooseStartTime;
     private TextView chooseEndTime;
+    private EditText enterAlertName;
     private CheckBox vkCheckBox;
     private CheckBox facebookCheckBox;
     private EditText editTextStatus;
-    private android.support.v7.widget.AppCompatAutoCompleteTextView mCombotext;
+    private EditText eventName;
+    private EditText descriptionString;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,11 +50,15 @@ public class EventActivity extends AppCompatActivity {
         CheckBox alarmCheckBox = (CheckBox) findViewById(R.id.alert_checkbox);
         CheckBox allDayCheckBox = (CheckBox) findViewById(R.id.checkbox_time);
         CheckBox statusCheckBox = (CheckBox) findViewById(R.id.status_checkbox);
+        descriptionString = (EditText) findViewById(R.id.description_string);
         editTextStatus = (EditText) findViewById(R.id.checkbox_status);
-        EditText eventName = (EditText) findViewById(R.id.event_name);
-        mCombotext = (android.support.v7.widget.AppCompatAutoCompleteTextView) findViewById(R.id.combotext_alert);
+        eventName = (EditText) findViewById(R.id.event_name);
+        final ContentValues contentValues = new ContentValues();
+        final DBHelper dbHelper = new DBHelper(this);
+
 
         ImageButton closeButton = (ImageButton) findViewById(R.id.close_event);
+        enterAlertName = (EditText) findViewById(R.id.combotext_alert);
         chooseStartTime = (TextView) findViewById(R.id.choose_start_time);
         ImageButton saveButton = (ImageButton) findViewById(R.id.save_event);
         chooseEndTime = (TextView) findViewById(R.id.choose_end_time);
@@ -67,6 +87,59 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                //// TODO: 19.12.2016 make data not magic
+                dataBusyCalendar="MAGIC DATA";
+                eventNameString=eventName.getText().toString();
+                fromTimeString=chooseStartTime.getText().toString();
+                toTimeString=chooseEndTime.getText().toString();
+                alertNameString=enterAlertName.getText().toString();
+                changeStatusString=editTextStatus.getText().toString();
+                eventDescriptionString=descriptionString.getText().toString();
+                if(vkCheckBox.isChecked()){
+                    vkVariable=1;
+                }
+                if(facebookCheckBox.isChecked()) {
+                    facebookVariable=1;
+                }
+                SQLiteDatabase database =dbHelper.getWritableDatabase();
+
+                contentValues.put("eventname",eventNameString);
+                contentValues.put("date",dataBusyCalendar);
+                contentValues.put("sttime",fromTimeString);
+                contentValues.put("endtime",toTimeString);
+                contentValues.put("alarmname",alertNameString);
+                contentValues.put("status",changeStatusString);
+                contentValues.put("description",eventDescriptionString);
+                contentValues.put("vk",vkVariable);
+                contentValues.put("facebook",facebookVariable);
+                database.insert("events", null, contentValues);
+                Cursor c = database.query("events", null, null, null, null, null, null);
+                if (c.moveToFirst()) {
+
+                    int eventnameColIndex = c.getColumnIndex("eventname");
+                    int dateColIndex = c.getColumnIndex("date");
+                    int sttimeColIndex = c.getColumnIndex("sttime");
+                    int endtimeColIndex = c.getColumnIndex("endtime");
+                    int alarmnameColIndex = c.getColumnIndex("alarmname");
+                    int statusColIndex = c.getColumnIndex("status");
+                    int descriptionColIndex = c.getColumnIndex("description");
+                    int vkColIndex = c.getColumnIndex("vk");
+                    int facebookColIndex = c.getColumnIndex("facebook");
+
+                    do {
+                        Log.d("TEST",
+                                        ", eventname = " + c.getString(eventnameColIndex) +
+                                        ", date = " + c.getString(dateColIndex) +
+                                        ", sttime = " + c.getString(sttimeColIndex) +
+                                        ", endtime = " + c.getString(endtimeColIndex) +
+                                        ", alarmname = " + c.getString(alarmnameColIndex) +
+                                        ", status = " + c.getString(statusColIndex) +
+                                        ", description = " + c.getString(descriptionColIndex)+
+                                        ", vk = " + c.getString(vkColIndex)+
+                                        ", facebook = " + c.getString(facebookColIndex));
+                    } while (c.moveToNext());
+                } else
+                    Log.d("TEST", "0 rows");
                 finish();
             }
         });
@@ -82,9 +155,9 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    mCombotext.setVisibility(View.VISIBLE);
+                    enterAlertName.setVisibility(View.VISIBLE);
                 } else {
-                    mCombotext.setVisibility(View.GONE);
+                    enterAlertName.setVisibility(View.GONE);
                 }
             }
         });
@@ -138,6 +211,8 @@ public class EventActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
     }
 

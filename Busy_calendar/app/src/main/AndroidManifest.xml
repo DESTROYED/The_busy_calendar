@@ -18,7 +18,6 @@
         <activity android:name=".socialsJob.VkLoginActivity" android:theme="@style/AppTheme.PopupWindow"/>
         <activity android:name=".socialsJob.FacebookLoginActivity" android:theme="@style/AppTheme.PopupWindow"/>
         <activity android:name=".activities.EventActivity"/>
-
     </application>
 
 </manifest>
