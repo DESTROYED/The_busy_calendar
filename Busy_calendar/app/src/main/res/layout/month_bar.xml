@@ -11,6 +11,8 @@
         app:srcCompat="@drawable/ic_left_24dp"
         android:layout_gravity="center_vertical"
         android:id="@+id/prevMonth"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_width="48dp"
         android:layout_height="48dp"/>
     <TextView
@@ -26,5 +28,7 @@
         android:layout_gravity="end|center_vertical"
         android:id="@+id/nextMonth"
         android:layout_width="48dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_height="48dp"/>
 </FrameLayout>

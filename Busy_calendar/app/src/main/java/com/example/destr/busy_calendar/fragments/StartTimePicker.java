@@ -12,10 +12,9 @@ import com.example.destr.busy_calendar.R;
 
 import java.util.Calendar;
 
-public class StartTimePicker extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+ public class StartTimePicker extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     private TextView outTime;
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         outTime = (TextView) getActivity().findViewById(R.id.choose_start_time);

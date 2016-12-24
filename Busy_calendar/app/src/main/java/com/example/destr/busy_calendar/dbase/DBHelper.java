@@ -4,25 +4,21 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBHelper extends SQLiteOpenHelper {
+import com.example.destr.busy_calendar.constants.Constants;
 
-    public DBHelper(Context pContext){
-        super(pContext,"BusyCalendar",null,1);
+class DBHelper extends SQLiteOpenHelper {
+
+    private StringBuilderForDb mStringBuilderForDb = new StringBuilderForDb();
+
+    DBHelper(Context pContext) {
+        super(pContext, Constants.DBConstants.DB_NAME, null, 1);
     }
+
+    //TODO treadmanager
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table events ("
-                +"id integer primary key autoincrement,"
-                +"eventname text,"
-                +"date text,"
-                +"sttime text"
-                +"endtime text"
-                +"alarmname text"
-                +"status text"
-                +"description text"
-                +"vk integer"
-                +"facebook integer"
-                +");");
+        db.execSQL(mStringBuilderForDb.buildRequest());
     }
 
     @Override

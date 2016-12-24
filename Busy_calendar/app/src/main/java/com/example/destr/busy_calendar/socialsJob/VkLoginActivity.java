@@ -33,6 +33,7 @@ public class VkLoginActivity extends Activity {
         final String[] urlToParseToken = new String[10];
         mWebView.setWebViewClient(new WebViewClient() {
 
+            // we have no better choice
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return false;
@@ -42,13 +43,13 @@ public class VkLoginActivity extends Activity {
                 urlToParseToken[0] = view.getUrl();
                 if (mTokenParse.MatcherTockens(urlToParseToken[0])) {
                     mWebView.setVisibility(View.GONE);
-                    logTestEditor.putString("vk_token", mTokenParse.TockenParse(urlToParseToken[0]));
+                    logTestEditor.putString(Constants.TokenJob.VK_TOKEN, mTokenParse.TockenParse(urlToParseToken[0]));
                     logTestEditor.apply();
                 } else {
                     mWebView.setVisibility(View.VISIBLE);
                 }
             }
         });
-        mWebView.loadUrl("https://oauth.vk.com/authorize?client_id=" + Constants.LoginConstants.CONSUMER_KEY_VK + "&response_type=token&redirect_uri=" + Constants.LoginConstants.CONSUMER_URL_VK);
+        mWebView.loadUrl(String.format(Constants.UrlConstants.VK_WEBVIEW,Constants.LoginConstants.CONSUMER_KEY_VK,Constants.LoginConstants.CONSUMER_URL_VK));
     }
 }

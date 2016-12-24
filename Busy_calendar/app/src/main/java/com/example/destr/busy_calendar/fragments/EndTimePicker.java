@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.destr.busy_calendar.R;
+import com.example.destr.busy_calendar.constants.Constants;
 
 import java.util.Calendar;
 
@@ -24,9 +25,7 @@ public class EndTimePicker extends DialogFragment implements TimePickerDialog.On
         int minute = c.get(Calendar.MINUTE);
         return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
     }
-
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        outTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+        outTime.setText(String.valueOf(hourOfDay) + Constants.OtherConstants.COLON + String.valueOf(minute));
     }
 }
-

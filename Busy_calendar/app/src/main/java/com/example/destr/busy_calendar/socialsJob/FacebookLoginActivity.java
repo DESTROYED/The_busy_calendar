@@ -33,6 +33,7 @@ public class FacebookLoginActivity extends Activity {
         final String[] urlToParseToken = new String[10];
         mWebView.setWebViewClient(new WebViewClient() {
 
+                                      // we have no better choice
                                       public boolean shouldOverrideUrlLoading(WebView view, String url) {
                                           view.loadUrl(url);
                                           return false;
@@ -45,7 +46,7 @@ public class FacebookLoginActivity extends Activity {
                                           if (mTokenParse.MatcherLinks(urlToParseToken[0])[1]) {
                                               if (mTokenParse.MatcherTockens(urlToParseToken[0])) {
                                                   mWebView.setVisibility(View.GONE);
-                                                  logTestEditor.putString("facebook_token", mTokenParse.TockenParse(urlToParseToken[0]));
+                                                  logTestEditor.putString(Constants.TokenJob.FACEBOOK_TOKEN, mTokenParse.TockenParse(urlToParseToken[0]));
                                                   logTestEditor.apply();
                                               } else {
                                                   mWebView.setVisibility(View.VISIBLE);
@@ -54,7 +55,7 @@ public class FacebookLoginActivity extends Activity {
                                       }
                                   }
         );
-        mWebView.loadUrl("https://www.facebook.com/v2.8/dialog/oauth?client_id=" + Constants.LoginConstants.CONSUMER_KEY_FACEBOOK + "&display=popup&response_type=token&redirect_uri=" + Constants.LoginConstants.CONSUMER_URL_FACEBOOK);
+        mWebView.loadUrl(String.format(Constants.UrlConstants.FACEBOOK_WEBVIEW,Constants.LoginConstants.CONSUMER_KEY_FACEBOOK,Constants.LoginConstants.CONSUMER_URL_FACEBOOK));
 
     }
 }
