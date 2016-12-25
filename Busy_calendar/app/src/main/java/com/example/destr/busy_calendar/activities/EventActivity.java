@@ -19,7 +19,6 @@ import com.example.destr.busy_calendar.fragments.StartTimePicker;
 
 public class EventActivity extends AppCompatActivity {
     //TODO sonar test NOT
-    //TODO delete all Logs NOT
     //TODO accounmanager for tokens NOT
     private String dataBusyCalendar;
     private String eventNameString;
@@ -53,6 +52,11 @@ public class EventActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         initItems();
+        clickOrCheckListeners();
+
+    }
+
+    private void clickOrCheckListeners() {
         chooseStartTime.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -116,7 +120,6 @@ public class EventActivity extends AppCompatActivity {
                 visibilitySocials(isChecked);
             }
         });
-
     }
 
     private void visibilitySocials(boolean isChecked) {

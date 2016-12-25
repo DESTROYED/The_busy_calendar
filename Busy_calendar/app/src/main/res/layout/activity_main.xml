@@ -1,42 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:id="@+id/linear"
-    android:background="@color/colorGreenBG"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorGreenBG"
+    android:orientation="vertical">
     <include layout="@layout/toolbar"/>
     <include layout="@layout/month_bar"/>
     <LinearLayout
-        android:layout_marginTop="15dp"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp">
 
-        </LinearLayout>
-        <GridView
-            android:id="@+id/calendar"
-            android:numColumns="7"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="380dp"
-            android:layout_height="wrap_content">
-        </GridView>
-    <LinearLayout
-        android:layout_marginTop="10dp"
+    </LinearLayout>
+    <GridView
+        android:id="@+id/calendar"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:numColumns="7">
+    </GridView>
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/main_btn_vk"
-        android:text="@string/btn_login_vk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/main_btn_facebook"
-        android:text="@string/btn_login_facebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/main_btn_vk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_login_vk"/>
+        <Button
+            android:id="@+id/main_btn_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_login_facebook"/>
+        <Button
+            android:id="@+id/mute_vk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="set status"/>
     </LinearLayout>
 </LinearLayout>

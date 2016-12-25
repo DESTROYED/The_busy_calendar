@@ -8,18 +8,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class VkJsonParseImage {
-    public String getUrl() {
-        return mUrl;
-    }
+public class VkJsonParse {
 
-    private final String mUrl;
 
-    public VkJsonParseImage(JSONObject imageJsonObj)throws JSONException{
+    public String parseImage(JSONObject imageJsonObj)throws JSONException{
         Log.d("test1234567890", String.valueOf(imageJsonObj));
         JSONArray mResponse = imageJsonObj.getJSONArray(Constants.JsonParseConstants.RESPONSE);
         JSONObject mData=mResponse.getJSONObject(0);
-        mUrl = mData.getString(Constants.JsonParseConstants.SRC);
+        return mData.getString(Constants.JsonParseConstants.SRC);
+    }
+    public String parseResponse(JSONObject pJSONObject)throws JSONException{
+        Log.d("test1234567890", String.valueOf(pJSONObject));
+        return pJSONObject.getString("response");
     }
 }
 
