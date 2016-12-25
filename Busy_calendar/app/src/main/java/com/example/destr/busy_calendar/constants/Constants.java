@@ -61,10 +61,10 @@ public interface Constants {
 
         String JSON_PARSE_VK = "https://api.vk.com/method/photos.get?album_id=profile&rev=1&access_token=%s&v=V";
         String JSON_PARSE_FACEBOOK = "https://graph.facebook.com/me?fields=picture.width(%s).height(%s)&access_token=%s";
-        String FACEBOOK_POST_SET = "https://graph.facebook.com/me/feed?message=test1&access_token=";
+        String FACEBOOK_POST_SET = "https://graph.facebook.com/me/feed?message=test1&access_token=%s";
         String VK_WEBVIEW = "https://oauth.vk.com/authorize?client_id=%s&response_type=token&scope=status&redirect_uri=%s";
         String FACEBOOK_WEBVIEW = "https://www.facebook.com/v2.8/dialog/oauth?client_id=%s&display=popup&scope=publish_actions&response_type=token&redirect_uri=%s";
-        //TODO USE IN ALARM MANAGER! String VK_STATUS_SET="https://api.vk.com/method/status.set?text=test1&access_token=%s&v=V";
+        String VK_STATUS_SET="https://api.vk.com/method/status.set?text=test1&access_token=%s&v=V";
 
     }
 

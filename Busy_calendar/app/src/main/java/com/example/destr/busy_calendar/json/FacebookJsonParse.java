@@ -15,8 +15,5 @@ public class FacebookJsonParse {
             JSONObject mData=mPicture.getJSONObject(Constants.JsonParseConstants.DATA);
             return mData.getString(Constants.JsonParseConstants.URL);
         }
-    public String parseId(JSONObject pJSONObject)throws JSONException{
-        Log.d("test1234567890", String.valueOf(pJSONObject));
-        return "DONE";
-    }
+
 }

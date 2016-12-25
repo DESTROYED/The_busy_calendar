@@ -17,7 +17,7 @@ public class MyHttpClient {
         try {
             final URL reqUrl = new URL(url);
             final HttpsURLConnection connection = (HttpsURLConnection) reqUrl.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod(method);
             inputStream = connection.getInputStream();
             final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             final StringBuilder builder = new StringBuilder();

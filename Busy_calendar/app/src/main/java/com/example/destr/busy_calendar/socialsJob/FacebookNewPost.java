@@ -15,7 +15,7 @@ public class FacebookNewPost {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                        mMyHttpClient.method(Constants.UrlConstants.FACEBOOK_POST_SET+facebookToken,Constants.OtherConstants.POST_METHOD);
+                mMyHttpClient.method(String.format(Constants.UrlConstants.FACEBOOK_POST_SET,facebookToken),Constants.OtherConstants.POST_METHOD);
         }
     }).start();
 }
