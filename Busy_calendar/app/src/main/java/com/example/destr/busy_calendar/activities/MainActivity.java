@@ -1,8 +1,17 @@
 package com.example.destr.busy_calendar.activities;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -10,7 +19,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.destr.busy_calendar.InternetConnection;
 import com.example.destr.busy_calendar.R;
+import com.example.destr.busy_calendar.SoundChangeSettings;
 import com.example.destr.busy_calendar.adapters.GridCellAdapter;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.socialsJob.FacebookLoginActivity;
@@ -22,7 +33,7 @@ import com.example.destr.busy_calendar.socialsJob.VkSetStatus;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView currentMonth;
     private GridView calendarView;
@@ -37,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private Button vkSetSilenceButton;
     private FacebookNewPost facebookNewPost;
     private VkSetStatus vkSetStatus;
+    private InternetConnection internetConnection;
 
     @Override
     public void onDestroy() {
@@ -44,29 +56,62 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+        internetConnection = new InternetConnection();
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         final int[] month = {calendar.get(Calendar.MONTH) + 1};
         final int[] year = {calendar.get(Calendar.YEAR)};
+
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        drawerSet();
+        turnWifi(notificationManager);
         vkSetStatus = new VkSetStatus();
         facebookNewPost = new FacebookNewPost();
         final Intent event = new Intent(MainActivity.this, EventActivity.class);
         initItems();
         vkLoginButton.setVisibility(View.VISIBLE);
         facebookLoginButton.setVisibility(View.VISIBLE);
-        new TokenJob(getApplicationContext(), facebookLoginButton, vkLoginButton, facebook, vkimage);
-
+        if (internetConnection.isNetworkConnected(getApplicationContext())) {
+            new TokenJob(getApplicationContext(), facebookLoginButton, vkLoginButton, facebook, vkimage);
+        } else {
+            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+        }
         clickListeners(event);
         adapter = new GridCellAdapter(getApplicationContext(), month[0], year[0]);
         currentMonth.setText(adapter.getMonthAsString(month[0]) + Constants.OtherConstants.SPACE + year[0]);
         calendarView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
 
+    private void turnWifi(NotificationManager pNotificationManager) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                && !pNotificationManager.isNotificationPolicyAccessGranted()) {
+
+            Intent intent = new Intent(
+                    Settings
+                            .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+
+            getApplicationContext().startActivity(intent);
+        }
+    }
+
+    private void drawerSet() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void clickListeners(final Intent pEvent) {
@@ -74,8 +119,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View pView) {
-                vkSetStatus.getResponse(getApplicationContext());
-                facebookNewPost.getResponse(getApplicationContext());
+                if (internetConnection.isNetworkConnected(getApplicationContext())) {
+                    new SoundChangeSettings(getApplicationContext());
+                    vkSetStatus.getResponse(getApplicationContext());
+                    facebookNewPost.getResponse(getApplicationContext());
+                }
             }
         });
         vkLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initItems() {
-        vkSetSilenceButton =(Button) findViewById(R.id.mute_vk);
+        vkSetSilenceButton = (Button) findViewById(R.id.mute_vk);
         vkLoginButton = (Button) findViewById(R.id.main_btn_vk);
         facebookLoginButton = (Button) findViewById(R.id.main_btn_facebook);
         facebook = (ImageView) findViewById(R.id.facebookimage);

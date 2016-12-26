@@ -9,7 +9,7 @@
     android:layout_height="wrap_content" tools:showIn="@layout/event">
     <TextView
 
-        android:textColor="@color/textNames"
+        android:textColor="@color/colorAccent"
         android:layout_gravity="center_vertical"
         android:textSize="18sp"
         android:text="@string/status_txt"

@@ -72,16 +72,17 @@ public class GridCellAdapter extends BaseAdapter {
             public void onClick(View pView) {
                 if (checkedList.containsKey(pView.getTag().toString())) {
                     if (checkedList.get(pView.getTag().toString())) {
-                        pView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorPrimaryDark));
+                        pView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.blue_cell));
                         checkedList.put(pView.getTag().toString(), false);
 
                     } else {
                         checkedList.put(pView.getTag().toString(), true);
-                        pView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorPrimaryBar));
+                        pView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.white_cell));
+
                     }
                 } else {
                     checkedList.put(pView.getTag().toString(), true);
-                    pView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorPrimaryBar));
+                    pView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.white_cell));
                 }
             }
         });

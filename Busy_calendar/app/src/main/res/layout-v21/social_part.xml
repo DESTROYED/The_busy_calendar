@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="48dp" tools:showIn="@layout/event">
     <TextView
-        android:textColor="@color/textNames"
+        android:textColor="@color/colorAccent"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:textSize="18sp"
-        android:text="Social:"
+        android:text="@string/social"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <CheckBox
@@ -21,11 +21,11 @@
     <TextView
         android:id="@+id/label_facebook_checkbox"
         android:visibility="invisible"
-        android:textColor="@color/textNames"
+        android:textColor="@color/colorAccent"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:textSize="18sp"
-        android:text="Facebook:"
+        android:text="@string/facebook_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <CheckBox
@@ -37,11 +37,11 @@
     <TextView
         android:id="@+id/label_vk_checkbox"
         android:visibility="invisible"
-        android:textColor="@color/textNames"
+        android:textColor="@color/colorAccent"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:textSize="18sp"
-        android:text="Vk:"
+        android:text="@string/vk_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <CheckBox

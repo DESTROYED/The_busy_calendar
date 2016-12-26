@@ -1,8 +1,5 @@
 package com.example.destr.busy_calendar.json;
 
-
-import android.util.Log;
-
 import com.example.destr.busy_calendar.constants.Constants;
 
 import org.json.JSONException;

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="54dp"
-    android:background="@color/colorPrimaryBar"
+    android:background="@color/blueToolBar"
     tools:showIn="@layout/activity_main">
 
     <ImageButton

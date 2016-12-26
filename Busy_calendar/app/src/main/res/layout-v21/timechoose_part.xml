@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" tools:showIn="@layout/event">
     <TextView
-        android:textColor="@color/textNames"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp"
         android:text="@string/textview_allday_text"
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         android:visibility="invisible"
         android:id="@+id/from_tw"
         android:layout_marginLeft="15dp"
-        android:textColor="@color/textNames"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp"
         android:text="@string/label_from"
         android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
     <TextView
         android:visibility="invisible"
         android:id="@+id/to_tw"
-        android:textColor="@color/textNames"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp"
         android:layout_marginLeft="15dp"
         android:text="@string/label_to"

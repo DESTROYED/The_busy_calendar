@@ -83,4 +83,12 @@ public interface Constants {
         String WHITE_COLOR = "WHITE";
         String MINUS = "-";
     }
+    interface Settings{
+        String RINGER_SILENT_MOD="ringer_silent_mod";
+        String SYSTEM_SOUNDS="system_sounds";
+        String NOTIFICATIONS="notifications";
+        String ALARM_SOUND="alarm_sound";
+        String PHONE_RING="phone_ring";
+        String MUSICK_SOUND="music_sound";
+    }
 }

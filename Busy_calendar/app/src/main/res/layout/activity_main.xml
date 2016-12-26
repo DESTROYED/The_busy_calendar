@@ -1,47 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/linear"
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGreenBG"
-    android:orientation="vertical">
-    <include layout="@layout/toolbar"/>
-    <include layout="@layout/month_bar"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    </LinearLayout>
-    <GridView
-        android:id="@+id/calendar"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:numColumns="7">
-    </GridView>
-    <LinearLayout
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/main_btn_vk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_login_vk"/>
-        <Button
-            android:id="@+id/main_btn_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_login_facebook"/>
-        <Button
-            android:id="@+id/mute_vk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="set status"/>
-    </LinearLayout>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        android:background="@color/blueToolBar"
+        app:itemTextColor="@color/blueMonthBar"
+        app:menu="@menu/activity_main2_drawer"/>
+
+        <LinearLayout
+            android:id="@+id/linear"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/blueToolBar"
+            android:orientation="vertical">
+            <include layout="@layout/toolbar"/>
+            <include layout="@layout/month_bar"/>
+            <GridView
+                android:layout_marginTop="15dp"
+                android:id="@+id/calendar"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:numColumns="7">
+            </GridView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/main_btn_vk"
+                    android:background="@drawable/blue_cell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?attr/buttonBarButtonStyle"
+                    android:textColor="@color/white"
+                    android:text="@string/btn_login_vk"/>
+                <Button
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/blue_cell"
+                    android:padding="2dp"
+                    android:id="@+id/main_btn_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?attr/buttonBarButtonStyle"
+                    android:textColor="@color/white"
+                    android:text="@string/btn_login_facebook"/>
+                <Button
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/blue_cell"
+                    android:padding="2dp"
+                    android:id="@+id/mute_vk"
+                    style="?attr/buttonBarButtonStyle"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="set status"/>
+            </LinearLayout>
+        </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

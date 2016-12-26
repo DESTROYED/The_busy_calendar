@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
-             android:background="@color/colorGrayLight"
+             android:background="@color/blueToolBar"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <include layout="@layout/event_bar"/>
@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
     <EditText
-        android:textColorHint="@color/text"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:padding="5dp"
         android:textSize="18sp"
         android:layout_gravity="center_vertical"
