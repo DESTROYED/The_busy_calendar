@@ -69,6 +69,7 @@ public interface Constants {
     }
 
     interface OtherConstants {
+        String ONE_TIME="onetime";
         String GET_METHOD="GET";
         String POST_METHOD="POST";
         String TIMEPICKER_NAME = "timePicker";

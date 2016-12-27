@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar;
+package com.example.destr.busy_calendar.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

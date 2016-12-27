@@ -14,8 +14,6 @@ class DBHelper extends SQLiteOpenHelper {
         super(pContext, Constants.DBConstants.DB_NAME, null, 1);
     }
 
-    //TODO treadmanager 26.12! must to do!
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(mStringBuilderForDb.buildRequest());

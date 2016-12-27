@@ -71,7 +71,17 @@
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="set status"/>
+                    android:text="@string/set_status"/>
+                <Button
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/blue_cell"
+                    android:padding="2dp"
+                    android:id="@+id/settings_button"
+                    style="?attr/buttonBarButtonStyle"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_settings"/>
             </LinearLayout>
         </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

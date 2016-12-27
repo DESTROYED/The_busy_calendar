@@ -14,7 +14,8 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="48dp"
-        android:layout_height="48dp"/>
+        android:layout_height="48dp"
+        android:contentDescription="@string/previous_month"/>
     <TextView
         android:textColor="@color/white"
         android:layout_gravity="center"
@@ -30,5 +31,6 @@
         android:layout_width="48dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_height="48dp"/>
+        android:layout_height="48dp"
+        android:contentDescription="@string/next_month"/>
 </FrameLayout>

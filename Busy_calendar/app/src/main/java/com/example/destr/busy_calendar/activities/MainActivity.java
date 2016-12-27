@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,9 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.destr.busy_calendar.InternetConnection;
 import com.example.destr.busy_calendar.R;
-import com.example.destr.busy_calendar.SoundChangeSettings;
 import com.example.destr.busy_calendar.adapters.GridCellAdapter;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.socialsJob.FacebookLoginActivity;
@@ -29,6 +28,8 @@ import com.example.destr.busy_calendar.socialsJob.FacebookNewPost;
 import com.example.destr.busy_calendar.socialsJob.TokenJob;
 import com.example.destr.busy_calendar.socialsJob.VkLoginActivity;
 import com.example.destr.busy_calendar.socialsJob.VkSetStatus;
+import com.example.destr.busy_calendar.utils.InternetConnection;
+import com.example.destr.busy_calendar.utils.SoundChangeSettings;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -48,16 +49,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Button vkSetSilenceButton;
     private FacebookNewPost facebookNewPost;
     private VkSetStatus vkSetStatus;
+    private ImageButton hamburger;
     private InternetConnection internetConnection;
-
+    private DrawerLayout drawer;
+    private Button settingsButton;
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item)
+    {
+        return true;
     }
 
     @Override
@@ -68,11 +72,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         final int[] month = {calendar.get(Calendar.MONTH) + 1};
         final int[] year = {calendar.get(Calendar.YEAR)};
-
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
         drawerSet();
         turnWifi(notificationManager);
+
         vkSetStatus = new VkSetStatus();
         facebookNewPost = new FacebookNewPost();
         final Intent event = new Intent(MainActivity.this, EventActivity.class);
@@ -104,17 +107,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void drawerSet() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void clickListeners(final Intent pEvent) {
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(),SilenceActivity.class);
+                    startActivity(intent);
+            }
+        });
         vkSetSilenceButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -163,9 +173,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 adapter.setNextMonth(getApplicationContext(), calendarView, currentMonth);
             }
         });
+        hamburger.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
     }
 
     private void initItems() {
+        settingsButton=(Button) findViewById(R.id.settings_button);
+        hamburger=(ImageButton) findViewById(R.id.hamburger);
         vkSetSilenceButton = (Button) findViewById(R.id.mute_vk);
         vkLoginButton = (Button) findViewById(R.id.main_btn_vk);
         facebookLoginButton = (Button) findViewById(R.id.main_btn_facebook);

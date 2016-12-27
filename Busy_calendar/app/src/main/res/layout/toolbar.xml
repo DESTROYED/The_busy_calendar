@@ -12,6 +12,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center_vertical"
+        android:id="@+id/hamburger"
         android:background="?attr/selectableItemBackground"
         app:srcCompat="@drawable/ic_menu_24dp"/>
     <TextView

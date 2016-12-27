@@ -23,24 +23,25 @@ public class SilenceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         final SharedPreferences logTest = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor logTestEditor = logTest.edit();
-
-        boolean ringerSM=logTest.getBoolean(Constants.Settings.RINGER_SILENT_MOD,false);
+       /* boolean ringerSM=logTest.getBoolean(Constants.Settings.RINGER_SILENT_MOD,false);
         boolean systemS=logTest.getBoolean(Constants.Settings.SYSTEM_SOUNDS,false);
         boolean notificationS=logTest.getBoolean(Constants.Settings.NOTIFICATIONS,false);
         boolean alarmS=logTest.getBoolean(Constants.Settings.ALARM_SOUND,false);
         boolean phoneS=logTest.getBoolean(Constants.Settings.PHONE_RING,false);
         boolean musicS=logTest.getBoolean(Constants.Settings.MUSICK_SOUND,false);
-
-        ringerSilentMode.setChecked(ringerSM);
+*/
+        setContentView(R.layout.activity_silence);
+//// TODO: 27.12.2016 fix
+        /*        ringerSilentMode.setChecked(ringerSM);
         systemSounds.setChecked(systemS);
         notifications.setChecked(notificationS);
         alarmSoundSwitch.setChecked(alarmS);
         phoneRing.setChecked(phoneS);
         musicSound.setChecked(musicS);
-
-        setContentView(R.layout.activity_silence);
+*/
         initItems();
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +53,7 @@ public class SilenceActivity extends AppCompatActivity {
                 logTestEditor.putBoolean(Constants.Settings.PHONE_RING,phoneRing.isChecked() );
                 logTestEditor.putBoolean(Constants.Settings.MUSICK_SOUND,musicSound.isChecked() );
                 logTestEditor.apply();
+                finish();
             }
         });
     }

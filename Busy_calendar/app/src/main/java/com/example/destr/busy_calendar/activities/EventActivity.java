@@ -2,6 +2,7 @@ package com.example.destr.busy_calendar.activities;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,12 +11,14 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.dbase.DBEditor;
 import com.example.destr.busy_calendar.fragments.EndTimePicker;
 import com.example.destr.busy_calendar.fragments.StartTimePicker;
+import com.example.destr.busy_calendar.utils.AlarmUtility;
 
 public class EventActivity extends AppCompatActivity {
     //TODO sonar test NOT
@@ -43,7 +46,9 @@ public class EventActivity extends AppCompatActivity {
     private ImageButton closeButton;
     private ImageButton saveButton;
     private CheckBox socials;
-//TODO all exceptions fix
+    private AlarmUtility alarm;
+
+    //TODO all exceptions fix
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,8 @@ public class EventActivity extends AppCompatActivity {
         }
         initItems();
         clickOrCheckListeners();
+        alarm=new AlarmUtility();
+
 
     }
 
@@ -207,4 +214,12 @@ public class EventActivity extends AppCompatActivity {
         newFragment.show(fm, Constants.OtherConstants.TIMEPICKER_NAME);
     }
 
+    public void onetimeTimer(View view){
+        Context context= this.getApplicationContext();
+        if(alarm!=null){
+            alarm.setOnetimeTimer(context);
+        }else{
+            Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
