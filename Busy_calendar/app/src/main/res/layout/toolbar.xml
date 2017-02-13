@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:background="@color/blueToolBar"
+    tools:showIn="@layout/activity_main">
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/hamburger"
+        android:background="?attr/selectableItemBackground"
+        app:srcCompat="@drawable/ic_menu_24dp"/>
+    <TextView
+        android:id="@+id/selectedDayMonthYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white"/>
+    <ImageButton
+        android:id="@+id/newevent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:padding="10dp"
+        app:srcCompat="@drawable/ic_add_24dp"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:visibility="visible">
+        <ImageView
+            android:id="@+id/facebookimage"
+            android:layout_width="@dimen/image_account"
+            android:layout_height="@dimen/image_account"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimaryDark"/>
+        <ImageView
+            android:layout_toRightOf="@id/facebookimage"
+            android:id="@+id/vkimage"
+            android:layout_width="@dimen/image_account"
+            android:layout_height="@dimen/image_account"
+            android:layout_margin="5dp"
+            android:background="@color/colorGrayLight"/>
+    </RelativeLayout>
+</FrameLayout>

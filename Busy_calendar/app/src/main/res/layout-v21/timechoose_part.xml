@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_marginTop="115dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="10dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" tools:showIn="@layout/event">
+    <TextView
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:text="@string/textview_allday_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <CheckBox
+        android:checked="true"
+        android:id="@+id/checkbox_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/from_tw"
+        android:layout_marginLeft="15dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:text="@string/label_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/choose_start_time"
+        android:text="@string/choose_from"
+        android:textSize="18sp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/to_tw"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:layout_marginLeft="15dp"
+        android:text="@string/label_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/choose_end_time"
+        android:text="@string/choose_from"
+        android:textSize="18sp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
