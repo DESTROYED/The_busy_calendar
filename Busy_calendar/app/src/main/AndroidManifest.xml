@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activities.MainActivity">
+            android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -26,14 +26,13 @@
         </activity>
         <activity
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activities.SilenceActivity"/>
+            android:name=".ui.activities.SilenceActivity"/>
         <activity
-            android:name=".socialsJob.VkLoginActivity"
+            android:name=".ui.popups.LoginPopup"
             android:theme="@style/AppTheme.PopupWindow"/>
-        <activity
-            android:name=".socialsJob.FacebookLoginActivity"
+        <activity android:name=".ui.activities.EventActivity"/>
+        <activity android:name=".ui.popups.InternetConnectionErrorPopup"
             android:theme="@style/AppTheme.PopupWindow"/>
-        <activity android:name=".activities.EventActivity"/>
     </application>
 
 </manifest>

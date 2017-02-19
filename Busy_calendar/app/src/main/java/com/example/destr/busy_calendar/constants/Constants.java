@@ -29,7 +29,7 @@ public interface Constants {
         String DATE = "date";
         String START_TIME = "sttime";
         String END_TIME = "endtime";
-        String ALARM_TIME = "alarmtime";
+        String ALARM_NAME = "alarmname";
         String STATUS = "status";
         String DESCRIPTION = "description";
         String VK_INTEGER = "vk";

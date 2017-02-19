@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.activities;
+package com.example.destr.busy_calendar.ui.activities;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.dbase.DBEditor;
-import com.example.destr.busy_calendar.fragments.EndTimePicker;
-import com.example.destr.busy_calendar.fragments.StartTimePicker;
+import com.example.destr.busy_calendar.ui.popups.EndTimePickerPopup;
+import com.example.destr.busy_calendar.ui.popups.StartTimePickerPopup;
 import com.example.destr.busy_calendar.utils.AlarmUtility;
 
 public class EventActivity extends AppCompatActivity {
@@ -47,20 +47,22 @@ public class EventActivity extends AppCompatActivity {
     private ImageButton saveButton;
     private CheckBox socials;
     private AlarmUtility alarm;
-
+    private TextView setDate;
     //TODO all exceptions fix
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event);
+        DBEditor mDBEditor=new DBEditor();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
         initItems();
         clickOrCheckListeners();
         alarm=new AlarmUtility();
-
-
+        dataBusyCalendar = getIntent().getExtras().getString("date");
+        setDate.setText(dataBusyCalendar);
+        Toast.makeText(this,mDBEditor.getFromDB(this,dataBusyCalendar),Toast.LENGTH_LONG).show();
     }
 
     private void clickOrCheckListeners() {
@@ -171,7 +173,6 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void getValues() {
-        dataBusyCalendar = "MAGIC DATA";
         eventNameString = eventName.getText().toString();
         fromTimeString = chooseStartTime.getText().toString();
         toTimeString = chooseEndTime.getText().toString();
@@ -187,6 +188,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void initItems() {
+        setDate = (TextView) findViewById(R.id.selectedDayMonthYear);
         alarmCheckBox = (CheckBox) findViewById(R.id.alert_checkbox);
         allDayCheckBox = (CheckBox) findViewById(R.id.checkbox_time);
         statusCheckBox = (CheckBox) findViewById(R.id.status_checkbox);
@@ -205,12 +207,12 @@ public class EventActivity extends AppCompatActivity {
 
     private void startTimePickerFragment() {
         FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new StartTimePicker();
+        DialogFragment newFragment = new StartTimePickerPopup();
         newFragment.show(fm, Constants.OtherConstants.TIMEPICKER_NAME);
     }
     private void endTimePickerFragment() {
         FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new EndTimePicker();
+        DialogFragment newFragment = new EndTimePickerPopup();
         newFragment.show(fm, Constants.OtherConstants.TIMEPICKER_NAME);
     }
 

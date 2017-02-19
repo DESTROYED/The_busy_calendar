@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.socialsJob;
+package com.example.destr.busy_calendar.socials;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.destr.busy_calendar.constants.Constants;
-import com.example.destr.busy_calendar.imageLoad.ImageLoader;
+import com.example.destr.busy_calendar.loaders.ImageLoader;
 import com.example.destr.busy_calendar.json.FacebookJsonParse;
 import com.example.destr.busy_calendar.json.JsonFromUrl;
 import com.example.destr.busy_calendar.json.VkJsonParse;

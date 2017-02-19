@@ -1,6 +1,7 @@
-package com.example.destr.busy_calendar.adapters;
+package com.example.destr.busy_calendar.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
+import com.example.destr.busy_calendar.ui.activities.EventActivity;
+import com.example.destr.busy_calendar.ui.activities.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class GridCellAdapter extends BaseAdapter {
-
+//// TODO: 18.02.2017 fix prev month and year days
     private SimpleDateFormat mSimpleDateFormat;
     private static final int DAY_OFFSET = 1;
     private final Context mContext;
@@ -38,8 +41,7 @@ public class GridCellAdapter extends BaseAdapter {
         this.mContext = context;
         this.list = new ArrayList<>();
         calendar = Calendar.getInstance();
-        mSimpleDateFormat= new SimpleDateFormat("MMMM", new Locale("en")/*context.getResources().getConfiguration().locale*/);
-
+        mSimpleDateFormat= new SimpleDateFormat("MMMM", new Locale("en"));
         printMonth(month, year);
     }
 
@@ -58,19 +60,36 @@ public class GridCellAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.grid_cell, parent, false);
         }
+        final Button gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
+        String[] day_color = list.get(position).split(Constants.GridCellAdapterConstants.MINUS);
+        final String theday = day_color[0];
+        final String themonth = day_color[2];
+        final String theyear = day_color[3];
 
-        Button gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
+        gridcell.setText(theday);
+        gridcell.setTag(theday + Constants.GridCellAdapterConstants.MINUS + themonth + Constants.GridCellAdapterConstants.MINUS + theyear);
+        if (day_color[1].equals(Constants.GridCellAdapterConstants.GRAY_COLOR)) {
+            gridcell.setTextColor(Color.GRAY);
+            gridcell.setTag(theday + Constants.GridCellAdapterConstants.MINUS + themonth + Constants.GridCellAdapterConstants.MINUS + theyear);
+        }
+        if (day_color[1].equals(Constants.GridCellAdapterConstants.WHITE_COLOR)) {
+            gridcell.setTextColor(Color.WHITE);
+        }
         gridcell.setOnClickListener(new View.OnClickListener() {
-
+//// TODO: 18.02.2017  fix date
             @Override
             public void onClick(View pView) {
-                if (checkedList.containsKey(pView.getTag().toString())) {
+                Intent intent =new Intent(mContext, EventActivity.class);
+                intent.putExtra("date",gridcell.getTag().toString());
+                mContext.startActivity(intent);
+                //This to mark cells by another color
+                /*if (checkedList.containsKey(pView.getTag().toString())) {
                     if (checkedList.get(pView.getTag().toString())) {
                         pView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.blue_cell));
                         checkedList.put(pView.getTag().toString(), false);
@@ -84,21 +103,10 @@ public class GridCellAdapter extends BaseAdapter {
                     checkedList.put(pView.getTag().toString(), true);
                     pView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.white_cell));
                 }
+                */
             }
         });
-        String[] day_color = list.get(position).split(Constants.GridCellAdapterConstants.MINUS);
-        String theday = day_color[0];
-        String themonth = day_color[2];
-        String theyear = day_color[3];
 
-        gridcell.setText(theday);
-        gridcell.setTag(theday + Constants.GridCellAdapterConstants.MINUS + themonth + Constants.GridCellAdapterConstants.MINUS + theyear);
-        if (day_color[1].equals(Constants.GridCellAdapterConstants.GRAY_COLOR)) {
-            gridcell.setTextColor(Color.GRAY);
-        }
-        if (day_color[1].equals(Constants.GridCellAdapterConstants.WHITE_COLOR)) {
-            gridcell.setTextColor(Color.WHITE);
-        }
 
         return row;
     }
@@ -165,9 +173,18 @@ public class GridCellAdapter extends BaseAdapter {
 
     private void printMonth(int mm, int yy) {
         int trailingSpaces;
-        int prevYear = 0;
-        int nextYear = 0;
-
+        int prevYear;
+        int nextYear;
+        if (mm==0){
+         prevYear = yy-1;
+         nextYear=yy;
+        }else if(mm==11) {
+            prevYear = yy;
+            nextYear = yy+1;
+        }else{
+            nextYear = yy;
+            prevYear = yy;
+        }
         int currentMonth = mm - 1;
         int daysInMonth = getNumberOfDaysOfMonth(currentMonth, yy);
 
@@ -184,15 +201,15 @@ public class GridCellAdapter extends BaseAdapter {
             --daysInMonth;
         }
         for (int i = 0; i < trailingSpaces; i++) {
-            list.add(String.valueOf((daysInPrevMonth(mm, yy) - trailingSpaces + DAY_OFFSET) + i) + Constants.GridCellAdapterConstants.MINUS + Constants.GridCellAdapterConstants.GRAY_COLOR + Constants.GridCellAdapterConstants.MINUS + getMonthAsString(pMonth) + Constants.GridCellAdapterConstants.MINUS + prevYear);
+            list.add(String.valueOf((daysInPrevMonth(mm, yy) - trailingSpaces + DAY_OFFSET) + i) + Constants.GridCellAdapterConstants.MINUS + Constants.GridCellAdapterConstants.GRAY_COLOR + Constants.GridCellAdapterConstants.MINUS + getMonthAsString(mm-1) + Constants.GridCellAdapterConstants.MINUS + prevYear);
         }
 
         for (int i = 1; i <= daysInMonth; i++) {
-            list.add(String.valueOf(i) + Constants.GridCellAdapterConstants.MINUS + Constants.GridCellAdapterConstants.WHITE_COLOR + Constants.GridCellAdapterConstants.MINUS + getMonthAsString(pMonth) + Constants.GridCellAdapterConstants.MINUS + yy);
+            list.add(String.valueOf(i) + Constants.GridCellAdapterConstants.MINUS + Constants.GridCellAdapterConstants.WHITE_COLOR + Constants.GridCellAdapterConstants.MINUS + getMonthAsString(mm) + Constants.GridCellAdapterConstants.MINUS + yy);
         }
 
         for (int i = 0; i < list.size() % 7; i++) {
-            list.add(String.valueOf(i + 1) + Constants.GridCellAdapterConstants.MINUS + Constants.GridCellAdapterConstants.GRAY_COLOR + Constants.GridCellAdapterConstants.MINUS + getMonthAsString(pMonth) + Constants.GridCellAdapterConstants.MINUS + nextYear);
+            list.add(String.valueOf(i + 1) + Constants.GridCellAdapterConstants.MINUS + Constants.GridCellAdapterConstants.GRAY_COLOR + Constants.GridCellAdapterConstants.MINUS + getMonthAsString(mm+1) + Constants.GridCellAdapterConstants.MINUS + nextYear);
         }
     }
 
@@ -202,7 +219,6 @@ public class GridCellAdapter extends BaseAdapter {
         pCheckedDate.setText(getMonthAsString(month) + Constants.OtherConstants.SPACE + year);
         notifyDataSetChanged();
         setGridCellAdapter(context, month, year, pCalendarView);
-
     }
 
 }

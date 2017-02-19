@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
 
-import com.example.destr.busy_calendar.activities.MainActivity;
+import com.example.destr.busy_calendar.ui.activities.MainActivity;
 import com.example.destr.busy_calendar.constants.Constants;
 
 public class AlarmUtility extends BroadcastReceiver {

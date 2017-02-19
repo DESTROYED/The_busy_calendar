@@ -1,11 +1,9 @@
-package com.example.destr.busy_calendar.activities;
+package com.example.destr.busy_calendar.ui.activities;
 
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,15 +19,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.destr.busy_calendar.R;
-import com.example.destr.busy_calendar.adapters.GridCellAdapter;
+import com.example.destr.busy_calendar.ui.adapters.GridCellAdapter;
 import com.example.destr.busy_calendar.constants.Constants;
-import com.example.destr.busy_calendar.socialsJob.FacebookLoginActivity;
-import com.example.destr.busy_calendar.socialsJob.FacebookNewPost;
-import com.example.destr.busy_calendar.socialsJob.TokenJob;
-import com.example.destr.busy_calendar.socialsJob.VkLoginActivity;
-import com.example.destr.busy_calendar.socialsJob.VkSetStatus;
+import com.example.destr.busy_calendar.socials.FacebookNewPost;
+import com.example.destr.busy_calendar.ui.popups.InternetConnectionErrorPopup;
+import com.example.destr.busy_calendar.ui.popups.LoginPopup;
+import com.example.destr.busy_calendar.socials.VkSetStatus;
 import com.example.destr.busy_calendar.utils.InternetConnection;
-import com.example.destr.busy_calendar.utils.SoundChangeSettings;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -39,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView currentMonth;
     private GridView calendarView;
     private GridCellAdapter adapter;
-    private ImageButton addButton;
     private ImageView nextMonth;
     private ImageView prevMonth;
     private ImageView vkimage;
@@ -68,25 +63,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        internetConnection = new InternetConnection();
+        internetConnection=new InternetConnection();
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         final int[] month = {calendar.get(Calendar.MONTH) + 1};
         final int[] year = {calendar.get(Calendar.YEAR)};
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         drawerSet();
-        turnWifi(notificationManager);
-
         vkSetStatus = new VkSetStatus();
         facebookNewPost = new FacebookNewPost();
         final Intent event = new Intent(MainActivity.this, EventActivity.class);
         initItems();
         vkLoginButton.setVisibility(View.VISIBLE);
         facebookLoginButton.setVisibility(View.VISIBLE);
-        if (internetConnection.isNetworkConnected(getApplicationContext())) {
-            new TokenJob(getApplicationContext(), facebookLoginButton, vkLoginButton, facebook, vkimage);
-        } else {
-            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-        }
         clickListeners(event);
         adapter = new GridCellAdapter(getApplicationContext(), month[0], year[0]);
         currentMonth.setText(adapter.getMonthAsString(month[0]) + Constants.OtherConstants.SPACE + year[0]);
@@ -94,17 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.notifyDataSetChanged();
     }
 
-    private void turnWifi(NotificationManager pNotificationManager) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                && !pNotificationManager.isNotificationPolicyAccessGranted()) {
-
-            Intent intent = new Intent(
-                    Settings
-                            .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-
-            getApplicationContext().startActivity(intent);
-        }
-    }
 
     private void drawerSet() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -125,40 +102,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(intent);
             }
         });
-        vkSetSilenceButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View pView) {
-                if (internetConnection.isNetworkConnected(getApplicationContext())) {
-                    new SoundChangeSettings(getApplicationContext());
-                    vkSetStatus.getResponse(getApplicationContext());
-                    facebookNewPost.getResponse(getApplicationContext());
-                }
-            }
-        });
         vkLoginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, VkLoginActivity.class));
+                if(internetConnection.isNetworkConnected(MainActivity.this)){
+                Intent intent= new Intent(MainActivity.this, LoginPopup.class);
+                intent.putExtra("Social","vk");
+                startActivity(intent);
+                }else{
+                    startActivity(new Intent(MainActivity.this, InternetConnectionErrorPopup.class));
+                }
             }
         });
         facebookLoginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FacebookLoginActivity.class));
+             if(   internetConnection.isNetworkConnected(MainActivity.this)){
+                Intent intent = new Intent(MainActivity.this, LoginPopup.class);
+                intent.putExtra("Social", "facebook");
+                startActivity(intent);
+            }else {
+                 startActivity(new Intent(MainActivity.this, InternetConnectionErrorPopup.class));
+             }
             }
         });
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(pEvent);
-            }
-        });
-
         prevMonth.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -185,14 +154,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initItems() {
         settingsButton=(Button) findViewById(R.id.settings_button);
         hamburger=(ImageButton) findViewById(R.id.hamburger);
-        vkSetSilenceButton = (Button) findViewById(R.id.mute_vk);
         vkLoginButton = (Button) findViewById(R.id.main_btn_vk);
         facebookLoginButton = (Button) findViewById(R.id.main_btn_facebook);
         facebook = (ImageView) findViewById(R.id.facebookimage);
         vkimage = (ImageView) findViewById(R.id.vkimage);
         prevMonth = (ImageView) findViewById(R.id.prevMonth);
         nextMonth = (ImageView) findViewById(R.id.nextMonth);
-        addButton = (ImageButton) findViewById(R.id.newevent);
         currentMonth = (TextView) findViewById(R.id.currentMonth);
         calendarView = (GridView) findViewById(R.id.calendar);
     }

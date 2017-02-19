@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.parse;
+package com.example.destr.busy_calendar.socials;
 
 import android.support.annotation.NonNull;
 
