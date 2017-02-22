@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private VkSetStatus vkSetStatus;
     private ImageButton hamburger;
     private InternetConnection internetConnection;
-    private DrawerLayout drawer;
     private Button settingsButton;
     @Override
     public void onDestroy() {
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final int[] month = {calendar.get(Calendar.MONTH) + 1};
         final int[] year = {calendar.get(Calendar.YEAR)};
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        drawerSet();
         vkSetStatus = new VkSetStatus();
         facebookNewPost = new FacebookNewPost();
         final Intent event = new Intent(MainActivity.this, EventActivity.class);
@@ -82,16 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.notifyDataSetChanged();
     }
 
-
-    private void drawerSet() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
 
     private void clickListeners(final Intent pEvent) {
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onClick(View v) {
-                drawer.openDrawer(GravityCompat.START);
             }
         });
     }

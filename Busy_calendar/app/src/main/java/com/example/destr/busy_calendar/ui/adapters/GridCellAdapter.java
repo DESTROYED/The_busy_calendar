@@ -26,12 +26,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class GridCellAdapter extends BaseAdapter {
-//// TODO: 18.02.2017 fix prev month and year days
     private SimpleDateFormat mSimpleDateFormat;
     private static final int DAY_OFFSET = 1;
     private final Context mContext;
     private final List<String> list;
-    private HashMap<String, Boolean> checkedList = new HashMap<>();
     private Calendar calendar = Calendar.getInstance();
     private GregorianCalendar mGregorianCalendar = new GregorianCalendar();
     private int pMonth = calendar.get(Calendar.MONTH) + 1;
@@ -82,7 +80,6 @@ public class GridCellAdapter extends BaseAdapter {
             gridcell.setTextColor(Color.WHITE);
         }
         gridcell.setOnClickListener(new View.OnClickListener() {
-//// TODO: 18.02.2017  fix date
             @Override
             public void onClick(View pView) {
                 Intent intent =new Intent(mContext, EventActivity.class);
@@ -149,9 +146,9 @@ public class GridCellAdapter extends BaseAdapter {
         calendar.set(Calendar.MONTH, i);
         if (i == 1) {
             if (mGregorianCalendar.isLeapYear(pPYear)) {
-                return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)+1;
             } else {
-                return (calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - 1);
+                return (calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             }
         } else {
             return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -162,9 +159,9 @@ public class GridCellAdapter extends BaseAdapter {
         calendar.set(Calendar.MONTH, mm - 2);
         if (mm == 3) {
             if (mGregorianCalendar.isLeapYear(pPYear)) {
-                return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)+1;
             } else {
-                return (calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - 1);
+                return (calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             }
         } else {
             return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -175,17 +172,17 @@ public class GridCellAdapter extends BaseAdapter {
         int trailingSpaces;
         int prevYear;
         int nextYear;
-        if (mm==0){
+        int currentMonth = mm - 1;
+        if (currentMonth==0){
          prevYear = yy-1;
          nextYear=yy;
-        }else if(mm==11) {
+        }else if(currentMonth==11) {
             prevYear = yy;
             nextYear = yy+1;
         }else{
             nextYear = yy;
             prevYear = yy;
         }
-        int currentMonth = mm - 1;
         int daysInMonth = getNumberOfDaysOfMonth(currentMonth, yy);
 
         GregorianCalendar cal = new GregorianCalendar(yy, currentMonth, 1);

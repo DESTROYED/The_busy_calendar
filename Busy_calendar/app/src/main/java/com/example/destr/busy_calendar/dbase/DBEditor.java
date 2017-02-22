@@ -40,7 +40,7 @@ public class DBEditor {
 
             }
 
-    public String getFromDB(final Context context,final String date){
+    public String getNumberOfEvents(final Context context, final String date){
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getReadableDatabase();
         database.isOpen();
@@ -49,6 +49,15 @@ public class DBEditor {
         if (cursor.getCount()==0){
             return "There are not any Events";
         }else
-        return String.valueOf(cursor.getString(0)+"-"+cursor.getString(1)+"-"+cursor.getString(2));
+        return "You have "+cursor.getCount()+" events at this day :";
+    }
+
+    public Cursor getFromDB(final Context context,final String date){
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase database = dbHelper.getReadableDatabase();
+        database.isOpen();
+        Cursor cursor = database.rawQuery("SELECT "+Constants.DBConstants.EVENTNAME+","+Constants.DBConstants.STATUS+","+Constants.DBConstants.DESCRIPTION+","+ Constants.DBConstants.START_TIME+" as _id FROM "+Constants.DBConstants.TABLE_NAME+" WHERE date=?",new String[]{date});
+        cursor.moveToFirst();
+            return cursor;
     }
 }

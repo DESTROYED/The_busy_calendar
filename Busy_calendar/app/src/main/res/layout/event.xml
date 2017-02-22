@@ -44,10 +44,19 @@
             android:padding="5dp"/>
     </LinearLayout>
     <include layout="@layout/social_part"/>
-    <android.support.v7.widget.RecyclerView
+    <TextView
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:id="@+id/how_many_events"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="350dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ListView
+        android:id="@+id/event_list"
         android:layout_marginTop="330dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="160dp"/>
 </FrameLayout>
