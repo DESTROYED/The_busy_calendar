@@ -22,14 +22,6 @@
         android:layout_gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white"/>
-    <ImageButton
-        android:id="@+id/newevent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|center_vertical"
-        android:background="?attr/selectableItemBackground"
-        android:padding="10dp"
-        app:srcCompat="@drawable/ic_add_24dp"/>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

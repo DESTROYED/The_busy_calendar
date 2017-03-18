@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.socialsJob;
+package com.example.destr.busy_calendar.socials;
 
 import android.content.Context;
 import android.content.SharedPreferences;

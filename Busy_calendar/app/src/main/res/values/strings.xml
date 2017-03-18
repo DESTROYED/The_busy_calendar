@@ -40,4 +40,6 @@
     <string name="previous_month">Previous month</string>
     <string name="change_settings">Change settings</string>
     <string name="set_status">Set status</string>
+    <string name="turn_on_internet_please">Turn on internet please</string>
+    <string name="ok">Ok</string>
 </resources>

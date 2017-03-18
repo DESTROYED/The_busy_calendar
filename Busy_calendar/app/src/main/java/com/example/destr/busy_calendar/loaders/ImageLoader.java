@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.imageLoad;
+package com.example.destr.busy_calendar.loaders;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

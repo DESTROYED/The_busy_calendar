@@ -1,8 +1,9 @@
-package com.example.destr.busy_calendar.activities;
+package com.example.destr.busy_calendar.ui.activities;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,19 +11,21 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.dbase.DBEditor;
-import com.example.destr.busy_calendar.fragments.EndTimePicker;
-import com.example.destr.busy_calendar.fragments.StartTimePicker;
-import com.example.destr.busy_calendar.utils.AlarmUtility;
+import com.example.destr.busy_calendar.ui.popups.EndTimePickerPopup;
+import com.example.destr.busy_calendar.ui.popups.StartTimePickerPopup;
 
 public class EventActivity extends AppCompatActivity {
     //TODO sonar test NOT
     //TODO accounmanager for tokens NOT
+    private Cursor cursor;
     private String dataBusyCalendar;
     private String eventNameString;
     private String fromTimeString;
@@ -46,21 +49,33 @@ public class EventActivity extends AppCompatActivity {
     private ImageButton closeButton;
     private ImageButton saveButton;
     private CheckBox socials;
-    private AlarmUtility alarm;
-
-    //TODO all exceptions fix
+    private TextView setDate;
+    private ListView listView;
+    private TextView howManyEvents;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event);
+        DBEditor mDBEditor=new DBEditor();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
         initItems();
         clickOrCheckListeners();
-        alarm=new AlarmUtility();
+        getDataBaseEvent(mDBEditor);
+    }
 
-
+    private void getDataBaseEvent(DBEditor mDBEditor) {
+        dataBusyCalendar = getIntent().getExtras().getString("date");
+        setDate.setText(dataBusyCalendar);
+        if(!mDBEditor.getNumberOfEvents(this,dataBusyCalendar).equals("There are not any Events")){
+            howManyEvents.setText(mDBEditor.getNumberOfEvents(this,dataBusyCalendar));
+            cursor=mDBEditor.getFromDB(this,dataBusyCalendar);
+            String[] from=new String[]{Constants.DBConstants.EVENTNAME, Constants.DBConstants.STATUS,Constants.DBConstants.DESCRIPTION};
+            int[] to= new int[]{R.id.event_name,R.id.event_status,R.id.event_description};
+            SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this,R.layout.inside_listview_event,cursor,from,to);
+            listView.setAdapter(simpleCursorAdapter);
+        }
     }
 
     private void clickOrCheckListeners() {
@@ -171,7 +186,6 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void getValues() {
-        dataBusyCalendar = "MAGIC DATA";
         eventNameString = eventName.getText().toString();
         fromTimeString = chooseStartTime.getText().toString();
         toTimeString = chooseEndTime.getText().toString();
@@ -187,6 +201,9 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void initItems() {
+        listView = (ListView) findViewById(R.id.event_list);
+        howManyEvents = (TextView) findViewById(R.id.how_many_events);
+        setDate = (TextView) findViewById(R.id.selectedDayMonthYear);
         alarmCheckBox = (CheckBox) findViewById(R.id.alert_checkbox);
         allDayCheckBox = (CheckBox) findViewById(R.id.checkbox_time);
         statusCheckBox = (CheckBox) findViewById(R.id.status_checkbox);
@@ -205,21 +222,13 @@ public class EventActivity extends AppCompatActivity {
 
     private void startTimePickerFragment() {
         FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new StartTimePicker();
+        DialogFragment newFragment = new StartTimePickerPopup();
         newFragment.show(fm, Constants.OtherConstants.TIMEPICKER_NAME);
     }
     private void endTimePickerFragment() {
         FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new EndTimePicker();
+        DialogFragment newFragment = new EndTimePickerPopup();
         newFragment.show(fm, Constants.OtherConstants.TIMEPICKER_NAME);
     }
 
-    public void onetimeTimer(View view){
-        Context context= this.getApplicationContext();
-        if(alarm!=null){
-            alarm.setOnetimeTimer(context);
-        }else{
-            Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
-        }
-    }
 }

@@ -1,4 +1,4 @@
-package com.example.destr.busy_calendar.fragments;
+package com.example.destr.busy_calendar.ui.popups;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -13,7 +13,7 @@ import com.example.destr.busy_calendar.constants.Constants;
 
 import java.util.Calendar;
 
-public class EndTimePicker extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+public class EndTimePickerPopup extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     private TextView outTime;
 

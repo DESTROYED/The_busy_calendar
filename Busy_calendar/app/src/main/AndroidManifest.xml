@@ -16,8 +16,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activities.MainActivity">
+            android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -25,15 +26,21 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activities.SilenceActivity"/>
+            android:name=".ui.activities.SilenceActivity"/>
         <activity
-            android:name=".socialsJob.VkLoginActivity"
+            android:screenOrientation="portrait"
+            android:name=".ui.popups.LoginPopup"
             android:theme="@style/AppTheme.PopupWindow"/>
         <activity
-            android:name=".socialsJob.FacebookLoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            android:name=".ui.activities.EventActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.popups.InternetConnectionErrorPopup"
             android:theme="@style/AppTheme.PopupWindow"/>
-        <activity android:name=".activities.EventActivity"/>
     </application>
 
 </manifest>

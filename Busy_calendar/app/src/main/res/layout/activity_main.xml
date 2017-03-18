@@ -66,16 +66,6 @@
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/blue_cell"
                     android:padding="2dp"
-                    android:id="@+id/mute_vk"
-                    style="?attr/buttonBarButtonStyle"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/set_status"/>
-                <Button
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/blue_cell"
-                    android:padding="2dp"
                     android:id="@+id/settings_button"
                     style="?attr/buttonBarButtonStyle"
                     android:textColor="@color/white"

@@ -1,6 +1,7 @@
-package com.example.destr.busy_calendar.socialsJob;
+package com.example.destr.busy_calendar.ui.popups;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -11,18 +12,30 @@ import android.webkit.WebViewClient;
 
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
-import com.example.destr.busy_calendar.parse.TokenParse;
+import com.example.destr.busy_calendar.socials.TokenParse;
 
-public class VkLoginActivity extends Activity {
+public class LoginPopup extends Activity {
 
     WebView mWebView;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         final SharedPreferences logTest = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor logTestEditor = logTest.edit();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Intent intent = getIntent();
+        String webViewUrl;
+        final String tokenPlace;
+        if(intent.getExtras().getString("Social").equals("vk")){
+            webViewUrl=String.format(Constants.UrlConstants.VK_WEBVIEW,Constants.LoginConstants.CONSUMER_KEY_VK,Constants.LoginConstants.CONSUMER_URL_VK);
+            tokenPlace = Constants.TokenJob.VK_TOKEN;
+
+        }else{
+        //if(intent.getStringExtra("Social").equals("facebook")){
+            webViewUrl=String.format(Constants.UrlConstants.FACEBOOK_WEBVIEW,Constants.LoginConstants.CONSUMER_KEY_FACEBOOK,Constants.LoginConstants.CONSUMER_URL_FACEBOOK);
+            tokenPlace = Constants.TokenJob.FACEBOOK_TOKEN;
+
+        }
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
@@ -43,13 +56,13 @@ public class VkLoginActivity extends Activity {
                 urlToParseToken[0] = view.getUrl();
                 if (mTokenParse.MatcherTockens(urlToParseToken[0])) {
                     mWebView.setVisibility(View.GONE);
-                    logTestEditor.putString(Constants.TokenJob.VK_TOKEN, mTokenParse.TockenParse(urlToParseToken[0]));
+                    logTestEditor.putString(tokenPlace, mTokenParse.TockenParse(urlToParseToken[0]));
                     logTestEditor.apply();
                 } else {
                     mWebView.setVisibility(View.VISIBLE);
                 }
             }
         });
-        mWebView.loadUrl(String.format(Constants.UrlConstants.VK_WEBVIEW,Constants.LoginConstants.CONSUMER_KEY_VK,Constants.LoginConstants.CONSUMER_URL_VK));
+        mWebView.loadUrl(webViewUrl);
     }
 }
