@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.destr.busy_calendar.constants.Constants;
 
@@ -21,11 +22,11 @@ public class DBEditor {
             final String changeStatusString,
             final String eventDescriptionString,
             final String vkVariable,
-            final String facebookVariable) {
-
-
+            final String facebookVariable,
+            final String id) {
                 DBHelper dbHelper = new DBHelper(context);
                 SQLiteDatabase database = dbHelper.getWritableDatabase();
+                contentValues.put(Constants.DBConstants.ITEM_ID,id);
                 contentValues.put(Constants.DBConstants.EVENTNAME, eventNameString);
                 contentValues.put(Constants.DBConstants.DATE, dataBusyCalendar);
                 contentValues.put(Constants.DBConstants.START_TIME, fromTimeString);
@@ -36,9 +37,9 @@ public class DBEditor {
                 contentValues.put(Constants.DBConstants.VK_INTEGER, vkVariable);
                 contentValues.put(Constants.DBConstants.FACEBOOK_INTEGER, facebookVariable);
                 database.insert(Constants.DBConstants.TABLE_NAME, null, contentValues);
+                Log.d("TEST RETURN", String.valueOf(database.query(Constants.DBConstants.TABLE_NAME,new String[]{Constants.DBConstants.EVENTNAME},null,null,null,null,null)));
                 database.close();
-
-            }
+    }
 
     public String getNumberOfEvents(final Context context, final String date){
         DBHelper dbHelper = new DBHelper(context);
@@ -56,8 +57,31 @@ public class DBEditor {
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getReadableDatabase();
         database.isOpen();
-        Cursor cursor = database.rawQuery("SELECT "+Constants.DBConstants.EVENTNAME+","+Constants.DBConstants.STATUS+","+Constants.DBConstants.DESCRIPTION+","+ Constants.DBConstants.START_TIME+" as _id FROM "+Constants.DBConstants.TABLE_NAME+" WHERE date=?",new String[]{date});
+        Cursor cursor = database.rawQuery("SELECT "+Constants.DBConstants.EVENTNAME+","+Constants.DBConstants.STATUS+","+Constants.DBConstants.DESCRIPTION+","+Constants.DBConstants.START_TIME+","+Constants.DBConstants.END_TIME+","+Constants.DBConstants.FACEBOOK_INTEGER+","+Constants.DBConstants.VK_INTEGER+","+ Constants.DBConstants.ALARM_NAME+" as _id FROM "+Constants.DBConstants.TABLE_NAME+" WHERE date=?",new String[]{date});
         cursor.moveToFirst();
             return cursor;
+    }
+
+    public void delete(final Context context,final int id){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                DBHelper dbHelper=new DBHelper(context);
+                SQLiteDatabase database =dbHelper.getWritableDatabase();
+                database.delete(Constants.DBConstants.TABLE_NAME,"item_id = " + id,null);
+            }
+        });
+    }
+
+    public void update(final Context context,final int id,final ContentValues contentValues){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DBHelper dbHelper = new DBHelper(context);
+                SQLiteDatabase database = dbHelper.getWritableDatabase();
+                database.update(Constants.DBConstants.TABLE_NAME,contentValues,"id = ?",new String[]{String.valueOf(id)});
+            }
+        });
     }
 }

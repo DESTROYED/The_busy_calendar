@@ -6,6 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -19,13 +21,16 @@ import android.widget.Toast;
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.dbase.DBEditor;
+import com.example.destr.busy_calendar.ui.adapters.EventAdapter;
 import com.example.destr.busy_calendar.ui.popups.EndTimePickerPopup;
 import com.example.destr.busy_calendar.ui.popups.StartTimePickerPopup;
+import com.example.destr.busy_calendar.utils.AlarmUtility;
+import com.example.destr.busy_calendar.utils.DataBaseUniqIdGenerator;
+import com.example.destr.busy_calendar.utils.TimeUtils;
+
+
 
 public class EventActivity extends AppCompatActivity {
-    //TODO sonar test NOT
-    //TODO accounmanager for tokens NOT
-    private Cursor cursor;
     private String dataBusyCalendar;
     private String eventNameString;
     private String fromTimeString;
@@ -52,11 +57,19 @@ public class EventActivity extends AppCompatActivity {
     private TextView setDate;
     private ListView listView;
     private TextView howManyEvents;
+    private Cursor cursor;
+    private AlarmUtility alarm;
+    private DataBaseUniqIdGenerator dataBaseUniqIdGenerator;
+    private int id;
+    private TimeUtils timeUtils;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event);
+        dataBaseUniqIdGenerator = new DataBaseUniqIdGenerator(this);
         DBEditor mDBEditor=new DBEditor();
+        timeUtils = new TimeUtils();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -71,10 +84,13 @@ public class EventActivity extends AppCompatActivity {
         if(!mDBEditor.getNumberOfEvents(this,dataBusyCalendar).equals("There are not any Events")){
             howManyEvents.setText(mDBEditor.getNumberOfEvents(this,dataBusyCalendar));
             cursor=mDBEditor.getFromDB(this,dataBusyCalendar);
-            String[] from=new String[]{Constants.DBConstants.EVENTNAME, Constants.DBConstants.STATUS,Constants.DBConstants.DESCRIPTION};
-            int[] to= new int[]{R.id.event_name,R.id.event_status,R.id.event_description};
-            SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this,R.layout.inside_listview_event,cursor,from,to);
-            listView.setAdapter(simpleCursorAdapter);
+            String[] from=new String[]{Constants.DBConstants.EVENTNAME, Constants.DBConstants.START_TIME,Constants.DBConstants.END_TIME};
+            int[] to= new int[]{R.id.event_name,R.id.from,R.id.to};
+            EventAdapter eventAdapter = new EventAdapter(this,R.layout.inside_listview_event,cursor,from,to,0);
+            listView.setAdapter(eventAdapter);
+        }
+        else{
+            Log.d("mdbEditor",mDBEditor.getNumberOfEvents(this,dataBusyCalendar));
         }
     }
 
@@ -99,7 +115,9 @@ public class EventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DBEditor mDBEditor=new DBEditor();
                 getValues();
-                mDBEditor.setDB(getApplicationContext(),eventNameString,dataBusyCalendar,fromTimeString,toTimeString,alertNameString,changeStatusString,eventDescriptionString,String.valueOf(vkVariable),String.valueOf(facebookVariable));
+                onetimeTimer();
+                id = dataBaseUniqIdGenerator.generateNewId();
+                mDBEditor.setDB(getApplicationContext(),eventNameString,dataBusyCalendar,fromTimeString,toTimeString,alertNameString,changeStatusString,eventDescriptionString,String.valueOf(vkVariable),String.valueOf(facebookVariable), String.valueOf(id));
                 finish();
             }
         });
@@ -231,4 +249,12 @@ public class EventActivity extends AppCompatActivity {
         newFragment.show(fm, Constants.OtherConstants.TIMEPICKER_NAME);
     }
 
+    public void onetimeTimer(){
+        Context context= this.getApplicationContext();
+        if(alarm!=null){
+            alarm.setAlarm(context,id,timeUtils.getMillis(String.valueOf(chooseEndTime.getText())));
+        }else{
+            Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

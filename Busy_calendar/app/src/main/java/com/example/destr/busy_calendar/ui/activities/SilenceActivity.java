@@ -33,6 +33,7 @@ public class SilenceActivity extends AppCompatActivity {
         boolean alarmS=logTest.getBoolean(Constants.Settings.ALARM_SOUND,false);
         boolean phoneS=logTest.getBoolean(Constants.Settings.PHONE_RING,false);
         boolean musicS=logTest.getBoolean(Constants.Settings.MUSICK_SOUND,false);
+
         setContentView(R.layout.activity_silence);
         initItems();
         try {
