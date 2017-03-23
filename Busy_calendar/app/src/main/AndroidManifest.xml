@@ -49,6 +49,8 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".ui.activities.EventInfoActivity"/>
+        <receiver android:name=".utils.AlarmUtility"/>
+        <receiver android:name=".utils.EndEventReciever"/>
     </application>
 
 </manifest>

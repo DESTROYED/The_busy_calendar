@@ -25,6 +25,7 @@ import com.example.destr.busy_calendar.ui.popups.EndTimePickerPopup;
 import com.example.destr.busy_calendar.ui.popups.StartTimePickerPopup;
 import com.example.destr.busy_calendar.utils.AlarmUtility;
 import com.example.destr.busy_calendar.utils.DataBaseUniqIdGenerator;
+import com.example.destr.busy_calendar.utils.EndEventReciever;
 import com.example.destr.busy_calendar.utils.TimeUtils;
 
 
@@ -58,6 +59,7 @@ public class EventActivity extends AppCompatActivity {
     private TextView howManyEvents;
     private Cursor cursor;
     private AlarmUtility alarm;
+    private EndEventReciever endAlarm;
     private DataBaseUniqIdGenerator dataBaseUniqIdGenerator;
     private int id;
     private TimeUtils timeUtils;
@@ -68,6 +70,8 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.event);
         dataBaseUniqIdGenerator = new DataBaseUniqIdGenerator(this);
         DBEditor mDBEditor=new DBEditor();
+        alarm = new AlarmUtility();
+        endAlarm = new EndEventReciever();
         timeUtils = new TimeUtils();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -114,8 +118,9 @@ public class EventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DBEditor mDBEditor=new DBEditor();
                 getValues();
-                onetimeTimer();
                 id = dataBaseUniqIdGenerator.generateNewId();
+                oneStartTimer();
+                oneEndTimer();
                 mDBEditor.setDB(getApplicationContext(),eventNameString,dataBusyCalendar,fromTimeString,toTimeString,alertNameString,changeStatusString,eventDescriptionString,String.valueOf(vkVariable),String.valueOf(facebookVariable), String.valueOf(id));
                 startActivity(new Intent(EventActivity.this,MainActivity.class));
             }
@@ -248,10 +253,20 @@ public class EventActivity extends AppCompatActivity {
         newFragment.show(fm, Constants.OtherConstants.TIMEPICKER_NAME);
     }
 
-    public void onetimeTimer(){
+    public void oneStartTimer(){
         Context context= this.getApplicationContext();
-        if(alarm!=null){
-            alarm.setAlarm(context,id,timeUtils.getMillis(String.valueOf(chooseEndTime.getText())));
+        if(alarm!=null&&enterAlertName!=null){
+            Toast.makeText(context,"Alarm at "+ String.valueOf(id),Toast.LENGTH_LONG).show();
+            alarm.setAlarm(context,id,timeUtils.getMillisFromDate(dataBusyCalendar)+timeUtils.getMillis(String.valueOf(chooseStartTime.getText())),changeStatusString);
+        }else{
+            Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void oneEndTimer(){
+        Context context= this.getApplicationContext();
+        if(alarm!=null&&enterAlertName!=null){
+            endAlarm.setAlarm(context,id,timeUtils.getMillisFromDate(dataBusyCalendar)+timeUtils.getMillis(String.valueOf(chooseEndTime.getText())));
         }else{
             Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
         }
