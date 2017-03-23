@@ -3,18 +3,17 @@ package com.example.destr.busy_calendar.ui.activities;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,14 +117,14 @@ public class EventActivity extends AppCompatActivity {
                 onetimeTimer();
                 id = dataBaseUniqIdGenerator.generateNewId();
                 mDBEditor.setDB(getApplicationContext(),eventNameString,dataBusyCalendar,fromTimeString,toTimeString,alertNameString,changeStatusString,eventDescriptionString,String.valueOf(vkVariable),String.valueOf(facebookVariable), String.valueOf(id));
-                finish();
+                startActivity(new Intent(EventActivity.this,MainActivity.class));
             }
         });
         closeButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                finish();
+                startActivity(new Intent(EventActivity.this,MainActivity.class));
             }
         });
         alarmCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

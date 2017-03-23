@@ -57,31 +57,40 @@ public class DBEditor {
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getReadableDatabase();
         database.isOpen();
-        Cursor cursor = database.rawQuery("SELECT "+Constants.DBConstants.EVENTNAME+","+Constants.DBConstants.STATUS+","+Constants.DBConstants.DESCRIPTION+","+Constants.DBConstants.START_TIME+","+Constants.DBConstants.END_TIME+","+Constants.DBConstants.FACEBOOK_INTEGER+","+Constants.DBConstants.VK_INTEGER+","+ Constants.DBConstants.ALARM_NAME+" as _id FROM "+Constants.DBConstants.TABLE_NAME+" WHERE date=?",new String[]{date});
+        Cursor cursor = database.rawQuery("SELECT "+Constants.DBConstants.EVENTNAME+","+Constants.DBConstants.STATUS+","+Constants.DBConstants.DESCRIPTION+","+Constants.DBConstants.START_TIME+","+Constants.DBConstants.END_TIME+","+Constants.DBConstants.FACEBOOK_INTEGER+","+Constants.DBConstants.VK_INTEGER+","+ Constants.DBConstants.ALARM_NAME+"," +Constants.DBConstants.ITEM_ID+"," +Constants.DBConstants.DATE+" as _id FROM "+Constants.DBConstants.TABLE_NAME+" WHERE date=?",new String[]{date});
         cursor.moveToFirst();
             return cursor;
     }
 
     public void delete(final Context context,final int id){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
 
                 DBHelper dbHelper=new DBHelper(context);
                 SQLiteDatabase database =dbHelper.getWritableDatabase();
                 database.delete(Constants.DBConstants.TABLE_NAME,"item_id = " + id,null);
-            }
-        });
     }
 
-    public void update(final Context context,final int id,final ContentValues contentValues){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+    public void update(final Context context,
+                       final int id,
+                       String eventNameString,
+                       String fromTimeString,
+                       String toTimeString,
+                       String alertNameString,
+                       String changeStatusString,
+                       String eventDescriptionString,
+                       String vkVariable,
+                       String facebookVariable
+                       ){
                 DBHelper dbHelper = new DBHelper(context);
                 SQLiteDatabase database = dbHelper.getWritableDatabase();
-                database.update(Constants.DBConstants.TABLE_NAME,contentValues,"id = ?",new String[]{String.valueOf(id)});
+                contentValues.put(Constants.DBConstants.ITEM_ID,id);
+                contentValues.put(Constants.DBConstants.EVENTNAME, eventNameString);
+                contentValues.put(Constants.DBConstants.START_TIME, fromTimeString);
+                contentValues.put(Constants.DBConstants.END_TIME, toTimeString);
+                contentValues.put(Constants.DBConstants.ALARM_NAME, alertNameString);
+                contentValues.put(Constants.DBConstants.STATUS, changeStatusString);
+                contentValues.put(Constants.DBConstants.DESCRIPTION, eventDescriptionString);
+                contentValues.put(Constants.DBConstants.VK_INTEGER, vkVariable);
+                contentValues.put(Constants.DBConstants.FACEBOOK_INTEGER, facebookVariable);
+                database.update(Constants.DBConstants.TABLE_NAME,contentValues,"item_id = ?",new String[]{String.valueOf(id)});
             }
-        });
-    }
 }

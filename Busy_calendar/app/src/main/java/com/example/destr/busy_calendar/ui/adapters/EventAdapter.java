@@ -21,12 +21,11 @@ public class EventAdapter extends SimpleCursorAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final View view = super.getView(position, convertView, parent);
-
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cursor.move(view.getId()+1);
-                String[] strings = new String[]{cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7)};
+                String[] strings = new String[]{cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9)};
                 Intent intent = new Intent(context, EventInfoActivity.class);
                 intent.putExtra(Constants.OtherConstants.STRING_ARRAY_EXTRA,strings);
                 context.startActivity(intent);
@@ -34,4 +33,5 @@ public class EventAdapter extends SimpleCursorAdapter {
         });
         return view;
     }
+
 }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.example.destr.busy_calendar.R;
@@ -40,9 +41,10 @@ public class ImageLoader {
 
         final Bitmap bitmap = getBitmapFromMemCache(imageKey);
         if (bitmap != null) {
+            mImageView.setVisibility(View.VISIBLE);
             mImageView.setImageBitmap(bitmap);
         } else {
-            mImageView.setImageResource(R.drawable.ic_menu_24dp);
+            mImageView.setImageResource(R.drawable.ic_download_24dp);
             BitmapWorkerTask task = new BitmapWorkerTask(mImageView);
             task.execute(resId);
         }

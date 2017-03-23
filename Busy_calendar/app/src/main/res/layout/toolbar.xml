@@ -27,18 +27,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
         android:visibility="visible">
-        <ImageView
+        <com.example.destr.busy_calendar.ui.elements.CustomImageView
+            android:visibility="gone"
             android:id="@+id/facebookimage"
             android:layout_width="@dimen/image_account"
             android:layout_height="@dimen/image_account"
             android:layout_margin="5dp"
-            android:background="@color/colorPrimaryDark"/>
-        <ImageView
+            android:background="@drawable/imageview_shape"/>
+        <com.example.destr.busy_calendar.ui.elements.CustomImageView
+            android:visibility="gone"
             android:layout_toRightOf="@id/facebookimage"
             android:id="@+id/vkimage"
             android:layout_width="@dimen/image_account"
             android:layout_height="@dimen/image_account"
             android:layout_margin="5dp"
-            android:background="@color/colorGrayLight"/>
+            android:background="@drawable/imageview_shape"/>
     </RelativeLayout>
 </FrameLayout>

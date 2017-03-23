@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <android.support.design.widget.NavigationView
+   <!-- <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -19,7 +19,7 @@
         android:background="@color/blueToolBar"
         app:itemTextColor="@color/blueMonthBar"
         app:menu="@menu/activity_main2_drawer"/>
-
+-->
         <LinearLayout
             android:id="@+id/linear"
             xmlns:android="http://schemas.android.com/apk/res/android"

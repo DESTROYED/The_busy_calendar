@@ -42,4 +42,6 @@
     <string name="set_status">Set status</string>
     <string name="turn_on_internet_please">Turn on internet please</string>
     <string name="ok">Ok</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 </resources>
