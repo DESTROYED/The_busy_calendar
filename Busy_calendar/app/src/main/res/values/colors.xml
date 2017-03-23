@@ -2,6 +2,7 @@
 <resources>
     <color name="blueToolBar">#33475f</color>
     <color name="blueMonthBar">#1abb9a</color>
+    <color name="transparentBlueMonthBar">#961abb9a</color>
     <color name="colorPrimary">#51ca76</color>
     <color name="colorPrimaryDark">#b5707174</color>
     <color name="colorPrimaryBar">#42a761</color>

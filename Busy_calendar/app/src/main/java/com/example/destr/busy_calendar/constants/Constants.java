@@ -11,7 +11,6 @@ public interface Constants {
     }
 
     interface DBConstants {
-
         String CREATE_TABLE = "create table events (";
         String ID_FIELD = "id integer primary key autoincrement,";
         String EVENTNAME_FIELD = "eventname text,";
@@ -23,6 +22,7 @@ public interface Constants {
         String DESCRIPTION_FIELD = "description text,";
         String VK_INTEGER_FIELD = "vk integer,";
         String FACEBOOK_INTEGER_FIELD = "facebook integer";
+        String ITEM_ID_FIELD="item_id integer, ";
         String DATABASE_END = ");";
         String DB_NAME = "BusyCalendar";
         String EVENTNAME = "eventname";
@@ -35,6 +35,7 @@ public interface Constants {
         String VK_INTEGER = "vk";
         String FACEBOOK_INTEGER = "facebook";
         String TABLE_NAME = "events";
+        String ITEM_ID="item_id";
     }
 
     interface JsonParseConstants {
@@ -43,7 +44,7 @@ public interface Constants {
         String DATA = "data";
         String URL = "url";
         String RESPONSE = "response";
-        String SRC = "src";
+        String SRC = "photo_50";
         String FACEBOOK_MAX_PHOTO = "800";
     }
 
@@ -59,7 +60,7 @@ public interface Constants {
 
     interface UrlConstants {
 
-        String JSON_PARSE_VK = "https://api.vk.com/method/photos.get?album_id=profile&rev=1&access_token=%s&v=V";
+        String JSON_PARSE_VK = "https://api.vk.com/method/users.get?fields=photo_50&rev=1&access_token=%s&v=V";
         String JSON_PARSE_FACEBOOK = "https://graph.facebook.com/me?fields=picture.width(%s).height(%s)&access_token=%s";
         String FACEBOOK_POST_SET = "https://graph.facebook.com/me/feed?message=test1&access_token=%s";
         String VK_WEBVIEW = "https://oauth.vk.com/authorize?client_id=%s&response_type=token&scope=status&redirect_uri=%s";
@@ -69,6 +70,8 @@ public interface Constants {
     }
 
     interface OtherConstants {
+        String STRING_ARRAY_EXTRA = "start_cursor_extra";
+        String CURSOR_EXTRA="cursor_extra";
         String ONE_TIME="onetime";
         String GET_METHOD="GET";
         String POST_METHOD="POST";
@@ -76,6 +79,7 @@ public interface Constants {
         String NULL_STRING = "";
         String COLON = ":";
         String SPACE = " ";
+        String LAST_ID="last_id";
     }
 
     interface GridCellAdapterConstants {

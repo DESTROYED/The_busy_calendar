@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/blueMonthBar"
@@ -8,7 +7,7 @@
     android:layout_height="54dp" tools:showIn="@layout/activity_main">
     <ImageButton
         android:background="?attr/selectableItemBackground"
-        app:srcCompat="@drawable/ic_left_24dp"
+        android:src="@drawable/ic_left_24dp"
         android:layout_gravity="center_vertical"
         android:id="@+id/prevMonth"
         android:layout_marginLeft="15dp"
@@ -25,7 +24,7 @@
         android:layout_height="wrap_content"/>
     <ImageButton
         android:background="?attr/selectableItemBackground"
-        app:srcCompat="@drawable/ic_right_24dp"
+        android:src="@drawable/ic_right_24dp"
         android:layout_gravity="end|center_vertical"
         android:id="@+id/nextMonth"
         android:layout_width="48dp"

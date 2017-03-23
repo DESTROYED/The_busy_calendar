@@ -1,33 +1,44 @@
 package com.example.destr.busy_calendar.utils;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
 
-import com.example.destr.busy_calendar.ui.activities.MainActivity;
-import com.example.destr.busy_calendar.constants.Constants;
+import com.example.destr.busy_calendar.R;
 
 public class AlarmUtility extends BroadcastReceiver {
     //TODO add database view
-    //TODO FIX!
 
     @Override
     public void onReceive(Context context, Intent intent){
-        PowerManager pm=(PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl= pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"YOUR TAG");
-        wl.acquire();
-        wl.release();
+        NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(context);
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+        synchronized (notificationCompat){
+            notificationCompat.setSmallIcon(R.mipmap.ic_launcher);
+            // TODO: 17.03.2017 Make notification about status with message from DBase
+            notificationCompat.setContentTitle("Важное событие");
+            notificationCompat.setContentText("Busy Calendar Оповещение");
+            notificationCompat.setStyle(inboxStyle);
+            NotificationManager notificationManager=(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0,notificationCompat.build());
+        }
     }
 
-    public void setOnetimeTimer(Context context){
-        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent=new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.OtherConstants.ONE_TIME, Boolean.TRUE);
-        PendingIntent pi= PendingIntent.getBroadcast(context,0, intent,0);
-        am.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),pi);
+    public void setAlarm(Context context,int id,long time){
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent =new Intent(context,AlarmUtility.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,id,intent,PendingIntent.FLAG_ONE_SHOT);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,time,pendingIntent);
+    }
+    public void dropAlarm(Context context,int id){
+        Intent intent = new Intent(context,AlarmUtility.class);
+        PendingIntent canleler = PendingIntent.getBroadcast(context,id,intent,0);
+        AlarmManager alarmManager=(AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(canleler);
     }
 }
 

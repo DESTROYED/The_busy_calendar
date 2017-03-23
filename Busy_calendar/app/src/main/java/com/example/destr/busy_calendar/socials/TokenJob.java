@@ -3,6 +3,7 @@ package com.example.destr.busy_calendar.socials;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,11 +27,13 @@ public class TokenJob {
         String vkToken = logTest.getString(Constants.TokenJob.VK_TOKEN, Constants.OtherConstants.NULL_STRING);
         String facebookToken = logTest.getString(Constants.TokenJob.FACEBOOK_TOKEN, Constants.OtherConstants.NULL_STRING);
         if (!vkToken.isEmpty()) {
+            vkImage.setVisibility(View.VISIBLE);
 
             TokenJob.this.getVkInfo(jsonFromUrl, vkToken, vkButton, vkImage);
 
         }
         if (!facebookToken.isEmpty()) {
+            facebookImage.setVisibility(View.VISIBLE);
 
             TokenJob.this.getFacebookInfo(jsonFromUrl, facebookToken, facebookButton, facebookImage);
 
@@ -44,10 +47,13 @@ public class TokenJob {
             public void run() {
                 try {
                     final String src = vkJsonParse.parseImage((jsonFromUrl.getJSONFromUrl(String.format(Constants.UrlConstants.JSON_PARSE_VK,token))));
+                    Log.d("Images Vk", String.valueOf(jsonFromUrl.getJSONFromUrl(String.format(Constants.UrlConstants.JSON_PARSE_VK,token))));
                     pImageView.post(new Runnable() {
 
                         @Override
                         public void run() {
+                            pImageView.setVisibility(View.VISIBLE);
+
                             ImageLoader imageLoader = new ImageLoader();
                             imageLoader.loadBitmap(src,pImageView);
                         }

@@ -24,17 +24,20 @@ public class LoginPopup extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Intent intent = getIntent();
-        String webViewUrl;
-        final String tokenPlace;
+        String webViewUrl = null;
+        String tokenPlace;
         if(intent.getExtras().getString("Social").equals("vk")){
             webViewUrl=String.format(Constants.UrlConstants.VK_WEBVIEW,Constants.LoginConstants.CONSUMER_KEY_VK,Constants.LoginConstants.CONSUMER_URL_VK);
             tokenPlace = Constants.TokenJob.VK_TOKEN;
 
-        }else{
-        //if(intent.getStringExtra("Social").equals("facebook")){
+        }
+        else if(intent.getStringExtra("Social").equals("facebook")){
             webViewUrl=String.format(Constants.UrlConstants.FACEBOOK_WEBVIEW,Constants.LoginConstants.CONSUMER_KEY_FACEBOOK,Constants.LoginConstants.CONSUMER_URL_FACEBOOK);
             tokenPlace = Constants.TokenJob.FACEBOOK_TOKEN;
 
+        }
+        else {
+            tokenPlace=null;
         }
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -44,6 +47,7 @@ public class LoginPopup extends Activity {
         mWebView = (WebView) findViewById(R.id.new_web);
         final TokenParse mTokenParse = new TokenParse();
         final String[] urlToParseToken = new String[10];
+        final String finalTokenPlace = tokenPlace;
         mWebView.setWebViewClient(new WebViewClient() {
 
             // we have no better choice
@@ -56,7 +60,7 @@ public class LoginPopup extends Activity {
                 urlToParseToken[0] = view.getUrl();
                 if (mTokenParse.MatcherTockens(urlToParseToken[0])) {
                     mWebView.setVisibility(View.GONE);
-                    logTestEditor.putString(tokenPlace, mTokenParse.TockenParse(urlToParseToken[0]));
+                    logTestEditor.putString(finalTokenPlace, mTokenParse.TockenParse(urlToParseToken[0]));
                     logTestEditor.apply();
                 } else {
                     mWebView.setVisibility(View.VISIBLE);
@@ -65,4 +69,12 @@ public class LoginPopup extends Activity {
         });
         mWebView.loadUrl(webViewUrl);
     }
+
+    @Override
+    protected void onDestroy() {
+        if (mWebView != null)
+            mWebView.destroy();
+        super.onDestroy();
+    }
 }
+
