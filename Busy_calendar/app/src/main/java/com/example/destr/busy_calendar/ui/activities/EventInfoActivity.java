@@ -115,6 +115,7 @@ public class EventInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DBEditor dbEditor = new DBEditor();
+                getValues();
                 dbEditor.update(getApplicationContext(),Integer.parseInt(strings[8]),eventNameString,fromTimeString,toTimeString,alertNameString,changeStatusString,eventDescriptionString,String.valueOf(vkVariable),String.valueOf(facebookVariable));
             }
         });

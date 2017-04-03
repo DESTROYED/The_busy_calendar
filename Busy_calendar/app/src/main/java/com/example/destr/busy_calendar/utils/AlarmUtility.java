@@ -10,24 +10,42 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.destr.busy_calendar.R;
+import com.example.destr.busy_calendar.socials.FacebookNewPost;
+import com.example.destr.busy_calendar.socials.FacebookNotifications;
+import com.example.destr.busy_calendar.socials.VkNotifications;
 import com.example.destr.busy_calendar.socials.VkSetStatus;
+import com.example.destr.busy_calendar.ui.popups.InternetConnectionErrorPopup;
 
 public class AlarmUtility extends BroadcastReceiver {
     private VkSetStatus vkSetStatus;
+    private FacebookNewPost facebookNewPost;
+    private VkNotifications vkNotifications;
+    private FacebookNotifications facebookNotifications;
 
     @Override
     public void onReceive(Context context, Intent intent){
-        vkSetStatus=new VkSetStatus();
-        Log.d("STATUS",intent.getStringExtra("event"));
-        vkSetStatus.getResponse(context,intent.getStringExtra("event"));
-        Log.d("STATUS",intent.getStringExtra("event"));
-        DataBaseUniqIdGenerator getnerator = new DataBaseUniqIdGenerator(context);
-        NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(context);
-        synchronized (notificationCompat){
-            notificationCompat.setSmallIcon(R.mipmap.ikonka);
+        if(new InternetConnection().isNetworkConnected(context)) {
+            vkSetStatus = new VkSetStatus();
+            vkNotifications=new VkNotifications();
+            facebookNotifications = new FacebookNotifications();
+            facebookNewPost = new FacebookNewPost();
+            Log.d("STATUS", intent.getStringExtra("event"));
+            facebookNewPost.getResponse(context,intent.getStringExtra("event"));
+            vkSetStatus.getResponse(context, intent.getStringExtra("event"));
+            vkNotifications.block(context);
+            facebookNotifications.block(context);
+            Log.d("STATUS", intent.getStringExtra("event"));
+            DataBaseUniqIdGenerator getnerator = new DataBaseUniqIdGenerator(context);
+            NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(context);
+            synchronized (notificationCompat) {
+                notificationCompat.setSmallIcon(R.mipmap.ikonka);
                 notificationCompat.setContentTitle("Cобытие началось!");
-            NotificationManager notificationManager=(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(getnerator.notificationNewId(),notificationCompat.build());
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(getnerator.notificationNewId(), notificationCompat.build());
+            }
+        }
+        else {
+            context.startActivity(new Intent(context, InternetConnectionErrorPopup.class));
         }
     }
 

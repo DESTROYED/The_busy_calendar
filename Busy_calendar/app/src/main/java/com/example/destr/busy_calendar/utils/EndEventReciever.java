@@ -9,15 +9,20 @@ import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 
 import com.example.destr.busy_calendar.R;
+import com.example.destr.busy_calendar.socials.FacebookNotifications;
+import com.example.destr.busy_calendar.socials.VkNotifications;
 import com.example.destr.busy_calendar.socials.VkSetStatus;
 
 public class EndEventReciever extends BroadcastReceiver {
     private VkSetStatus vkSetStatus;
-
+    private FacebookNotifications facebookNotifications;
+    private VkNotifications vkNotifications;
     @Override
     public void onReceive(Context context, Intent intent){
         DataBaseUniqIdGenerator getnerator = new DataBaseUniqIdGenerator(context);
         vkSetStatus=new VkSetStatus();
+        facebookNotifications.unLock(context);
+        vkNotifications.unlock(context);
         vkSetStatus.getResponse(context," ");
         NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(context);
         synchronized (notificationCompat){

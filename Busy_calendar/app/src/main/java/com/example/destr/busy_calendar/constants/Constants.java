@@ -62,10 +62,16 @@ public interface Constants {
 
         String JSON_PARSE_VK = "https://api.vk.com/method/users.get?fields=photo_50&rev=1&access_token=%s&v=V";
         String JSON_PARSE_FACEBOOK = "https://graph.facebook.com/me?fields=picture.width(%s).height(%s)&access_token=%s";
-        String FACEBOOK_POST_SET = "https://graph.facebook.com/me/feed?message=test1&access_token=%s";
-        String VK_WEBVIEW = "https://oauth.vk.com/authorize?client_id=%s&response_type=token&scope=status&redirect_uri=%s";
+        String FACEBOOK_POST_SET = "https://graph.facebook.com/me/feed?message=%s&access_token=%s";
+        String FACEBOOK_NOTIFICATIONS_BLOCK = "https://graph.facebook.com/me?fields=notifications.limit(0)";
+        String FACEBOOK_NOTIFICATIONS_UNLOCK = "https://graph.facebook.com/me?fields=notifications.limit(10)";
+        String FACEBOOK_LOGOUT="http://www.facebook.com/logout.php?confirm=1";
+        String VK_WEBVIEW = "https://oauth.vk.com/authorize?client_id=%s&response_type=token&scope=notifications,status&redirect_uri=%s";
+        String VK_LOGOUT = "https://oauth.vk.com/login.php?op=logout";
         String FACEBOOK_WEBVIEW = "https://www.facebook.com/v2.8/dialog/oauth?client_id=%s&display=popup&scope=publish_actions&response_type=token&redirect_uri=%s";
         String VK_STATUS_SET="https://api.vk.com/method/status.set?text=%s&access_token=%s&v=V";
+        String VK_NOTIFICATION_BLOCK="https://api.vk.com/method/notifications.get?count=0&access_token=%s&v=V";
+        String VK_NOTIFICATION_RETURN="https://api.vk.com/method/notifications.get?count=30&access_token=%s&v=V";
 
     }
 
