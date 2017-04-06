@@ -37,7 +37,6 @@ public class DBEditor {
                 contentValues.put(Constants.DBConstants.VK_INTEGER, vkVariable);
                 contentValues.put(Constants.DBConstants.FACEBOOK_INTEGER, facebookVariable);
                 database.insert(Constants.DBConstants.TABLE_NAME, null, contentValues);
-                Log.d("TEST RETURN", String.valueOf(database.query(Constants.DBConstants.TABLE_NAME,new String[]{Constants.DBConstants.EVENTNAME},null,null,null,null,null)));
                 database.close();
     }
 

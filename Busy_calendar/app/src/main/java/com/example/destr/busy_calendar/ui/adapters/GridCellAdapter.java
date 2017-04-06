@@ -84,6 +84,7 @@ public class GridCellAdapter extends BaseAdapter {
             public void onClick(View pView) {
                 Intent intent =new Intent(mContext, EventActivity.class);
                 intent.putExtra("date",gridcell.getTag().toString());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
                 //This to mark cells by another color
                 /*if (checkedList.containsKey(pView.getTag().toString())) {
