@@ -7,34 +7,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 import com.example.destr.busy_calendar.R;
-import com.example.destr.busy_calendar.socials.FacebookNewPost;
-import com.example.destr.busy_calendar.socials.FacebookNotifications;
-import com.example.destr.busy_calendar.socials.VkNotifications;
-import com.example.destr.busy_calendar.socials.VkSetStatus;
+import com.example.destr.busy_calendar.socials.FacebookSdkHelper;
+import com.example.destr.busy_calendar.socials.VkSdkHelper;
 import com.example.destr.busy_calendar.ui.popups.InternetConnectionErrorPopup;
 
 public class AlarmUtility extends BroadcastReceiver {
-    private VkSetStatus vkSetStatus;
-    private FacebookNewPost facebookNewPost;
-    private VkNotifications vkNotifications;
-    private FacebookNotifications facebookNotifications;
 
     @Override
     public void onReceive(Context context, Intent intent){
         if(new InternetConnection().isNetworkConnected(context)) {
-            vkSetStatus = new VkSetStatus();
-            vkNotifications=new VkNotifications();
-            facebookNotifications = new FacebookNotifications();
-            facebookNewPost = new FacebookNewPost();
-            Log.d("STATUS", intent.getStringExtra("event"));
-            facebookNewPost.getResponse(context,intent.getStringExtra("event"));
-            vkSetStatus.getResponse(context, intent.getStringExtra("event"));
-            vkNotifications.block(context);
-            facebookNotifications.block(context);
-            Log.d("STATUS", intent.getStringExtra("event"));
+            new VkSdkHelper(context).notificationBlock();
+            new VkSdkHelper(context).setStatus(intent.getStringExtra("event"));
+            new FacebookSdkHelper(context).notificationBlock();
+            new FacebookSdkHelper(context).setStatus(intent.getStringExtra("event"));
             DataBaseUniqIdGenerator getnerator = new DataBaseUniqIdGenerator(context);
             NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(context);
             synchronized (notificationCompat) {

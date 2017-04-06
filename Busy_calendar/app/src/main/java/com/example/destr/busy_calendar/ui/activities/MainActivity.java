@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -20,18 +19,24 @@ import android.widget.Toast;
 
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
-import com.example.destr.busy_calendar.socials.LogOut;
-import com.example.destr.busy_calendar.socials.TokenJob;
+import com.example.destr.busy_calendar.socials.FacebookSdkHelper;
+import com.example.destr.busy_calendar.socials.VkSdkHelper;
 import com.example.destr.busy_calendar.ui.adapters.GridCellAdapter;
 import com.example.destr.busy_calendar.ui.popups.ExitPopup;
-import com.example.destr.busy_calendar.ui.popups.InternetConnectionErrorPopup;
-import com.example.destr.busy_calendar.ui.popups.LoginPopup;
 import com.example.destr.busy_calendar.utils.InternetConnection;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookActivity;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.vk.sdk.VKSdk;
 
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.HttpCookie;
-import java.net.URI;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -44,12 +49,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView prevMonth;
     private ImageView vkimage;
     private ImageView facebookImage;
-    private Button facebookLoginButton;
+    private LoginButton facebookLoginButton;
     private Button vkLoginButton;
     private ImageButton settingsButton;
     private InternetConnection internetConnection;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private CallbackManager callbackManager;
 
     @Override
     public void onDestroy() {
@@ -57,8 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull final MenuItem item)
-    {
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         return true;
     }
 
@@ -70,21 +75,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        callbackManager = CallbackManager.Factory.create();
+
         setContentView(R.layout.activity_main);
+        initItems();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor=sharedPreferences.edit();
-        internetConnection=new InternetConnection();
+        editor = sharedPreferences.edit();
+        if (AccessToken.getCurrentAccessToken() != null) {
+            new FacebookSdkHelper(getApplicationContext()).setPhoto(facebookImage,facebookLoginButton);
+        }
+        else {
+            facebookImage.setVisibility(View.GONE);
+            facebookLoginButton.setVisibility(View.VISIBLE);
+        }
+        if (VKSdk.isLoggedIn()) {
+            new VkSdkHelper(getApplicationContext()).setPhoto(vkimage, vkLoginButton);
+        }
+        else{
+            vkimage.setVisibility(View.GONE);
+            vkLoginButton.setVisibility(View.VISIBLE);
+        }
+        internetConnection = new InternetConnection();
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         final int[] month = {calendar.get(Calendar.MONTH) + 1};
         final int[] year = {calendar.get(Calendar.YEAR)};
-        final Intent event = new Intent(MainActivity.this, EventActivity.class);
-        initItems();
-        vkLoginButton.setVisibility(View.VISIBLE);
-        facebookLoginButton.setVisibility(View.VISIBLE);
-        clickListeners(event);
-        if(internetConnection.isNetworkConnected(getApplicationContext())){
-            TokenJob tokenJob = new TokenJob(getApplicationContext(),facebookLoginButton,vkLoginButton,vkimage, facebookImage);
-        }
+
+        facebookLoginButton.setReadPermissions("public_profile");
+        clickListeners();
         adapter = new GridCellAdapter(getApplicationContext(), month[0], year[0]);
         currentMonth.setText(adapter.getMonthAsString(month[0]) + Constants.OtherConstants.SPACE + year[0]);
         calendarView.setAdapter(adapter);
@@ -92,41 +109,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void clickListeners(final Intent pEvent) {
+    private void clickListeners() {
         settingsButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(),SilenceActivity.class);
-                    startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), SilenceActivity.class);
+                startActivity(intent);
             }
         });
         vkLoginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if(internetConnection.isNetworkConnected(MainActivity.this)){
-                Intent intent= new Intent(MainActivity.this, LoginPopup.class);
-                intent.putExtra("Social","vk");
-                startActivity(intent);
-                }else{
-                    startActivity(new Intent(MainActivity.this, InternetConnectionErrorPopup.class));
-                }
+                VKSdk.login(MainActivity.this, "status ", "notifications","messages");
             }
         });
-        facebookLoginButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-             if(   internetConnection.isNetworkConnected(MainActivity.this)){
-                Intent intent = new Intent(MainActivity.this, LoginPopup.class);
-                intent.putExtra("Social", "facebook");
-                startActivity(intent);
-            }else {
-                 startActivity(new Intent(MainActivity.this, InternetConnectionErrorPopup.class));
-             }
-            }
-        });
         prevMonth.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -144,27 +143,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         vkimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"VKGONE",Toast.LENGTH_LONG).show();
-                editor.remove(Constants.TokenJob.VK_TOKEN).apply();
-                new LogOut().vk(getApplicationContext());
-
+                VKSdk.logout();
+                vkimage.setVisibility(View.GONE);
+                vkLoginButton.setVisibility(View.VISIBLE);
             }
         });
         facebookImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"FACEBOOKGONE",Toast.LENGTH_LONG).show();
-               editor.remove(Constants.TokenJob.FACEBOOK_TOKEN).apply();
-                new LogOut().facebook(getApplicationContext());
+                LoginManager.getInstance().logOut();
+                facebookImage.setVisibility(View.GONE);
+                facebookLoginButton.setVisibility(View.VISIBLE);
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        if (VKSdk.isLoggedIn()) {
+            new VkSdkHelper(getApplicationContext()).setPhoto(vkimage, vkLoginButton);
+        }
+        else {
+            vkimage.setVisibility(View.GONE);
+            vkLoginButton.setVisibility(View.VISIBLE);
+        }
+        if (AccessToken.getCurrentAccessToken() != null) {
+            new FacebookSdkHelper(getApplicationContext()).setPhoto(facebookImage,facebookLoginButton);
+        }
+        else {
+            facebookImage.setVisibility(View.GONE);
+            facebookLoginButton.setVisibility(View.VISIBLE);
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void initItems() {
-        settingsButton =(ImageButton) findViewById(R.id.settings_button);
+        settingsButton = (ImageButton) findViewById(R.id.settings_button);
         vkLoginButton = (Button) findViewById(R.id.main_btn_vk);
-        facebookLoginButton = (Button) findViewById(R.id.main_btn_facebook);
+        facebookLoginButton = (LoginButton) findViewById(R.id.main_btn_facebook);
         facebookImage = (ImageView) findViewById(R.id.facebookimage);
         vkimage = (ImageView) findViewById(R.id.vkimage);
         prevMonth = (ImageView) findViewById(R.id.prevMonth);

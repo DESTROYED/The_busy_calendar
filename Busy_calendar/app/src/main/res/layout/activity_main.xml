@@ -1,56 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/drawer_layout"
+<android.support.percent.PercentFrameLayout android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-        <LinearLayout
+        <android.support.percent.PercentRelativeLayout
             android:id="@+id/linear"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/blueToolBar"
             android:orientation="vertical">
-            <include layout="@layout/toolbar"/>
-            <include layout="@layout/month_bar"/>
+            <include
+                app:layout_widthPercent="100%"
+                app:layout_heightPercent="8%"
+                layout="@layout/toolbar"/>
+            <include
+                app:layout_marginTopPercent="8%"
+                app:layout_widthPercent="100%"
+                app:layout_heightPercent="8%"
+                layout="@layout/month_bar"/>
             <GridView
-                android:layout_marginTop="15dp"
+                app:layout_marginTopPercent="18%"
+                app:layout_marginLeftPercent="5%"
+                app:layout_marginRightPercent="5%"
+                app:layout_widthPercent="90%"
+                android:layout_height="wrap_content"
                 android:id="@+id/calendar"
-                android:layout_width="380dp"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:numColumns="7">
-            </GridView>
-            <LinearLayout
+                android:numColumns="7"/>
+            <android.support.percent.PercentRelativeLayout
+                app:layout_marginTopPercent="2%"
+                app:layout_marginLeftPercent="9%"
+                android:layout_below="@id/calendar"
+                app:layout_widthPercent="90%"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal">
                 <Button
-                    android:layout_marginLeft="10dp"
+                    app:layout_widthPercent="40%"
+
                     android:id="@+id/main_btn_vk"
                     android:background="@drawable/blue_cell"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="0dp"
                     style="?attr/buttonBarButtonStyle"
                     android:textColor="@color/white"
+                    android:visibility="gone"
+                    android:layout_gravity="left"
                     android:text="@string/btn_login_vk"/>
-                <Button
-                    android:layout_marginLeft="10dp"
+                <com.facebook.login.widget.LoginButton
+                    android:layout_marginTop="0dp"
+
                     android:background="@drawable/blue_cell"
                     android:padding="2dp"
                     android:id="@+id/main_btn_facebook"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    app:layout_widthPercent="40%"
+                    android:layout_height="25dp"
+                    app:layout_marginLeftPercent="50%"
                     style="?attr/buttonBarButtonStyle"
                     android:textColor="@color/white"
+                    android:visibility="gone"
+                    android:layout_gravity="right"
                     android:text="@string/btn_login_facebook"/>
-            </LinearLayout>
-        </LinearLayout>
-</FrameLayout>
+            </android.support.percent.PercentRelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
+</android.support.percent.PercentFrameLayout>
