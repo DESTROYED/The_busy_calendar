@@ -22,6 +22,8 @@ public class SilenceActivity extends AppCompatActivity {
     private Switch musicSound;
     private ImageButton acceptButton;
 
+    // TODO: 09.04.2017 when starts alarm, all -> on
+    // TODO: 09.04.2017 add part to change post status and other socials features
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

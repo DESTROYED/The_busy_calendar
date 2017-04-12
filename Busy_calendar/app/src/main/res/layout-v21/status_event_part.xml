@@ -9,9 +9,8 @@
     android:layout_height="wrap_content" tools:showIn="@layout/event">
     <TextView
 
-        android:textColor="@color/colorAccent"
         android:layout_gravity="center_vertical"
-        android:textSize="18sp"
+        style="@style/textViewEvent"
         android:text="@string/status_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -23,11 +22,10 @@
     <EditText
         android:id="@+id/checkbox_status"
         android:visibility="invisible"
-        android:textColorHint="@color/text"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
-        android:backgroundTint="@color/colorAccent"
         android:hint="@string/status_textview"
+        style="@style/textViewAndEditText"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:padding="5dp"/>

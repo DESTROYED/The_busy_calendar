@@ -1,23 +1,33 @@
 <resources>
     <style name="BlueTheme" parent="BlueTheme"/>
 
-    <!-- Base application theme. -->
-    <style name="GreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!--GreenTheme Start-->
+    <style name="GreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="GrayTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">#969696</item>
-        <item name="colorPrimaryDark">#868686</item>
-        <item name="colorAccent">#606060</item>
-    </style>
-    <style name="GreenTheme.PopupWindow">
+    <style name="GreenTheme.PopupWindow" parent="GreenTheme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="GreenTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="switch_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:gravity">right</item>
     </style>
     <style name="tv_for_switch">
         <item name="android:textSize">18sp</item>
@@ -26,18 +36,99 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-    <style name="switch_style">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:padding">10dp</item>
+    <style name="toolbarTextVIew">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">right</item>
-        <item name="android:gravity">right</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/white</item>
     </style>
-    <style name="GreenTheme.NoActionBar">
+    <style name="underCalendarButtons">
+        <item name="android:background">@drawable/blue_cell</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:visibility">gone</item>
+    </style>
+    <style name="background_activity">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/blueToolBar</item>
+    </style>
+
+    <style name="textViewAndEditText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
+
+    <style name="textViewEvent">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="some_toolbar">
+        <item name="android:background">@color/blueMonthBar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">54dp</item>
+    </style>
+
+    <style name="mainpage_toolbar_top">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">54dp</item>
+        <item name="android:background">@color/blueToolBar</item>
+    </style>
+
+    <style name="inside_listview_event">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/transparentBlueMonthBar</item>
+        <item name="android:layout_height">80dp</item>
+    </style>
+
+    <style name="text_inside_event_listview" parent="GreenTheme">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="popup_background" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="grid_cell">
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:background">@drawable/blue_cell</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:layout_width">54dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_height">54dp</item>
+    </style>
+    <!--GreenTheme End-->
+    <!--GrayTheme Start-->
+
+    <style name="GrayTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#949494</item>
+        <item name="colorAccent">#cfcfcf</item>
+    </style>
+    <style name="GrayTheme.PopupWindow" parent="GreenTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#949494</item>
+        <item name="colorAccent">#cfcfcf</item>
+    </style>
+
+    <style name="GrayTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+
+    <!--GrayTheme End-->
 
 </resources>

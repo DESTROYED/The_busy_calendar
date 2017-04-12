@@ -5,24 +5,18 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/blueToolBar">
+        style="@style/mainpage_toolbar_top"
+        android:layout_width="match_parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/turn_on_internet_please"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            style="@style/textViewAndEditText" />
     </FrameLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="horizontal">
+    <LinearLayout style="@style/popup_background">
 
         <Button
             android:layout_weight="50"
@@ -31,8 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/yes"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            style="@style/textViewEvent"/>
 
         <Button
             android:layout_weight="50"
@@ -41,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/no"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            style="@style/textViewEvent"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="54dp"
-    android:background="@color/blueToolBar"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    style="@style/mainpage_toolbar_top">
 
     <ImageButton
         android:layout_width="48dp"
@@ -15,11 +13,7 @@
         android:src="@drawable/ic_settings_24dp"/>
     <TextView
         android:id="@+id/selectedDayMonthYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/white"/>
+        style="@style/toolbarTextVIew" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

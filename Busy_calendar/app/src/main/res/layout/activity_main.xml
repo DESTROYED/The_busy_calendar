@@ -13,9 +13,7 @@
         <android.support.percent.PercentRelativeLayout
             android:id="@+id/linear"
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/blueToolBar"
+            style="@style/background_activity"
             android:orientation="vertical">
             <include
                 app:layout_widthPercent="100%"
@@ -45,28 +43,15 @@
                 android:layout_gravity="center_horizontal">
                 <Button
                     app:layout_widthPercent="40%"
-
                     android:id="@+id/main_btn_vk"
-                    android:background="@drawable/blue_cell"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="0dp"
-                    style="?attr/buttonBarButtonStyle"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
                     android:layout_gravity="left"
-                    android:text="@string/btn_login_vk"/>
+                    android:text="@string/btn_login_vk"
+                    style="@style/underCalendarButtons" />
                 <com.facebook.login.widget.LoginButton
-                    android:layout_marginTop="0dp"
-
-                    android:background="@drawable/blue_cell"
                     android:padding="2dp"
                     android:id="@+id/main_btn_facebook"
                     app:layout_widthPercent="40%"
-                    android:layout_height="25dp"
                     app:layout_marginLeftPercent="50%"
-                    style="?attr/buttonBarButtonStyle"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
                     android:layout_gravity="right"
                     android:text="@string/btn_login_facebook"/>
             </android.support.percent.PercentRelativeLayout>
