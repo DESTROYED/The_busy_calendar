@@ -16,11 +16,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ikonka"
         android:label="@string/app_name"
-        android:theme="@style/GrayTheme">
+        android:theme="@style/GreenTheme">
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity
             android:screenOrientation="portrait"
-            android:theme="@style/GrayTheme"
             android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -31,8 +30,7 @@
         <activity android:name="com.vk.sdk.VKServiceActivity" android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
         <activity
             android:screenOrientation="portrait"
-            android:theme="@style/GreenTheme.NoActionBar"
-            android:name=".ui.activities.SilenceActivity"/>
+            android:name=".ui.activities.SettingsActivity"/>
         <activity
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"

@@ -11,6 +11,9 @@ import static android.content.Context.AUDIO_SERVICE;
 
 public class SoundChangeSettings {
 
+    public SoundChangeSettings(Context pContext, int ringerMode, boolean streamSystem, boolean streamNotification, boolean streamAlarm, boolean streamRing, boolean streamMusic) {
+        useSetings(pContext, ringerMode, streamSystem,streamNotification,streamAlarm,streamRing,streamMusic);
+    }
     public SoundChangeSettings(Context pContext) {
         final SharedPreferences logTest = PreferenceManager.getDefaultSharedPreferences(pContext);
         boolean ringerSM = logTest.getBoolean(Constants.Settings.RINGER_SILENT_MOD, false);
@@ -27,7 +30,6 @@ public class SoundChangeSettings {
         boolean musicS = logTest.getBoolean(Constants.Settings.MUSICK_SOUND, false);
         useSetings(pContext, ringerS, systemS, notificationS, alarmS, phoneS, musicS);
     }
-
     private void useSetings(Context pContext, int ringerMode, boolean streamSystem, boolean streamNotification, boolean streamAlarm, boolean streamRing, boolean streamMusic) {
 
         AudioManager audioManager = (AudioManager) pContext.getSystemService(AUDIO_SERVICE);

@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/background_activity"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/silence_bar"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/silence_bar"/>
     <LinearLayout
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            style="@style/tv_for_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/ringer_silent_mode_switch"/>
         <Switch
             android:id="@+id/ringer_silent_mode"
             style="@style/switch_style"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            style="@style/tv_for_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/system_sounds_switch"/>
         <Switch
             android:id="@+id/system_sounds"
             style="@style/switch_style"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            style="@style/tv_for_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/notifications_switch"/>
         <Switch
             android:id="@+id/notifications"
@@ -39,36 +48,57 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            style="@style/tv_for_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/alarm_sound_switch"/>
         <Switch
             android:id="@+id/alarm_sound"
             style="@style/switch_style"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
             android:text="@string/phone_ring_switch"
-            style="@style/tv_for_switch"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <Switch
             android:id="@+id/phone_ring"
             style="@style/switch_style"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            style="@style/tv_for_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/music_sound_switch"/>
         <Switch
             android:id="@+id/music_sound"
             style="@style/switch_style"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="Green Theme"
+            android:id="@+id/set_green_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:text="Gray Theme"
+            android:id="@+id/set_gray_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

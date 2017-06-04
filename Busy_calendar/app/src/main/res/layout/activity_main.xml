@@ -8,18 +8,18 @@
     tools:openDrawer="start"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-
         <android.support.percent.PercentRelativeLayout
             android:id="@+id/linear"
             xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/background_activity"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
             android:orientation="vertical">
             <include
                 app:layout_widthPercent="100%"
                 app:layout_heightPercent="8%"
                 layout="@layout/toolbar"/>
             <include
+                android:id="@+id/toolbar"
                 app:layout_marginTopPercent="8%"
                 app:layout_widthPercent="100%"
                 app:layout_heightPercent="8%"

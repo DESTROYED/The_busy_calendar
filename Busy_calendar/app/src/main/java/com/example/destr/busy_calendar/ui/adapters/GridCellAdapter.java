@@ -16,6 +16,7 @@ import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.ui.activities.EventActivity;
 import com.example.destr.busy_calendar.ui.activities.MainActivity;
+import com.example.destr.busy_calendar.utils.ThemeManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,10 +40,10 @@ public class GridCellAdapter extends BaseAdapter {
         this.mContext = context;
         this.list = new ArrayList<>();
         calendar = Calendar.getInstance();
-        mSimpleDateFormat= new SimpleDateFormat("MMMM", new Locale("en"));
+        mSimpleDateFormat= new SimpleDateFormat("MMMM", context.getResources().getConfiguration().locale);
         printMonth(month, year);
     }
-
+//// TODO: 21.05.2017 add pointers if got 1 or more events at day!
     public String getItem(int position) {
         return list.get(position - 1);
     }
@@ -72,6 +73,7 @@ public class GridCellAdapter extends BaseAdapter {
 
         gridcell.setText(theday);
         gridcell.setTag(theday + Constants.GridCellAdapterConstants.MINUS + themonth + Constants.GridCellAdapterConstants.MINUS + theyear);
+        new ThemeManager(mContext).setCalendarCells(gridcell);
         if (day_color[1].equals(Constants.GridCellAdapterConstants.GRAY_COLOR)) {
             gridcell.setTextColor(Color.GRAY);
             gridcell.setTag(theday + Constants.GridCellAdapterConstants.MINUS + themonth + Constants.GridCellAdapterConstants.MINUS + theyear);
@@ -79,6 +81,7 @@ public class GridCellAdapter extends BaseAdapter {
         if (day_color[1].equals(Constants.GridCellAdapterConstants.WHITE_COLOR)) {
             gridcell.setTextColor(Color.WHITE);
         }
+        //setColor here!
         gridcell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View pView) {

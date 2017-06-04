@@ -102,5 +102,8 @@ public interface Constants {
         String ALARM_SOUND="alarm_sound";
         String PHONE_RING="phone_ring";
         String MUSICK_SOUND="music_sound";
+        String THEME_CHECK= "theme";
+        String THEME_GREEN= "simple_green";
+        String THEME_GRAY= "simple_gray";
     }
 }

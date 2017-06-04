@@ -4,8 +4,10 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.example.destr.busy_calendar.ui.popups.StartTimePickerPopup;
 import com.example.destr.busy_calendar.utils.AlarmUtility;
 import com.example.destr.busy_calendar.utils.DataBaseUniqIdGenerator;
 import com.example.destr.busy_calendar.utils.EndEventReciever;
+import com.example.destr.busy_calendar.utils.ThemeManager;
 import com.example.destr.busy_calendar.utils.TimeUtils;
 
 
@@ -63,9 +66,21 @@ public class EventActivity extends AppCompatActivity {
     private DataBaseUniqIdGenerator dataBaseUniqIdGenerator;
     private int id;
     private TimeUtils timeUtils;
+    private SharedPreferences sharedPreferences;
+    private View toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedPreferences.contains(Constants.Settings.THEME_CHECK)){
+            if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GRAY)){
+                this.setTheme(R.style.GrayTheme);
+
+            }
+            if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GREEN)){
+                this.setTheme(R.style.GreenTheme);
+            }
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event);
         dataBaseUniqIdGenerator = new DataBaseUniqIdGenerator(this);
@@ -77,6 +92,7 @@ public class EventActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         initItems();
+        new ThemeManager(getApplicationContext()).setToolbar(toolbar);
         clickOrCheckListeners();
         getDataBaseEvent(mDBEditor);
     }
@@ -223,6 +239,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void initItems() {
+        toolbar=(View) findViewById(R.id.toolbar);
         listView = (ListView) findViewById(R.id.event_list);
         howManyEvents = (TextView) findViewById(R.id.how_many_events);
         setDate = (TextView) findViewById(R.id.selectedDayMonthYear);

@@ -42,6 +42,7 @@ public class AlarmUtility extends BroadcastReceiver {
         Intent intent =new Intent(context,AlarmUtility.class);
         intent.putExtra("event",status);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,id,intent,0);
+        new SoundChangeSettings(context,1,true,true,true,true,true);
         alarmManager.set(AlarmManager.RTC_WAKEUP, time,pendingIntent);
     }
 

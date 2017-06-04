@@ -1,18 +1,21 @@
 package com.example.destr.busy_calendar.ui.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Switch;
 
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.utils.SoundChangeSettings;
+import com.example.destr.busy_calendar.utils.ThemeManager;
 
-public class SilenceActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     private Switch ringerSilentMode;
     private Switch systemSounds;
@@ -21,11 +24,22 @@ public class SilenceActivity extends AppCompatActivity {
     private Switch phoneRing;
     private Switch musicSound;
     private ImageButton acceptButton;
+    private Button grayTheme;
+    private Button greenTheme;
+    private SharedPreferences sharedPreferences;
+    private View toolbar;
 
-    // TODO: 09.04.2017 when starts alarm, all -> on
-    // TODO: 09.04.2017 add part to change post status and other socials features
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedPreferences.contains(Constants.Settings.THEME_CHECK)){
+            if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GRAY)){
+                this.setTheme(R.style.GrayTheme);
+            }
+            if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GREEN)){
+                this.setTheme(R.style.GreenTheme);
+            }
+        }
         super.onCreate(savedInstanceState);
         final SharedPreferences logTest = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor logTestEditor = logTest.edit();
@@ -38,6 +52,8 @@ public class SilenceActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_silence);
         initItems();
+        new ThemeManager(getApplicationContext()).setToolbar(toolbar);
+
         try {
             ringerSilentMode.setChecked(ringerSM);
             systemSounds.setChecked(systemS);
@@ -53,6 +69,20 @@ public class SilenceActivity extends AppCompatActivity {
             phoneRing.setChecked(false);
             musicSound.setChecked(false);
         }
+        grayTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logTestEditor.putString(Constants.Settings.THEME_CHECK,Constants.Settings.THEME_GRAY).apply();
+                recreate();
+            }
+        });
+        greenTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logTestEditor.putString(Constants.Settings.THEME_CHECK,Constants.Settings.THEME_GREEN).apply();
+                recreate();
+            }
+        });
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,13 +93,19 @@ public class SilenceActivity extends AppCompatActivity {
                 logTestEditor.putBoolean(Constants.Settings.PHONE_RING,phoneRing.isChecked() );
                 logTestEditor.putBoolean(Constants.Settings.MUSICK_SOUND,musicSound.isChecked() );
                 logTestEditor.apply();
+
                 new SoundChangeSettings(getApplicationContext());
-                finish();
+                Intent intent = new Intent(SettingsActivity.this,MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }
 
     private void initItems() {
+        toolbar=(View) findViewById(R.id.toolbar);
+        grayTheme = (Button) findViewById(R.id.set_gray_theme);
+        greenTheme = (Button) findViewById(R.id.set_green_theme);
         ringerSilentMode=(Switch) findViewById(R.id.ringer_silent_mode);
         systemSounds=(Switch) findViewById(R.id.system_sounds);
         notifications=(Switch) findViewById(R.id.notifications);

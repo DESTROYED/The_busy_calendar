@@ -1,7 +1,9 @@
 package com.example.destr.busy_calendar.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.dbase.DBEditor;
+import com.example.destr.busy_calendar.utils.ThemeManager;
 
 
 public class EventInfoActivity extends AppCompatActivity {
@@ -29,6 +32,7 @@ public class EventInfoActivity extends AppCompatActivity {
     private CheckBox socialsFacebook;
     private ImageButton deleteEvent;
     private ImageButton back;
+    private View toolbar;
     private Button updateButton;
     private String eventNameString;
     private String fromTimeString;
@@ -39,6 +43,8 @@ public class EventInfoActivity extends AppCompatActivity {
     private int vkVariable;
     private int facebookVariable;
     private Intent intent;
+    private SharedPreferences sharedPreferences;
+
     @Override
     public void onBackPressed() {
         startActivity(intent);
@@ -46,10 +52,20 @@ public class EventInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedPreferences.contains(Constants.Settings.THEME_CHECK)){
+            if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GRAY)){
+                this.setTheme(R.style.GrayTheme);
+
+            }
+            if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GREEN)){
+                this.setTheme(R.style.GreenTheme);
+            }
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_info);
-        getSupportActionBar().hide();
         eventName =(TextView) findViewById(R.id.name);
+        toolbar=(View) findViewById(R.id.toolbar);
         fromTime =(TextView) findViewById(R.id.from_time);
         toTime =(TextView) findViewById(R.id.to_time);
         alert =(TextView) findViewById(R.id.alert);
@@ -61,6 +77,7 @@ public class EventInfoActivity extends AppCompatActivity {
         deleteEvent = (ImageButton) findViewById(R.id.delete_event);
         back = (ImageButton ) findViewById(R.id.back);
         updateButton =(Button) findViewById(R.id.update_database);
+        new ThemeManager(getApplicationContext()).setToolbar(toolbar);
         final String[] strings =getIntent().getStringArrayExtra(Constants.OtherConstants.STRING_ARRAY_EXTRA);
         eventName.setText(strings[0]);
         status.setText(strings[1]);

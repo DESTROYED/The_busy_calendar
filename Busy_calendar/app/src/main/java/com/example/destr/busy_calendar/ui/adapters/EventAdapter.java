@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.ui.activities.EventInfoActivity;
+import com.example.destr.busy_calendar.utils.ThemeManager;
 
 public class EventAdapter extends SimpleCursorAdapter {
     private Cursor cursor;
@@ -21,6 +22,8 @@ public class EventAdapter extends SimpleCursorAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final View view = super.getView(position, convertView, parent);
+        new ThemeManager(context).setEventItems(view);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

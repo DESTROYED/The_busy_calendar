@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
-    style="@style/background_activity">
-    <include layout="@layout/event_bar"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include android:id="@+id/toolbar" layout="@layout/event_bar"/>
     <LinearLayout
         android:layout_marginTop="64dp"
         android:orientation="horizontal"

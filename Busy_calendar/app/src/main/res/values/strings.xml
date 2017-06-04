@@ -5,7 +5,7 @@
     <string name="btn_login_facebook">Login Facebook</string>
     <string name="password_hint">Password</string>
     <string name="login_hint">Login</string>
-    <string name="events_Name">Name</string>
+    <string name="events_Name">Name:</string>
     <string name="label_from">From:</string>
     <string name="label_to">To:</string>
     <string name="choose_start_time">Choose start time</string>
@@ -44,4 +44,8 @@
     <string name="ok">Ok</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="save_event">Save</string>
+    <string name="from_hint">From</string>
+    <string name="to_hint">To</string>
+    <string name="are_you_sure">Are you sure?</string>
 </resources>
