@@ -3,10 +3,15 @@ package com.example.destr.busy_calendar.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -43,7 +48,7 @@ public class GridCellAdapter extends BaseAdapter {
         mSimpleDateFormat= new SimpleDateFormat("MMMM", context.getResources().getConfiguration().locale);
         printMonth(month, year);
     }
-//// TODO: 21.05.2017 add pointers if got 1 or more events at day!
+
     public String getItem(int position) {
         return list.get(position - 1);
     }
@@ -59,18 +64,20 @@ public class GridCellAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.grid_cell, parent, false);
         }
         final Button gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
+        final TextView eventCounter = (TextView) row.findViewById(R.id.event_counter);
+        // TODO: 21.09.2017 set text from DB
+
         String[] day_color = list.get(position).split(Constants.GridCellAdapterConstants.MINUS);
         final String theday = day_color[0];
         final String themonth = day_color[2];
         final String theyear = day_color[3];
-
         gridcell.setText(theday);
         gridcell.setTag(theday + Constants.GridCellAdapterConstants.MINUS + themonth + Constants.GridCellAdapterConstants.MINUS + theyear);
         new ThemeManager(mContext).setCalendarCells(gridcell);
@@ -108,8 +115,30 @@ public class GridCellAdapter extends BaseAdapter {
             }
         });
 
+        final Animation shake = AnimationUtils.loadAnimation(mContext, R.anim.bounce);
+        final Animation bounce = AnimationUtils.loadAnimation(mContext, R.anim.bounce);
+        Handler mHandler = new Handler();
+        final View finalRow = row;
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                gridcell.startAnimation(shake);
+                gridcell.setVisibility(View.VISIBLE);
+            }
+        }, 25*position);
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                if(position%2==0)
+                {
+                    eventCounter.setText("1");
+                    eventCounter.startAnimation(bounce);
+                    eventCounter.setVisibility(View.VISIBLE);
+                }
+            }
+        }, 35*position);
+        eventCounter.setVisibility(View.GONE);
+        gridcell.setVisibility(View.GONE);
+        return finalRow;
 
-        return row;
     }
 
     public void setNextMonth(Context pContext, GridView pCalendarView, TextView pCheckedDate) {

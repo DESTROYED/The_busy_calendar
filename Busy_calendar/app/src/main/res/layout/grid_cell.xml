@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
+    android:layout_width="54dp"
+    android:layout_height="54dp">
+    <TextView
+        android:visibility="gone"
+        android:background="@drawable/event_counter"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/event_counter"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:elevation="5dp"/>
     <Button
         android:id="@+id/calendar_day_gridcell"
         style="@style/grid_cell" />
+
 </RelativeLayout>

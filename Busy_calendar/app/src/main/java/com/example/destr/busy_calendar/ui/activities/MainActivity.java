@@ -6,9 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -23,7 +26,6 @@ import com.example.destr.busy_calendar.ui.adapters.GridCellAdapter;
 import com.example.destr.busy_calendar.utils.InternetConnection;
 import com.example.destr.busy_calendar.utils.ThemeManager;
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -31,22 +33,45 @@ import com.vk.sdk.VKSdk;
 import java.util.Calendar;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
-    private TextView currentMonth;
-    private GridView calendarView;
+
+    @BindView(R.id.currentMonth)
+    TextView currentMonth;
+
+    @BindView(R.id.calendar)
+    GridView calendarView;
+
+    @BindView(R.id.nextMonth)
+    ImageView nextMonth;
+
+    @BindView(R.id.prevMonth)
+    ImageView prevMonth;
+
+    @BindView(R.id.vkimage)
+    ImageView vkimage;
+
+    @BindView(R.id.facebookimage)
+    ImageView facebookImage;
+
+    @BindView(R.id.main_btn_facebook)
+    LoginButton facebookLoginButton;
+
+    @BindView(R.id.main_btn_vk)
+    Button vkLoginButton;
+
+    @BindView(R.id.settings_button)
+    ImageButton settingsButton;
+
+    @BindView(R.id.toolbar)
+    View toolBarView;
+
     private GridCellAdapter adapter;
-    private ImageView nextMonth;
-    private ImageView prevMonth;
-    private ImageView vkimage;
-    private ImageView facebookImage;
-    private LoginButton facebookLoginButton;
-    private Button vkLoginButton;
-    private ImageButton settingsButton;
     private InternetConnection internetConnection;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private CallbackManager callbackManager;
-    private View toolBarView;
+
 
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
@@ -55,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPreferences.contains(Constants.Settings.THEME_CHECK)){
             if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GRAY)){
                 this.setTheme(R.style.GrayTheme);
@@ -68,13 +93,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
-        initItems();
+        ButterKnife.bind(this);
         internetConnection = new InternetConnection();
         new ThemeManager(getApplicationContext()).setToolbar(toolBarView);
         new ThemeManager(getApplicationContext()).setCalendarCells(vkLoginButton);
         new ThemeManager(getApplicationContext()).setCalendarCells(facebookLoginButton);
 
-        editor = sharedPreferences.edit();
         if(internetConnection.isNetworkConnected(getApplicationContext())){
         if (AccessToken.getCurrentAccessToken() != null) {
             new FacebookSdkHelper(getApplicationContext()).setPhoto(facebookImage,facebookLoginButton);
@@ -97,9 +121,13 @@ public class MainActivity extends AppCompatActivity {
 
         facebookLoginButton.setReadPermissions("public_profile");
         clickListeners();
+
+
         adapter = new GridCellAdapter(getApplicationContext(), month[0], year[0]);
         currentMonth.setText(adapter.getMonthAsString(month[0]) + Constants.OtherConstants.SPACE + year[0]);
+
         calendarView.setAdapter(adapter);
+
         adapter.notifyDataSetChanged();
     }
 
@@ -179,17 +207,6 @@ public class MainActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void initItems() {
-        toolBarView = (View) findViewById(R.id.toolbar);
-        settingsButton = (ImageButton) findViewById(R.id.settings_button);
-        vkLoginButton = (Button) findViewById(R.id.main_btn_vk);
-        facebookLoginButton = (LoginButton) findViewById(R.id.main_btn_facebook);
-        facebookImage = (ImageView) findViewById(R.id.facebookimage);
-        vkimage = (ImageView) findViewById(R.id.vkimage);
-        prevMonth = (ImageView) findViewById(R.id.prevMonth);
-        nextMonth = (ImageView) findViewById(R.id.nextMonth);
-        currentMonth = (TextView) findViewById(R.id.currentMonth);
-        calendarView = (GridView) findViewById(R.id.calendar);
-    }
+
 
 }

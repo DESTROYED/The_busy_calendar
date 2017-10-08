@@ -15,23 +15,44 @@ import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.utils.SoundChangeSettings;
 import com.example.destr.busy_calendar.utils.ThemeManager;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SettingsActivity extends AppCompatActivity {
 
-    private Switch ringerSilentMode;
-    private Switch systemSounds;
-    private Switch notifications;
-    private Switch alarmSoundSwitch;
-    private Switch phoneRing;
-    private Switch musicSound;
-    private ImageButton acceptButton;
-    private Button grayTheme;
-    private Button greenTheme;
-    private SharedPreferences sharedPreferences;
-    private View toolbar;
+    @BindView(R.id.ringer_silent_mode)
+    Switch ringerSilentMode;
+
+    @BindView(R.id.system_sounds)
+    Switch systemSounds;
+
+    @BindView(R.id.notifications)
+    Switch notifications;
+
+    @BindView(R.id.alarm_sound)
+    Switch alarmSoundSwitch;
+
+    @BindView(R.id.phone_ring)
+    Switch phoneRing;
+
+    @BindView(R.id.music_sound)
+    Switch musicSound;
+
+    @BindView(R.id.save_settings)
+    ImageButton acceptButton;
+
+    @BindView(R.id.set_gray_theme)
+    Button grayTheme;
+
+    @BindView(R.id.set_green_theme)
+    Button greenTheme;
+
+    @BindView(R.id.toolbar)
+    View toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPreferences.contains(Constants.Settings.THEME_CHECK)){
             if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GRAY)){
                 this.setTheme(R.style.GrayTheme);
@@ -51,7 +72,7 @@ public class SettingsActivity extends AppCompatActivity {
         boolean musicS=logTest.getBoolean(Constants.Settings.MUSICK_SOUND,false);
 
         setContentView(R.layout.activity_silence);
-        initItems();
+        ButterKnife.bind(this);
         new ThemeManager(getApplicationContext()).setToolbar(toolbar);
 
         try {
@@ -102,16 +123,5 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void initItems() {
-        toolbar=(View) findViewById(R.id.toolbar);
-        grayTheme = (Button) findViewById(R.id.set_gray_theme);
-        greenTheme = (Button) findViewById(R.id.set_green_theme);
-        ringerSilentMode=(Switch) findViewById(R.id.ringer_silent_mode);
-        systemSounds=(Switch) findViewById(R.id.system_sounds);
-        notifications=(Switch) findViewById(R.id.notifications);
-        alarmSoundSwitch=(Switch) findViewById(R.id.alarm_sound);
-        phoneRing=(Switch) findViewById(R.id.phone_ring);
-        musicSound=(Switch) findViewById(R.id.music_sound);
-        acceptButton=(ImageButton) findViewById(R.id.save_settings);
-    }
+
 }

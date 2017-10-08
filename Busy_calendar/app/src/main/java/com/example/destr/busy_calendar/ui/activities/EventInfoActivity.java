@@ -18,22 +18,51 @@ import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.dbase.DBEditor;
 import com.example.destr.busy_calendar.utils.ThemeManager;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class EventInfoActivity extends AppCompatActivity {
 
-    private TextView eventName;
-    private TextView fromTime;
-    private TextView toTime;
-    private TextView alert;
-    private TextView status;
-    private TextView description;
-    private CheckBox socials;
-    private CheckBox socialsVk;
-    private CheckBox socialsFacebook;
-    private ImageButton deleteEvent;
-    private ImageButton back;
-    private View toolbar;
-    private Button updateButton;
+    @BindView(R.id.name)
+    TextView eventName;
+
+    @BindView(R.id.from_time)
+    TextView fromTime;
+
+    @BindView(R.id.to_time)
+    TextView toTime;
+
+    @BindView(R.id.alert)
+    TextView alert;
+
+    @BindView(R.id.status)
+    TextView status;
+
+    @BindView(R.id.description)
+    TextView description;
+
+    @BindView(R.id.checkbox_social)
+    CheckBox socials;
+
+    @BindView(R.id.socials_vk)
+    CheckBox socialsVk;
+
+    @BindView(R.id.socials_facebook)
+    CheckBox socialsFacebook;
+
+    @BindView(R.id.delete_event)
+    ImageButton deleteEvent;
+
+    @BindView(R.id.back)
+    ImageButton back;
+
+    @BindView(R.id.toolbar)
+    View toolbar;
+
+    @BindView(R.id.update_database)
+    Button updateButton;
+
     private String eventNameString;
     private String fromTimeString;
     private String toTimeString;
@@ -43,7 +72,6 @@ public class EventInfoActivity extends AppCompatActivity {
     private int vkVariable;
     private int facebookVariable;
     private Intent intent;
-    private SharedPreferences sharedPreferences;
 
     @Override
     public void onBackPressed() {
@@ -52,7 +80,7 @@ public class EventInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPreferences.contains(Constants.Settings.THEME_CHECK)){
             if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GRAY)){
                 this.setTheme(R.style.GrayTheme);
@@ -64,19 +92,7 @@ public class EventInfoActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_info);
-        eventName =(TextView) findViewById(R.id.name);
-        toolbar=(View) findViewById(R.id.toolbar);
-        fromTime =(TextView) findViewById(R.id.from_time);
-        toTime =(TextView) findViewById(R.id.to_time);
-        alert =(TextView) findViewById(R.id.alert);
-        status =(TextView) findViewById(R.id.status);
-        description =(TextView) findViewById(R.id.description);
-        socials = (CheckBox) findViewById(R.id.checkbox_social);
-        socialsVk =(CheckBox) findViewById(R.id.socials_vk);
-        socialsFacebook =(CheckBox) findViewById(R.id.socials_facebook);
-        deleteEvent = (ImageButton) findViewById(R.id.delete_event);
-        back = (ImageButton ) findViewById(R.id.back);
-        updateButton =(Button) findViewById(R.id.update_database);
+        ButterKnife.bind(this);
         new ThemeManager(getApplicationContext()).setToolbar(toolbar);
         final String[] strings =getIntent().getStringArrayExtra(Constants.OtherConstants.STRING_ARRAY_EXTRA);
         eventName.setText(strings[0]);

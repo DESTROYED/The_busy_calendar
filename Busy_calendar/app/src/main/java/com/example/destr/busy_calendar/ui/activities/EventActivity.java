@@ -31,9 +31,66 @@ import com.example.destr.busy_calendar.utils.EndEventReciever;
 import com.example.destr.busy_calendar.utils.ThemeManager;
 import com.example.destr.busy_calendar.utils.TimeUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class EventActivity extends AppCompatActivity {
+
+    @BindView(R.id.toolbar)
+    View toolbar;
+
+    @BindView(R.id.choose_start_time)
+    TextView chooseStartTime;
+
+    @BindView(R.id.choose_end_time)
+    TextView chooseEndTime;
+
+    @BindView(R.id.combotext_alert)
+    EditText enterAlertName;
+
+    @BindView(R.id.checkbox_vk)
+    CheckBox vkCheckBox;
+
+    @BindView(R.id.checkbox_facebook)
+    CheckBox facebookCheckBox;
+
+    @BindView(R.id.checkbox_status)
+    EditText editTextStatus;
+
+    @BindView(R.id.event_name)
+    EditText eventName;
+
+    @BindView(R.id.description_string)
+    EditText descriptionString;
+
+    @BindView(R.id.alert_checkbox)
+    CheckBox alarmCheckBox;
+
+    @BindView(R.id.checkbox_time)
+    CheckBox allDayCheckBox;
+
+    @BindView(R.id.status_checkbox)
+    CheckBox statusCheckBox;
+
+    @BindView(R.id.close_event)
+    ImageButton closeButton;
+
+    @BindView(R.id.save_event)
+    ImageButton saveButton;
+
+    @BindView(R.id.checkbox_social)
+    CheckBox socials;
+
+    @BindView(R.id.selectedDayMonthYear)
+    TextView setDate;
+
+    @BindView(R.id.event_list)
+    ListView listView;
+
+    @BindView(R.id.how_many_events)
+    TextView howManyEvents;
+
     private String dataBusyCalendar;
     private String eventNameString;
     private String fromTimeString;
@@ -43,35 +100,15 @@ public class EventActivity extends AppCompatActivity {
     private String eventDescriptionString;
     private int vkVariable = 0;
     private int facebookVariable = 0;
-    private TextView chooseStartTime;
-    private TextView chooseEndTime;
-    private EditText enterAlertName;
-    private CheckBox vkCheckBox;
-    private CheckBox facebookCheckBox;
-    private EditText editTextStatus;
-    private EditText eventName;
-    private EditText descriptionString;
-    private CheckBox alarmCheckBox;
-    private CheckBox allDayCheckBox;
-    private CheckBox statusCheckBox;
-    private ImageButton closeButton;
-    private ImageButton saveButton;
-    private CheckBox socials;
-    private TextView setDate;
-    private ListView listView;
-    private TextView howManyEvents;
-    private Cursor cursor;
     private AlarmUtility alarm;
     private EndEventReciever endAlarm;
     private DataBaseUniqIdGenerator dataBaseUniqIdGenerator;
     private int id;
     private TimeUtils timeUtils;
-    private SharedPreferences sharedPreferences;
-    private View toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPreferences.contains(Constants.Settings.THEME_CHECK)){
             if(sharedPreferences.getString(Constants.Settings.THEME_CHECK,"").equals(Constants.Settings.THEME_GRAY)){
                 this.setTheme(R.style.GrayTheme);
@@ -83,6 +120,7 @@ public class EventActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event);
+        ButterKnife.bind(this);
         dataBaseUniqIdGenerator = new DataBaseUniqIdGenerator(this);
         DBEditor mDBEditor=new DBEditor();
         alarm = new AlarmUtility();
@@ -91,7 +129,6 @@ public class EventActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-        initItems();
         new ThemeManager(getApplicationContext()).setToolbar(toolbar);
         clickOrCheckListeners();
         getDataBaseEvent(mDBEditor);
@@ -102,10 +139,10 @@ public class EventActivity extends AppCompatActivity {
         setDate.setText(dataBusyCalendar);
         if(!mDBEditor.getNumberOfEvents(this,dataBusyCalendar).equals("There are not any Events")){
             howManyEvents.setText(mDBEditor.getNumberOfEvents(this,dataBusyCalendar));
-            cursor=mDBEditor.getFromDB(this,dataBusyCalendar);
+            Cursor cursor = mDBEditor.getFromDB(this, dataBusyCalendar);
             String[] from=new String[]{Constants.DBConstants.EVENTNAME, Constants.DBConstants.START_TIME,Constants.DBConstants.END_TIME};
             int[] to= new int[]{R.id.event_name,R.id.from,R.id.to};
-            EventAdapter eventAdapter = new EventAdapter(this,R.layout.inside_listview_event,cursor,from,to,0);
+            EventAdapter eventAdapter = new EventAdapter(this,R.layout.inside_listview_event, cursor,from,to,0);
             listView.setAdapter(eventAdapter);
         }
         else{
@@ -236,27 +273,6 @@ public class EventActivity extends AppCompatActivity {
         if (facebookCheckBox.isChecked()) {
             facebookVariable = 1;
         }
-    }
-
-    private void initItems() {
-        toolbar=(View) findViewById(R.id.toolbar);
-        listView = (ListView) findViewById(R.id.event_list);
-        howManyEvents = (TextView) findViewById(R.id.how_many_events);
-        setDate = (TextView) findViewById(R.id.selectedDayMonthYear);
-        alarmCheckBox = (CheckBox) findViewById(R.id.alert_checkbox);
-        allDayCheckBox = (CheckBox) findViewById(R.id.checkbox_time);
-        statusCheckBox = (CheckBox) findViewById(R.id.status_checkbox);
-        closeButton = (ImageButton) findViewById(R.id.close_event);
-        saveButton = (ImageButton) findViewById(R.id.save_event);
-        socials = (CheckBox) findViewById(R.id.checkbox_social);
-        descriptionString = (EditText) findViewById(R.id.description_string);
-        editTextStatus = (EditText) findViewById(R.id.checkbox_status);
-        eventName = (EditText) findViewById(R.id.event_name);
-        enterAlertName = (EditText) findViewById(R.id.combotext_alert);
-        chooseStartTime = (TextView) findViewById(R.id.choose_start_time);
-        chooseEndTime = (TextView) findViewById(R.id.choose_end_time);
-        vkCheckBox = (CheckBox) findViewById(R.id.checkbox_vk);
-        facebookCheckBox = (CheckBox) findViewById(R.id.checkbox_facebook);
     }
 
     private void startTimePickerFragment() {
