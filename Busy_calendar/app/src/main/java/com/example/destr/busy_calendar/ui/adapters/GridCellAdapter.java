@@ -4,14 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -20,22 +18,23 @@ import android.widget.TextView;
 import com.example.destr.busy_calendar.R;
 import com.example.destr.busy_calendar.constants.Constants;
 import com.example.destr.busy_calendar.ui.activities.EventActivity;
-import com.example.destr.busy_calendar.ui.activities.MainActivity;
 import com.example.destr.busy_calendar.utils.ThemeManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 public class GridCellAdapter extends BaseAdapter {
     private SimpleDateFormat mSimpleDateFormat;
     private static final int DAY_OFFSET = 1;
     private final Context mContext;
     private final List<String> list;
+    private int thisday;
+    private int thismonth;
+    private int thisyear;
+    private int month;
     private Calendar calendar = Calendar.getInstance();
     private GregorianCalendar mGregorianCalendar = new GregorianCalendar();
     private int pMonth = calendar.get(Calendar.MONTH) + 1;
@@ -46,7 +45,12 @@ public class GridCellAdapter extends BaseAdapter {
         this.list = new ArrayList<>();
         calendar = Calendar.getInstance();
         mSimpleDateFormat= new SimpleDateFormat("MMMM", context.getResources().getConfiguration().locale);
-        printMonth(month, year);
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        thisyear = c.get(Calendar.YEAR);
+        thismonth = c.get(Calendar.MONTH);
+        thisday = c.get(Calendar.DAY_OF_MONTH);
+        printMonth(month,year);
     }
 
     public String getItem(int position) {
@@ -81,13 +85,20 @@ public class GridCellAdapter extends BaseAdapter {
         gridcell.setText(theday);
         gridcell.setTag(theday + Constants.GridCellAdapterConstants.MINUS + themonth + Constants.GridCellAdapterConstants.MINUS + theyear);
         new ThemeManager(mContext).setCalendarCells(gridcell);
+
         if (day_color[1].equals(Constants.GridCellAdapterConstants.GRAY_COLOR)) {
             gridcell.setTextColor(Color.GRAY);
             gridcell.setTag(theday + Constants.GridCellAdapterConstants.MINUS + themonth + Constants.GridCellAdapterConstants.MINUS + theyear);
         }
+
         if (day_color[1].equals(Constants.GridCellAdapterConstants.WHITE_COLOR)) {
             gridcell.setTextColor(Color.WHITE);
         }
+
+        if(thisyear==Integer.parseInt(theyear)&&(thismonth+1)==month&&thisday==Integer.parseInt(theday)){
+            gridcell.setTextColor(Color.RED);
+        }
+
         //setColor here!
         gridcell.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,6 +252,7 @@ public class GridCellAdapter extends BaseAdapter {
         for (int i = 0; i < list.size() % 7; i++) {
             list.add(String.valueOf(i + 1) + Constants.GridCellAdapterConstants.MINUS + Constants.GridCellAdapterConstants.GRAY_COLOR + Constants.GridCellAdapterConstants.MINUS + getMonthAsString(mm+1) + Constants.GridCellAdapterConstants.MINUS + nextYear);
         }
+        month = mm;
     }
 
     private void setGridCellAdapterToDate(final Context context, int month, int year, GridView pCalendarView, TextView pCheckedDate) {

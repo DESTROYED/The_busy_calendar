@@ -5,27 +5,31 @@
     android:orientation="vertical">
     <include
         android:id="@+id/toolbar"
-        layout="@layout/silence_bar"/>
+        layout="@layout/silence_bar" />
     <LinearLayout
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ringer_silent_mode_switch"/>
-        <Switch
-            android:id="@+id/ringer_silent_mode"
-            style="@style/switch_style"/>
-    </LinearLayout>
+            android:orientation="horizontal">
+            <TextView
+                style="@style/tv_for_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ringer_silent_mode_switch"/>
+            <Switch
+                android:id="@+id/ringer_silent_mode"
+                style="@style/switch_style"/>
+        </LinearLayout>
     <LinearLayout
-        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            style="@style/tv_for_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/system_sounds_switch"/>
@@ -34,11 +38,11 @@
             style="@style/switch_style"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            style="@style/tv_for_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/notifications_switch"/>
@@ -48,11 +52,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            style="@style/tv_for_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/alarm_sound_switch"/>
@@ -61,11 +65,11 @@
             style="@style/switch_style"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            style="@style/tv_for_switch"
             android:text="@string/phone_ring_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -74,11 +78,11 @@
             style="@style/switch_style"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            style="@style/tv_for_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/music_sound_switch"/>
@@ -87,6 +91,7 @@
             style="@style/switch_style"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -100,5 +105,6 @@
             android:id="@+id/set_gray_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+    </LinearLayout>
     </LinearLayout>
 </LinearLayout>
